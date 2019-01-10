@@ -40,6 +40,20 @@ class QrScreenState extends State<QrScreen> {
           result = "Une erreur est survenue $ex";
       });
     }
+    BindResultToDB(result);
+  }
+
+  void BindResultToDB(String id){
+    //temporary solution before the DB is set up
+    if(id == "1") {
+      result = "La Coupe du monde de football de 1998 est la seizième édition de la Coupe du monde de football et se déroule en France du 10 juin au 12 juillet 1998. C'est la seconde fois que la France organise la coupe du monde après 1938. Il s'agit du premier Mondial à trente-deux équipes participantes. L'équipe hôte entraînée par Aimé Jacquet et emmenée par Didier Deschamps remporte son premier titre planétaire en battant le Brésil en finale 3 buts à 0, le 12 juillet 1998 au stade de France. ";
+    }
+    if(id == "2") {
+      result = "La Coupe du monde de football de 1998 est la seizième édition de la Coupe du monde de football et se déroule en France du 10 juin au 12 juillet 1998. C'est la seconde fois que la France organise la coupe du monde après 1938. Il s'agit du premier Mondial à trente-deux équipes participantes. L'équipe hôte entraînée par Aimé Jacquet et emmenée par Didier Deschamps remporte son premier titre planétaire en battant le Brésil en finale 3 buts à 0, le 12 juillet 1998 au stade de France. ";
+    }
+    else{
+      result = "Le qr code ne correspond pas à un objet du musée";
+    }
   }
 
   @override
