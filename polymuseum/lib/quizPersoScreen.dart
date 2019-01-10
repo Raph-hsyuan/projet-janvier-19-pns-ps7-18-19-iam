@@ -12,13 +12,15 @@ class QuizPersoScreen extends StatelessWidget {
         title: Text("Quiz personnalise"),
       ),
       body: Center(
-        child: Text(
-          '127736',
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontWeight: FontWeight.bold),
+        child: ListView.builder(
+          itemCount: objectsIds.length,
+          itemBuilder: (context, index) {
+            return ListTile( 
+              title: Text('${objectsIds[index]}'),
+            );
+          },
         ),
-      ),
+     ),
     );
   }
 }
