@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:polymuseum/genQuizPersoScreen.dart';
 import 'package:polymuseum/secondScreen.dart';
 import 'package:polymuseum/QrScreen.dart';
 import 'package:polymuseum/Beacons.dart';
@@ -55,7 +56,7 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SecondScreen()),
+                    MaterialPageRoute(builder: (context) => GenQuizPersoScreen()),
                   );
                 },
               ),
