@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:polymuseum/genVisitScreen.dart';
 import 'package:polymuseum/pdf.dart';
 import 'package:polymuseum/quizPersoScreen.dart';
+import 'package:polymuseum/global.dart' as global;
 
 class GenQuizPersoScreen extends StatefulWidget {
 
@@ -16,15 +17,20 @@ class GenQuizPersoScreen extends StatefulWidget {
 
 class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
 
-  List<int> nbQuiz = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  int selectedNb = 10;
-  List<String> objectsIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+  List<int> nbQuiz = [];
+  int selectedNb = 0;
+  List<String> objectsIds = global.objectsIds;
   List<String> objectsIdsBuffer;
   List<String> selectedObjectsIds = [];
   String seed = "";
 
+
   @override
   Widget build(BuildContext context) {
+    for(int i = 0; i<objectsIds.length;++i){
+      if(nbQuiz.length<objectsIds.length)
+      nbQuiz.add(i);
+    }
     objectsIdsBuffer = objectsIds;
     return Scaffold(
       appBar: AppBar(

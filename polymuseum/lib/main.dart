@@ -6,10 +6,11 @@ import 'package:polymuseum/secondScreen.dart';
 import 'package:polymuseum/QrScreen.dart';
 import 'package:polymuseum/Beacons.dart';
 import 'package:polymuseum/DBHelper.dart';
+import 'package:polymuseum/global.dart' as global;
 
 void main() async {
   await DBHelper.updateSettings();
-  
+  global.objectsIds = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
   runApp(MaterialApp(
     title: 'PolyMusem',
     home: FirstScreen(),
