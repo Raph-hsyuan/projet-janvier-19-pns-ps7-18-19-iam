@@ -134,12 +134,7 @@ class _BeaconsState extends State<Beacons> {
     if(distance > 0.6) return;
     currentMinor = minor;
     currentUUID = UUID;
-    int index;
-    if(UUID == '61687109-905F-4436-91F8-E602F514C96D')    // [IMPORTANT]:NEED TO CHANGE THE ID TYPE (BD) TO STRING!!!
-      index = 0;
-    else
-      index = 1;
-    var text = await DBHelper.instance.getExhibition(index);
+    var text = await DBHelper.instance.getExhibitionByUUID(UUID);
      _showNotification(text.data['message'][minor.toString()]);
      currentRegion = text.data['message'][minor.toString()] + ' Region';
   }
