@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void main() => runApp(Beacons());
 String beaconName;
@@ -14,6 +15,7 @@ class Beacons extends StatefulWidget {
 }
 
 class _BeaconsState extends State<Beacons> {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
@@ -21,8 +23,43 @@ class _BeaconsState extends State<Beacons> {
   @override
   void initState() {
     super.initState();
-
     initBeacon();
+    initNotification();
+  }
+
+  initNotification() async {
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android, iOS);
+    flutterLocalNotificationsPlugin.initialize(initSetttings);
+  }
+
+  Future onSelectNotification(String payload) {
+    debugPrint("payload : $payload");
+    showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+            title: new Text('Notification'),
+            content: new Text('$payload'),
+          ),
+    );  
+  }
+
+  Future _showNotification() async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'your channel id', 'your channel name', 'your channel description',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Vous avez trouve AppleStore!!!!!',
+      'BienVenu ~',
+      platformChannelSpecifics,
+      payload: 'Default_Sound',
+    );
   }
 
   initBeacon() async {
@@ -84,6 +121,20 @@ class _BeaconsState extends State<Beacons> {
     super.dispose();
   }
 
+  bool flagAppleStore = true;
+
+  String defineSignal(String UUID){
+    if(UUID == '10F86430-1346-11E4-9191-0800200C9A66'){
+      if(flagAppleStore){
+        _showNotification();
+        flagAppleStore = false;
+      }
+      return 'AppleStore';
+    }
+    else
+      return UUID;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -97,7 +148,7 @@ class _BeaconsState extends State<Beacons> {
                 children: ListTile.divideTiles(
                     context: context,
                     tiles: _beacons.map((beacon) {
-                      beacon.proximityUUID == '10F86430-1346-11E4-9191-0800200C9A66'? beaconName = 'AppleStore':beaconName = 'UN_KNOWN';
+                      beaconName = defineSignal(beacon.proximityUUID);
                       return ListTile(
                         title: Text(beaconName),
                         subtitle: new Row(
