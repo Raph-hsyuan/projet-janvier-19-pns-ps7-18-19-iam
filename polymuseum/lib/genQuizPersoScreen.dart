@@ -98,7 +98,7 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => GenVisitScreen(objectsIds : objectsIds)),
+                  MaterialPageRoute(builder: (context) => GenVisitScreen()),
                 );
               },
             ),

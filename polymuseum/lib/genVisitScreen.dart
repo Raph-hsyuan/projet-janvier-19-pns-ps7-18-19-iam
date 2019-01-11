@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:polymuseum/main.dart';
+import 'DBHelper.dart';
+import 'global.dart' as global;
 
 class GenVisitScreen extends StatelessWidget {
 
-  final List<String> objectsIds;
-  GenVisitScreen({Key key, @required this.objectsIds}) : super(key: key);
+  GenVisitScreen({Key key}) : super(key: key);
+  DBHelper dbHelper = DBHelper.instance; 
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class GenVisitScreen extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
-              '127736',
+              dbHelper.addVisit(global.objectsIds).toString(),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontWeight: FontWeight.bold),
