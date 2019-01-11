@@ -18,7 +18,7 @@ class GenQuizPersoScreen extends StatefulWidget {
 class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
 
   List<int> nbQuiz = [];
-  int selectedNb = 0;
+  int selectedNb = 1;
   List<String> objectsIds = global.objectsIds;
   List<String> objectsIdsBuffer;
   List<String> selectedObjectsIds = [];
@@ -27,7 +27,7 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    for(int i = 0; i<objectsIds.length;++i){
+    for(int i = 1; i<=objectsIds.length;++i){
       if(nbQuiz.length<objectsIds.length)
       nbQuiz.add(i);
     }
