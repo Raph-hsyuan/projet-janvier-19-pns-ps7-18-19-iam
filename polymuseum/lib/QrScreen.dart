@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 import 'DBHelper.dart';
+import 'package:polymuseum/global.dart' as global;
+
 
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -30,6 +32,8 @@ class QrScreenState extends State<QrScreen> {
         result = o.data["name"].toString();
         description = o.data["description"].toString();
       });
+      global.objectsIds.add(qrResult);
+      print( global.objectsIds.length);
     } on PlatformException catch (ex) {
       if (ex.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
