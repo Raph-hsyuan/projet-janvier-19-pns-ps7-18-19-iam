@@ -5,8 +5,11 @@ import 'package:polymuseum/genQuizPersoScreen.dart';
 import 'package:polymuseum/secondScreen.dart';
 import 'package:polymuseum/QrScreen.dart';
 import 'package:polymuseum/Beacons.dart';
+import 'package:polymuseum/DBHelper.dart';
 
-void main() {
+void main() async {
+  await DBHelper.updateSettings();
+  
   runApp(MaterialApp(
     title: 'PolyMusem',
     home: FirstScreen(),
@@ -14,6 +17,9 @@ void main() {
 }
 
 class FirstScreen extends StatelessWidget {
+
+  DBHelper dbHelper = new DBHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
