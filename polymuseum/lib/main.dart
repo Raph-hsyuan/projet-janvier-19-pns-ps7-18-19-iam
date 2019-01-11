@@ -2,12 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:polymuseum/genQuizPersoScreen.dart';
-import 'package:polymuseum/secondScreen.dart';
 import 'package:polymuseum/QrScreen.dart';
 import 'package:polymuseum/Beacons.dart';
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
 import 'genVisitScreen.dart';
+import 'package:polymuseum/VisitChooserScreen.dart';
+import 'package:polymuseum/CheckListScreen.dart';
+
 
 void main() async {
   await DBHelper.updateSettings();
@@ -72,7 +74,16 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SecondScreen()),
+                    MaterialPageRoute(builder: (context) => VisitChooserScreen()),
+                  );
+                },
+              ),
+              RaisedButton(
+                child: Text('Check list'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CheckListScreen()),
                   );
                 },
               ),
