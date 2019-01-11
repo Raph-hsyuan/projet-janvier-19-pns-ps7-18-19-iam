@@ -17,6 +17,7 @@ dependencies:
     sdk: flutter
   barcode_scan: "^0.0.4"
   flutter_beacon: ^0.1.1
+  flutter_local_notifications:
   auto_size_text: ^0.3.0
 
   # The following adds the Cupertino Icons font to your application.
