@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBHelper {
 
+  static DBHelper instance = new DBHelper();
+
   static updateSettings() async {
     await Firestore.instance.settings(
       timestampsInSnapshotsEnabled: true
@@ -19,6 +21,25 @@ class DBHelper {
 
 
   /// PUBLIC METHODS ///
+
+  /*
+
+    Pour avoir acccès aux champs des objets renvoyés par DBHelper
+    il faut importer le package cloud_firestore. 
+    Il ne faut pas utiliser le résultalt d'une fonction async 
+    dans un build ça ne marche pas.
+
+    uneFonction() async {
+      var doc = await DBHelper.instance.getObject(0);
+      doc.data //map document's key -> value
+      var object_name = doc.data["name"]);
+
+      setState((){
+        name = object_name;
+      });
+    }
+
+  */
 
   Future<DocumentSnapshot> getObject(int id){
     return _getDocumentInCollection("objects", id);
