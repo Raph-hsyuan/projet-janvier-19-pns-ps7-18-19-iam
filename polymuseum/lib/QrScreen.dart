@@ -3,7 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
+import 'DBHelper.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
+
+DBHelper dbHelper = new DBHelper();
 
 class QrScreen extends StatefulWidget {
   @override
@@ -14,12 +18,17 @@ class QrScreen extends StatefulWidget {
 
 class QrScreenState extends State<QrScreen> {
   String result = "Appuyer sur le bouton pour en savoir plus sur un objet";
+  String description =" ";
 
   Future _scanQR() async {
     try {
       String qrResult = await BarcodeScanner.scan();
+        result = "Chargement en cours...";
+      int intId = int.parse(qrResult);
+      var o = await dbHelper.getObject(intId);
       setState(() {
-        result = qrResult;
+        result = o.data["name"].toString();
+        description = o.data["description"].toString();
       });
     } on PlatformException catch (ex) {
       if (ex.code == BarcodeScanner.CameraAccessDenied) {
@@ -40,20 +49,6 @@ class QrScreenState extends State<QrScreen> {
           result = "Une erreur est survenue $ex";
       });
     }
-    BindResultToDB(result);
-  }
-
-  void BindResultToDB(String id){
-    //temporary solution before the DB is set up
-    if(id == "1") {
-      result = "La Coupe du monde de football de 1998 est la seizième édition de la Coupe du monde de football et se déroule en France du 10 juin au 12 juillet 1998. C'est la seconde fois que la France organise la coupe du monde après 1938. Il s'agit du premier Mondial à trente-deux équipes participantes. L'équipe hôte entraînée par Aimé Jacquet et emmenée par Didier Deschamps remporte son premier titre planétaire en battant le Brésil en finale 3 buts à 0, le 12 juillet 1998 au stade de France. ";
-    }
-    if(id == "2") {
-      result = "La Coupe du monde de football de 1998 est la seizième édition de la Coupe du monde de football et se déroule en France du 10 juin au 12 juillet 1998. C'est la seconde fois que la France organise la coupe du monde après 1938. Il s'agit du premier Mondial à trente-deux équipes participantes. L'équipe hôte entraînée par Aimé Jacquet et emmenée par Didier Deschamps remporte son premier titre planétaire en battant le Brésil en finale 3 buts à 0, le 12 juillet 1998 au stade de France. ";
-    }
-    else{
-      result = "Le qr code ne correspond pas à un objet du musée";
-    }
   }
 
   @override
@@ -63,17 +58,29 @@ class QrScreenState extends State<QrScreen> {
         title: Text("QR Scanner"),
       ),
       body: Center(
-        child: Text(
-          result,
-          style: new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
+        child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[ 
+              AutoSizeText(
+              result,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            ),
+            Container(
+            width: 300.0,
+              child: AutoSizeText(
+              description,
+              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20), 
+              )
+            ),
+        FloatingActionButton.extended(
         icon: Icon(Icons.camera_alt),
         label: Text("Scan"),
         onPressed: _scanQR,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
+          ]
+        )
+      ), floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-}
+  } 
