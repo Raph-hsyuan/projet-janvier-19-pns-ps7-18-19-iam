@@ -6,6 +6,13 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:polymuseum/DBHelper.dart';
+
+
+bool flagAppleStore = true;
+int currentMinor = 0;
+String currentUUID = '';
+String currentRegion = 'Locating';
 
 void main() => runApp(Beacons());
 String beaconName;
@@ -46,7 +53,8 @@ class _BeaconsState extends State<Beacons> {
     );  
   }
 
-  Future _showNotification() async {
+  Future _showNotification(String message) async {
+    if(message.isEmpty) return;
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
         importance: Importance.Max, priority: Priority.High);
@@ -55,8 +63,8 @@ class _BeaconsState extends State<Beacons> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Vous avez trouve AppleStore!!!!!',
-      'BienVenu ~',
+      'Welcome to '+ message,
+      'Bonne journee',
       platformChannelSpecifics,
       payload: 'Default_Sound',
     );
@@ -121,18 +129,19 @@ class _BeaconsState extends State<Beacons> {
     super.dispose();
   }
 
-  bool flagAppleStore = true;
-
-  String defineSignal(String UUID){
-    if(UUID == '10F86430-1346-11E4-9191-0800200C9A66'){
-      if(flagAppleStore){
-        _showNotification();
-        flagAppleStore = false;
-      }
-      return 'AppleStore';
-    }
+  void pushWelcomeMessage(String UUID, int minor, double distance) async {
+    if(currentMinor == minor && currentUUID == UUID) return;
+    if(distance > 0.6) return;
+    currentMinor = minor;
+    currentUUID = UUID;
+    int index;
+    if(UUID == '61687109-905F-4436-91F8-E602F514C96D')    // [IMPORTANT]:NEED TO CHANGE THE ID TYPE (BD) TO STRING!!!
+      index = 0;
     else
-      return UUID;
+      index = 1;
+    var text = await DBHelper.instance.getExhibition(index);
+     _showNotification(text.data['message'][minor.toString()]);
+     currentRegion = text.data['message'][minor.toString()] + ' Region';
   }
 
   @override
@@ -140,7 +149,7 @@ class _BeaconsState extends State<Beacons> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Search Beacon'),
+          title: Text(currentRegion),
         ),
         body: _beacons == null
             ? Center(child: CircularProgressIndicator())
@@ -148,9 +157,9 @@ class _BeaconsState extends State<Beacons> {
                 children: ListTile.divideTiles(
                     context: context,
                     tiles: _beacons.map((beacon) {
-                      beaconName = defineSignal(beacon.proximityUUID);
+                      pushWelcomeMessage(beacon.proximityUUID, beacon.minor, beacon.accuracy);
                       return ListTile(
-                        title: Text(beaconName),
+                        title: Text(beacon.proximityUUID + beacon.minor.toString()),
                         subtitle: new Row(
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
