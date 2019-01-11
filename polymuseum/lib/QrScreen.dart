@@ -33,6 +33,14 @@ class QrScreenState extends State<QrScreen> {
         description = o.data["description"].toString();
       });
       global.objectsIds.add(qrResult);
+      global.checkListObjects.removeWhere((object){
+        return object["id"] == qrResult;
+      });
+
+      if(global.checkListObjects.isEmpty){
+        global.seed = -1;
+      }
+
       print( global.objectsIds.length);
     } on PlatformException catch (ex) {
       if (ex.code == BarcodeScanner.CameraAccessDenied) {

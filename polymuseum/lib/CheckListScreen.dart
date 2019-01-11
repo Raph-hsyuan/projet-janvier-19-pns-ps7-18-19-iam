@@ -27,7 +27,7 @@ class CheckListScreenState extends State<CheckListScreen> {
   loadObjects() async {
     
     int seed = global.seed;
-    if(global.checkListObjects.isEmpty){
+    if(seed != -1  && global.checkListObjects.isEmpty){
       var objectsIds = (await DBHelper.instance.getVisit(seed)).data["objects"];
 
       objectsIds.forEach((id) async {
@@ -47,7 +47,7 @@ class CheckListScreenState extends State<CheckListScreen> {
       ),
       body: ListView.builder(
         itemCount: global.checkListObjects.length,
-        itemBuilder: (context, index) => ListTile(title: new Text(global.checkListObjects[index]["name"].toString() + "a")),
+        itemBuilder: (context, index) => ListTile(title: new Text(global.checkListObjects[index]["name"].toString())),
       ),
     );
   }
