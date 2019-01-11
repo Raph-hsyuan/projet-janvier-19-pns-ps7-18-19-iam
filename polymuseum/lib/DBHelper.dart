@@ -19,6 +19,13 @@ class DBHelper {
     return obj.documents.first;
   }
 
+  Future<bool> _isDocumentInCollection(String collectionName, int id) async {
+    var querySnapshot = await Firestore.instance.collection(collectionName).where("id", isEqualTo: id)
+                            .getDocuments();
+    return querySnapshot.documents.isNotEmpty;
+  }
+
+
 
   /// PUBLIC METHODS ///
 
@@ -53,11 +60,13 @@ class DBHelper {
     return _getDocumentInCollection("visits", id);
   }
 
-  Future<DocumentReference> addVisit(int seed, List<int> objectsIds) async {
-    return Firestore.instance.collection("visits").add({
-      "seed": seed,
-      "objects": objectsIds
+  
+  int addVisit(Set<String> objectsIds) {
+    int seed = objectsIds.toString().hashCode;
+    Firestore.instance.collection("visits").add({
+      "id": seed.toString().hashCode,
+      "objects" : objectsIds.toList()
     });
-  }
-
+    return seed;
+  }  
 }
