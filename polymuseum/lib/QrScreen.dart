@@ -58,29 +58,34 @@ class QrScreenState extends State<QrScreen> {
         title: Text("QR Scanner"),
       ),
       body: Center(
-        child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[ 
-              AutoSizeText(
-              result,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            ),
+        child:ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(20),
+            children: <Widget>[
+              Container( 
+                padding: EdgeInsets.only(top: 0.0),
+                child : AutoSizeText(
+                  result,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            ),),
             Container(
-            width: 300.0,
+              padding: EdgeInsets.only(top: 20.0),
               child: AutoSizeText(
               description,
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20), 
               )
             ),
-        FloatingActionButton.extended(
+        Container(
+        padding: EdgeInsets.only(top: 30.0),
+        child : FloatingActionButton.extended(
         icon: Icon(Icons.camera_alt),
         label: Text("Scan"),
         onPressed: _scanQR,
       ),
-
+        )
           ]
         )
-      ), floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      )
     );
   }
   } 
