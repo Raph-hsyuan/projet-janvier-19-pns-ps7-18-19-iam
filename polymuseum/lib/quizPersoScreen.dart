@@ -31,9 +31,15 @@ class QuizPersoScreen extends StatefulWidget {
         child: ListView.builder(
           itemCount: objectsIds.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text('${textAff[index]}'),
-            );
+            if(textAff.isNotEmpty) {
+              return ListTile(
+                title: Text('${textAff[index]}'),
+              );
+            }else{
+              return ListTile(
+                title: Text('Chargement des questions'),
+              );
+            }
           },
         ),
      ),
