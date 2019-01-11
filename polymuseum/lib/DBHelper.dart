@@ -13,7 +13,7 @@ class DBHelper {
 
   ///  PRIVATE METHODS ///
 
-  Future<DocumentSnapshot> _getDocumentInCollection(String collectionName, int id) async {
+  Future<DocumentSnapshot> _getDocumentInCollectionById(String collectionName, int id) async {
     var obj = await Firestore.instance.collection(collectionName).where("id", isEqualTo: id)
                              .getDocuments().asStream().first;
     return obj.documents.first;
@@ -49,15 +49,22 @@ class DBHelper {
   */
 
   Future<DocumentSnapshot> getObject(int id){
-    return _getDocumentInCollection("objects", id);
+    return _getDocumentInCollectionById("objects", id);
   }
 
   Future<DocumentSnapshot> getExhibition(int id){
-    return _getDocumentInCollection("exhibitions", id);
+    return _getDocumentInCollectionById("exhibitions", id);
+  }
+  
+  Future<DocumentSnapshot> getExhibitionByUUID(String UUID) async {
+    var obj = await Firestore.instance.collection("exhibitions").where("UUID", isEqualTo: UUID)
+                             .getDocuments().asStream().first;
+    return obj.documents.first;
+
   }
 
   Future<DocumentSnapshot> getVisit(int id){
-    return _getDocumentInCollection("visits", id);
+    return _getDocumentInCollectionById("visits", id);
   }
 
   
