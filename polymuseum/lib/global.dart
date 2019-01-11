@@ -1,1 +1,1 @@
-List<String> objectsIds;
+Set<String> objectsIds = Set();

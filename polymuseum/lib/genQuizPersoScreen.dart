@@ -19,7 +19,7 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
 
   List<int> nbQuiz = [];
   int selectedNb = 1;
-  List<String> objectsIds = global.objectsIds;
+  List<String> objectsIds = global.objectsIds.toList();
   List<String> objectsIdsBuffer;
   List<String> selectedObjectsIds = [];
   String seed = "";
