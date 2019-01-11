@@ -7,6 +7,7 @@ import 'package:polymuseum/QrScreen.dart';
 import 'package:polymuseum/Beacons.dart';
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
+import 'genVisitScreen.dart';
 
 void main() async {
   await DBHelper.updateSettings();
@@ -40,7 +41,7 @@ class FirstScreen extends StatelessWidget {
                 },
               ),
               RaisedButton(
-                child: Text('Chasse au trésor'),
+                child: Text('Beacons'),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -49,11 +50,11 @@ class FirstScreen extends StatelessWidget {
                 },
               ),
               RaisedButton(
-                child: Text('Activité (NFC)'),
+                child: Text('Générer une visite personnalisé'),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SecondScreen()),
+                    MaterialPageRoute(builder: (context) => GenVisitScreen()),
                   );
                 },
               ),

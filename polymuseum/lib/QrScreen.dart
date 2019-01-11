@@ -9,7 +9,7 @@ import 'package:polymuseum/global.dart' as global;
 
 import 'package:auto_size_text/auto_size_text.dart';
 
-DBHelper dbHelper = new DBHelper();
+DBHelper dbHelper = DBHelper.instance;
 
 class QrScreen extends StatefulWidget {
   @override
