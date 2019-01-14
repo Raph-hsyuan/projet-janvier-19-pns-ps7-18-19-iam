@@ -11,7 +11,7 @@ import 'package:polymuseum/BeaconsTool.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 DBHelper dbHelper = DBHelper.instance;
-BeaconsTool beaconsTool = new BeaconsTool();
+BeaconsTool beaconsTool = BeaconsTool.instance;
 
 class QrScreen extends StatefulWidget {
   @override
@@ -29,7 +29,6 @@ class QrScreenState extends State<QrScreen> {
   bool _show = false;
 
   final questionController = TextEditingController();
-
   @override
   void dispose() {
     // Clean up the controller when the Widget is disposed
@@ -40,7 +39,12 @@ class QrScreenState extends State<QrScreen> {
   Future _scanQR() async {
     try {
       String qrResult = await BarcodeScanner.scan();
+      setState(() {
         result = "Chargement en cours...";
+        description = " ";
+        question = " ";
+        answer = " ";
+      });
       int intId = int.parse(qrResult);
       var o = await dbHelper.getObject(intId);
 

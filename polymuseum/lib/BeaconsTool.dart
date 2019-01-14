@@ -9,9 +9,20 @@ class BeaconsTool{
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   DBHelper dbHelper = DBHelper.instance;
-  double LEGALDISTANCE = 1.0;
-  BeaconsTool(){
-    initBeacon();
+  double LEGALDISTANCE = 2.0;
+  factory BeaconsTool() => _getInstance();
+  static BeaconsTool get instance => _getInstance();
+  static BeaconsTool _instance;
+
+  BeaconsTool._internal(){
+    return;
+  }
+
+  static BeaconsTool _getInstance(){
+    if(_instance == null){
+      _instance = new BeaconsTool._internal();
+    }
+    return _instance;
   }
 
   List<Beacon> getBeacons(){
@@ -69,7 +80,6 @@ class BeaconsTool{
   }
 
   Future<bool> checkPosition(int index) async {
-    await initBeacon();
     var obj = await DBHelper.instance.getObject(index);
     String beaconUUID = obj.data['checkBeacons']['UUID'];
     String beaconMinor = obj.data['checkBeacons']['minor'];
