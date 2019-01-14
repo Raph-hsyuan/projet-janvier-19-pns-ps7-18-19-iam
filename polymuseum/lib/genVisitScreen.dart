@@ -25,7 +25,7 @@ class GenVisitScreen extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
-              dbHelper.addVisit(global.objectsIds).toString(),
+              dbHelper.addVisit(global.instance.getScannedObjects().map((o) => o["id"].toString()).toSet()).toString(),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontWeight: FontWeight.bold),

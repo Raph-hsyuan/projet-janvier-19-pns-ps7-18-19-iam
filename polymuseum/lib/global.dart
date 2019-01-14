@@ -1,3 +1,43 @@
-Set<String> objectsIds = Set();
-int seed = -1;
-List<Map<String, dynamic>> checkListObjects = new List();
+var instance = new Global();
+
+class Global {
+
+  Global();
+
+  int _seed = -1;
+  Map<String, Map<String, dynamic>> _scannedObjects = new Map();
+  Map<String, Map<String, dynamic>> _checkListObjects = new Map();
+
+  get seed => _seed;
+  get checkListObjects => _checkListObjects.values.toList();
+  get checkListObjectsCount => _checkListObjects.length;
+
+  addScannedObject(Map<String, dynamic> obj){
+    _scannedObjects[obj["id"].toString()] = obj;
+
+    _checkListObjects.remove(obj["id"]);
+    if(_checkListObjects.isEmpty) _seed = -1;
+  }
+
+  List<Map<String, dynamic>> getScannedObjects({List<String> ids}){
+    if(ids == null) return _scannedObjects.values.toList();
+
+    return _scannedObjects.values.where((obj){
+      return ids.contains(obj["id"]);
+    }).toList();
+  }
+
+  addCheckListObject(Map<String, dynamic> obj){
+    _checkListObjects[obj["id"].toString()] = obj;
+  }
+
+  removeCheckListObject(Map<String, dynamic> obj){
+    return _checkListObjects.remove(obj["id"]);
+  }
+
+  initCheckList(){
+    _seed = 0;
+    _checkListObjects.clear();
+  }
+
+}
