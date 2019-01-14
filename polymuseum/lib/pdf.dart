@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:pdf/pdf.dart';
-import 'package:polymuseum/DBHelper.dart';
 
 class Pdf extends StatefulWidget {
 
-  List<String> objectsIds;
+  List<Map<String, dynamic>> objects;
 
-  Pdf({Key key, @required this.objectsIds}) : super(key: key);
+  Pdf({Key key, @required this.objects}) : super(key: key);
 
   @override
-  _PdfState createState() => _PdfState(objectsIds : objectsIds);
+  _PdfState createState() => _PdfState(objects : objects);
 }
 
 class _PdfState extends State<Pdf> {
 
   List<String> textAff = [];
-  final List<String> objectsIds;
+  List<Map<String, dynamic>> objects;
   bool enter = false;
   List<String> goodAnswers =[];
 
-  _PdfState({@required this.objectsIds}) : super();
+  _PdfState({@required this.objects}) : super(){
+    for(var o in objects){
+      textAff.add(o["question"]["text"]);
+      goodAnswers.add(o["question"]["good_answer"]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if(!enter) {
-      getQuestions(objectsIds);
-      enter = !enter;
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text("PDF"),
@@ -39,10 +39,10 @@ class _PdfState extends State<Pdf> {
               RaisedButton(
                 onPressed: () {
                   print("Yolo");
-                  print(objectsIds.length);
+                  print(objects.length);
                   print(textAff.length);
                   print(goodAnswers.length);
-                  if (textAff.length == objectsIds.length && goodAnswers.length == objectsIds.length) {
+                  if (textAff.length == objects.length && goodAnswers.length == objects.length) {
                     print("Yolo1");
                     pdf();
                   }
@@ -53,21 +53,6 @@ class _PdfState extends State<Pdf> {
         ),
       ),
     );
-  }
-
-  void getQuestions(List<String> id) async {
-    for(String i in id) {
-      print("Id :$i");
-      var text = await DBHelper.instance.getObject(int.parse(i));
-      setState(() {
-        try {
-          textAff.add(text.data["question"]["text"]);
-          goodAnswers.add(text.data["question"]["good_answer"]);
-        }catch(e){
-          print("Dommage");
-        }
-      });
-    }
   }
 }
 

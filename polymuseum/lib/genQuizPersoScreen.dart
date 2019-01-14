@@ -84,7 +84,7 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
                 selectRandomObjects();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Pdf(objectsIds: selectedObjectsIds,)),
+                  MaterialPageRoute(builder: (context) => Pdf(objects: selectedObjects,)),
                 );
               },
             ),

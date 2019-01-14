@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/resultQuizScreen.dart';
 
 class QuizPersoScreen extends StatefulWidget {
@@ -30,10 +29,6 @@ class QuizPersoScreen extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(!enter) {
-      getQuestions(objectsIds);
-      enter = !enter;
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Quiz personnalise"),
