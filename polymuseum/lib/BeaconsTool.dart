@@ -15,7 +15,7 @@ class BeaconsTool{
   static BeaconsTool _instance;
 
   BeaconsTool._internal(){
-    initBeacon();
+    return;
   }
 
   static BeaconsTool _getInstance(){

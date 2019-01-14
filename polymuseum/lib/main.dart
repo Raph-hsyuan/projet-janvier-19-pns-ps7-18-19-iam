@@ -9,9 +9,11 @@ import 'package:polymuseum/global.dart' as global;
 import 'genVisitScreen.dart';
 import 'package:polymuseum/VisitChooserScreen.dart';
 import 'package:polymuseum/CheckListScreen.dart';
-
+import 'package:polymuseum/BeaconsTool.dart';
 
 void main() async {
+  BeaconsTool beaconsTool = BeaconsTool.instance;
+  await beaconsTool.initBeacon();
   await DBHelper.updateSettings();
   runApp(MaterialApp(
     title: 'PolyMusem',
