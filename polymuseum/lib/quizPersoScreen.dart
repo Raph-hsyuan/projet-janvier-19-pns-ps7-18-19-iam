@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polymuseum/DBHelper.dart';
+import 'package:polymuseum/resultQuizScreen.dart';
 
 class QuizPersoScreen extends StatefulWidget {
 
@@ -43,7 +44,8 @@ class QuizPersoScreen extends StatefulWidget {
                 ListView.builder(
                   itemCount: objectsIds.length,
                   itemBuilder: (context, index) {
-                    if(textAff.isNotEmpty) {
+                    if(textAff.length==objectsIds.length) {
+                      print(index);
                       return Column(
                           children: <Widget>[
                             Row(
@@ -58,7 +60,10 @@ class QuizPersoScreen extends StatefulWidget {
                                         border: InputBorder.none,
                                         hintText: 'Votre Réponse'
                                     ),
-                                    controller: myController,
+                                    //controller: myController,
+                                    onChanged: (text) {
+                                      answers.add(text);
+                                    },
                                   ),
                                 ),
                               ],
@@ -78,6 +83,10 @@ class QuizPersoScreen extends StatefulWidget {
               child: Text('Valider'),
               onPressed: () {
                 checkAnswers();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ResultQuizScreen(score : score, scoreTotal : scoreTotal)),
+                );
               },
             ),
           ]
@@ -90,17 +99,21 @@ class QuizPersoScreen extends StatefulWidget {
     for(String i in id) {
       var text = await DBHelper.instance.getObject(int.parse(i));
       setState(() {
-        textAff.add(text.data["question"]["text"]);
-        goodAnswers.add(text.data["question"]["good_answer"]);
+        try {
+          textAff.add(text.data["question"]["text"]);
+          goodAnswers.add(text.data["question"]["good_answer"]);
+        }catch(e){
+          print("Dommage");
+        }
       });
     }
   }
 
-  void checkAnswers() async{
+  void checkAnswers(){
     print('Valider');
     print(answers);
-    for(int  i=0; i<answers.length;++i){
-      if(answers[i] == goodAnswers[i])
+    for(int  i=0; i<goodAnswers.length;++i){
+      if(answers.contains(goodAnswers[i]))
         score = score + 10;
     }
     scoreTotal = 10 * objectsIds.length;
