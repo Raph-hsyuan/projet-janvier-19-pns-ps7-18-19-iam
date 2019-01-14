@@ -13,6 +13,7 @@ bool flagAppleStore = true;
 int currentMinor = 0;
 String currentUUID = '';
 String currentRegion = 'Locating';
+final double LEGALDISTANCE = 1.0;
 
 void main() => runApp(Beacons());
 String beaconName;
@@ -137,6 +138,17 @@ class _BeaconsState extends State<Beacons> {
     var text = await DBHelper.instance.getExhibitionByUUID(UUID);
      _showNotification(text.data['message'][minor.toString()]);
      currentRegion = text.data['message'][minor.toString()] + ' Region';
+  }
+
+  Future<bool> checkPosition(int index) async {
+    var obj = await DBHelper.instance.getObject(index);
+    String beaconUUID = obj.data['checkBeacons']['UUID'];
+    String beaconMinor = obj.data['checkBeacons']['minor'];
+    for(Beacon beacon in _beacons)
+      if(beacon.proximityUUID == beaconUUID && beacon.minor.toString() == beaconMinor)
+        if(beacon.accuracy <= LEGALDISTANCE)
+          return true;
+    return false;
   }
 
   @override
