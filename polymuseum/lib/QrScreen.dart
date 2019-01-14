@@ -86,12 +86,16 @@ class QrScreenState extends State<QrScreen> {
   void _showQuestion(){
     setState(() {
       if (_show) {
+         setState(() {
         _show = false;
         _question = true;
+                });
+;
       } else {
+        setState(() {
         _show = true;
-       _question = false;
-
+        _question = false;
+       });
       }
   });
   }
@@ -167,8 +171,12 @@ class QrScreenState extends State<QrScreen> {
             ),
         
            _show ? Container(
-            child : Text(question),
-          ) : new Container(),
+                     padding: EdgeInsets.only(top: 30.0),
+              child: AutoSizeText(
+              question,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20), 
+          )) : new Container(),
           _show ? Container(
             child : TextField(
               controller: questionController,
@@ -187,12 +195,13 @@ class QrScreenState extends State<QrScreen> {
         onPressed: _showQuestion,
       ),
         ) : new Container(),
-!_question ? Container(
+        !_question && _show ? Container(
         padding: EdgeInsets.only(top: 30.0),
         child : FloatingActionButton.extended(
         heroTag: "btn3",
         icon: Icon(Icons.help_outline),
         label: Text("Valider"),
+        backgroundColor: Colors.green,
         onPressed:_validateQuestion,
       ),
         ) : new Container(),
