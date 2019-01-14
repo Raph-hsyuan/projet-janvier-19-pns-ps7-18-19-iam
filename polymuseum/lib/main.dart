@@ -15,6 +15,8 @@ void main() async {
   BeaconsTool beaconsTool = BeaconsTool.instance;
   await beaconsTool.initBeacon();
   await DBHelper.updateSettings();
+  global.setInstanceOnce(global.DefaultGlobal());
+
   runApp(MaterialApp(
     title: 'PolyMusem',
     home: FirstScreen(),
