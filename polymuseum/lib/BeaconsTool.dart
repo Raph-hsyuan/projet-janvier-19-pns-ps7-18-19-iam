@@ -68,7 +68,7 @@ class BeaconsTool{
     return compare;
   }
 
-    Future<bool> checkPosition(int index) async {
+  Future<bool> checkPosition(int index) async {
     await initBeacon();
     var obj = await DBHelper.instance.getObject(index);
     String beaconUUID = obj.data['checkBeacons']['UUID'];

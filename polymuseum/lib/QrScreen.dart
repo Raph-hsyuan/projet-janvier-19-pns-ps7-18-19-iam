@@ -5,11 +5,13 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 import 'DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
+import 'package:polymuseum/BeaconsTool.dart';
 
 
 import 'package:auto_size_text/auto_size_text.dart';
 
 DBHelper dbHelper = DBHelper.instance;
+BeaconsTool beaconsTool = new BeaconsTool();
 
 class QrScreen extends StatefulWidget {
   @override
@@ -41,6 +43,15 @@ class QrScreenState extends State<QrScreen> {
         result = "Chargement en cours...";
       int intId = int.parse(qrResult);
       var o = await dbHelper.getObject(intId);
+
+      bool check = await beaconsTool.checkPosition(intId);
+      if(!check){
+          setState(() {
+          result = "Vous devez aller plus proche !";
+        });
+        return;
+      }
+
       setState(() {
         result = o.data["name"].toString();
         description = o.data["description"].toString();
