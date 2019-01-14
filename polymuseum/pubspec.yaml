@@ -19,6 +19,9 @@ dependencies:
   flutter_beacon: ^0.1.1
   flutter_local_notifications:
   auto_size_text: ^0.3.0
+  pdf: ^1.0.8
+  simple_permissions: ^0.1.9
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -20,13 +20,11 @@ class QuizPersoScreen extends StatefulWidget {
     List<String> goodAnswers =[];
     int score = 0;
     int scoreTotal = 0;
-    final myController = TextEditingController();
 
     _QuizPersoScreen({@required this.objectsIds}) : super();
 
   @override
   Widget build(BuildContext context) {
-    myController.addListener(registerAns);
     if(!enter) {
       getQuestions(objectsIds);
       enter = !enter;
@@ -120,9 +118,5 @@ class QuizPersoScreen extends StatefulWidget {
     print(score);
     print(scoreTotal);
   }
-
-    void registerAns() {
-      answers.add(myController.text);
-    }
 
 }

@@ -89,7 +89,7 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
                 }
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Pdf()),
+                  MaterialPageRoute(builder: (context) => Pdf(objectsIds: selectedObjectsIds,)),
                 );
               },
             ),
