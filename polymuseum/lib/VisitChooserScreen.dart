@@ -71,7 +71,6 @@ class VisitChooserScreenState extends State<VisitChooserScreen> {
                 _msg = _DEFAULT_WAITING_MSG;
               });
 
-              global.seed = _seed;
                 
                 var visit = await DBHelper.instance.getVisit(_seed);
                 if(visit == null){
@@ -81,13 +80,14 @@ class VisitChooserScreenState extends State<VisitChooserScreen> {
                   });
                   return;
                 }
-                
-                global.checkListObjects.clear();          
+
+                global.instance.initCheckList();
+
                 var objectsIds = visit.data["objects"];
 
                 for(var id in objectsIds){
                   DocumentSnapshot obj = await DBHelper.instance.getObject(int.parse(id));
-                  global.checkListObjects.add(obj.data);
+                  global.instance.addCheckListObject(obj.data);
                 }
 
                 setState(() {

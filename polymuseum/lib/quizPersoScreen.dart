@@ -4,24 +4,29 @@ import 'package:polymuseum/resultQuizScreen.dart';
 
 class QuizPersoScreen extends StatefulWidget {
 
-  final List<String> objectsIds;
+  final List<Map<String, dynamic>> objects;
 
-  QuizPersoScreen({Key key, @required this.objectsIds}) : super(key: key);
+  QuizPersoScreen({Key key, @required this.objects}) : super(key: key);
 
   @override
-  _QuizPersoScreen createState() => _QuizPersoScreen(objectsIds : objectsIds);
+  _QuizPersoScreen createState() => _QuizPersoScreen(objects : objects);
 }
   class _QuizPersoScreen extends State<QuizPersoScreen> {
 
     final List<String> textAff = [];
-    final List<String> objectsIds;
+    final List<Map<String, dynamic>> objects;
     bool enter = false;
     List<String> answers = [];
     List<String> goodAnswers =[];
     int score = 0;
     int scoreTotal = 0;
 
-    _QuizPersoScreen({@required this.objectsIds}) : super();
+    _QuizPersoScreen({@required this.objects}) : super() {
+      for(var o in objects){
+        textAff.add(o["question"]["text"]);
+        goodAnswers.add(o["question"]["good_answer"]);
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +45,9 @@ class QuizPersoScreen extends StatefulWidget {
             new Expanded(
               child:
                 ListView.builder(
-                  itemCount: objectsIds.length,
+                  itemCount: objects.length,
                   itemBuilder: (context, index) {
-                    if(textAff.length==objectsIds.length) {
+                    if(textAff.length==objects.length) {
                       print(index);
                       return Column(
                           children: <Widget>[
@@ -93,19 +98,6 @@ class QuizPersoScreen extends StatefulWidget {
     );
   }
 
-  void getQuestions(List<String> id) async {
-    for(String i in id) {
-      var text = await DBHelper.instance.getObject(int.parse(i));
-      setState(() {
-        try {
-          textAff.add(text.data["question"]["text"]);
-          goodAnswers.add(text.data["question"]["good_answer"]);
-        }catch(e){
-          print("Dommage");
-        }
-      });
-    }
-  }
 
   void checkAnswers(){
     print('Valider');
@@ -114,7 +106,7 @@ class QuizPersoScreen extends StatefulWidget {
       if(answers.contains(goodAnswers[i]))
         score = score + 10;
     }
-    scoreTotal = 10 * objectsIds.length;
+    scoreTotal = 10 * objects.length;
     print(score);
     print(scoreTotal);
   }

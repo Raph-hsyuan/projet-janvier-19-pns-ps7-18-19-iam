@@ -19,19 +19,26 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
 
   List<int> nbQuiz = [];
   int selectedNb = 1;
-  List<String> objectsIds = global.objectsIds.toList();
-  List<String> objectsIdsBuffer;
-  List<String> selectedObjectsIds = [];
+  List<Map<String, dynamic>> objects = global.instance.getScannedObjects();
+  List<Map<String, dynamic>> selectedObjects = [];
   String seed = "";
 
+  selectRandomObjects(){
+    final _random = new Random();
+    while(!(selectedObjects.length == selectedNb)){
+      var element = objects[_random.nextInt(objects.length)];
+      if(!selectedObjects.contains(element)) {
+        selectedObjects.add(element);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    for(int i = 1; i<=objectsIds.length;++i){
-      if(nbQuiz.length<objectsIds.length)
+    for(int i = 1; i<=objects.length;++i){
+      if(nbQuiz.length<objects.length)
       nbQuiz.add(i);
     }
-    objectsIdsBuffer = objectsIds;
     return Scaffold(
       appBar: AppBar(
         title: Text("Génération de quiz"),
@@ -64,29 +71,17 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
             RaisedButton(
               child: Text('Commencer'),
               onPressed: () {
-                final _random = new Random();
-                while(!(selectedObjectsIds.length == selectedNb)){
-                  String element = objectsIdsBuffer[_random.nextInt(objectsIdsBuffer.length)];
-                  if(!selectedObjectsIds.contains(element)) {
-                    selectedObjectsIds.add(element);
-                  }
-                }
+                selectRandomObjects();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => QuizPersoScreen(objectsIds : selectedObjectsIds)),
+                  MaterialPageRoute(builder: (context) => QuizPersoScreen(objects : selectedObjects)),
                 );
               },
             ),
             RaisedButton(
               child: Text('Generer un pdf'),
               onPressed: () {
-                final _random = new Random();
-                while(!(selectedObjectsIds.length == selectedNb)){
-                  String element = objectsIdsBuffer[_random.nextInt(objectsIdsBuffer.length)];
-                  if(!selectedObjectsIds.contains(element)) {
-                    selectedObjectsIds.add(element);
-                  }
-                }
+                selectRandomObjects();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Pdf(objectsIds: selectedObjectsIds,)),
