@@ -20,24 +20,8 @@ class CheckListScreenState extends State<CheckListScreen> {
 
 
   CheckListScreenState(){
-    loadObjects();
   }
-  
 
-  loadObjects() async {
-    
-    int seed = global.seed;
-    if(seed != -1  && global.checkListObjects.isEmpty){
-      var objectsIds = (await DBHelper.instance.getVisit(seed)).data["objects"];
-
-      objectsIds.forEach((id) async {
-        DocumentSnapshot obj = await DBHelper.instance.getObject(int.parse(id));
-        global.checkListObjects.add(obj.data);
-        setState((){});
-      });
-    }
-
-  }
 
   @override
   Widget build(BuildContext context) {

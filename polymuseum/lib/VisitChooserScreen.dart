@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:polymuseum/CheckListScreen.dart';
 import 'package:polymuseum/global.dart' as global;
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:polymuseum/DBHelper.dart';
 
 class VisitChooserScreen extends StatefulWidget {
 
@@ -15,8 +16,15 @@ class VisitChooserScreen extends StatefulWidget {
 
 class VisitChooserScreenState extends State<VisitChooserScreen> { 
 
+  int _seed = -1;
+  String _DEFAULT_INVALID_INPUT_MSG = "La seed est un nombre";
+  String _DEFAULT_ERROR_MSG = "La seed est invalide";
+  String _DEFAULT_SUCCESS_MSG = "Visite chargée";
+  String _DEFAULT_WAITING_MSG = "Chargement...";
 
-  String _seed;
+
+  String _msg = "";
+  bool _bad_seed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,24 +34,69 @@ class VisitChooserScreenState extends State<VisitChooserScreen> {
       ),
       body: Column(
         children: <Widget>[
-          TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Visit seed'
+          Container(
+            margin: new EdgeInsets.fromLTRB(50, 25, 50, 10),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
             ),
-            onChanged: (text){
-              _seed = text;
-            },
+            child:  TextField(
+                decoration: !_bad_seed
+                  ? InputDecoration(hintText: 'Seed')
+                  : InputDecoration (
+                      hintText: 'Seed',
+                      filled: true,
+                      fillColor: Colors.redAccent[100]
+                ),
+                onChanged: (text){
+                  setState(() {
+                    print("changing 2");
+                    try{
+                      _seed = int.parse(text);
+                      _bad_seed = false;
+                      _msg = "";
+                    }catch(e){
+                      _msg = _DEFAULT_INVALID_INPUT_MSG;
+                      _bad_seed = true;
+                    }
+                  });
+                },
+                textAlign: TextAlign.center,
+              ),
           ),
           RaisedButton(
-            child: Text("Charger check list"),
-            onPressed: (){
+            child: Text("Charger la check list de la visite"),
+            onPressed: () async {
 
-              global.seed = int.parse(_seed);
-              global.checkListObjects.clear();          
-              Navigator.pop(context);
+              setState((){
+                _msg = _DEFAULT_WAITING_MSG;
+              });
+
+              global.seed = _seed;
+                
+                var visit = await DBHelper.instance.getVisit(_seed);
+                if(visit == null){
+                  setState((){
+                    _msg = _DEFAULT_ERROR_MSG;
+                    _bad_seed = true;
+                  });
+                  return;
+                }
+                
+                global.checkListObjects.clear();          
+                var objectsIds = visit.data["objects"];
+
+                for(var id in objectsIds){
+                  DocumentSnapshot obj = await DBHelper.instance.getObject(int.parse(id));
+                  global.checkListObjects.add(obj.data);
+                }
+
+                setState(() {
+                  _msg = _DEFAULT_SUCCESS_MSG;                  
+                });
+
             },
-          )
+          ),
+          Text(_msg)
         ]
       ),
     );

@@ -33,9 +33,7 @@ class QrScreenState extends State<QrScreen> {
         description = o.data["description"].toString();
       });
       global.objectsIds.add(qrResult);
-      global.checkListObjects.removeWhere((object){
-        return object["id"] == qrResult;
-      });
+      global.checkListObjects.removeWhere((object) => object["id"] == int.parse(qrResult));
 
       if(global.checkListObjects.isEmpty){
         global.seed = -1;
