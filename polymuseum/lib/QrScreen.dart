@@ -21,6 +21,19 @@ class QrScreen extends StatefulWidget {
 class QrScreenState extends State<QrScreen> {
   String result = "Appuyer sur le bouton pour en savoir plus sur un objet";
   String description =" ";
+  String question = " ";
+  String answer = " ";
+  bool _question = false;
+  bool _show = false;
+
+  final questionController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    questionController.dispose();
+    super.dispose();
+  }
 
   Future _scanQR() async {
     try {
@@ -31,6 +44,9 @@ class QrScreenState extends State<QrScreen> {
       setState(() {
         result = o.data["name"].toString();
         description = o.data["description"].toString();
+        question = o.data["question"]["text"];
+        answer = o.data["question"]["good_answer"];
+        _question = true;
       });
       global.objectsIds.add(qrResult);
       global.checkListObjects.removeWhere((object) => object["id"] == int.parse(qrResult));
@@ -61,6 +77,63 @@ class QrScreenState extends State<QrScreen> {
     }
   }
 
+  void _showQuestion(){
+    setState(() {
+      if (_show) {
+        _show = false;
+        _question = true;
+      } else {
+        _show = true;
+       _question = false;
+
+      }
+  });
+  }
+
+   Widget _validateQuestion(){
+     if(Text(questionController.text).data==answer){
+        showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("BONNE REPONSE"),
+          content: new Text("BRAVO"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+      );
+     }else {
+       showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("MAUVAISE REPONSE"),
+          content: new Text("réessayer"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+      );
+     }
+   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +150,8 @@ class QrScreenState extends State<QrScreen> {
                 child : AutoSizeText(
                   result,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            ),),
+            ),
+            ),
             Container(
               padding: EdgeInsets.only(top: 20.0),
               child: AutoSizeText(
@@ -85,15 +159,50 @@ class QrScreenState extends State<QrScreen> {
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20), 
               )
             ),
+        
+           _show ? Container(
+            child : Text(question),
+          ) : new Container(),
+          _show ? Container(
+            child : TextField(
+              controller: questionController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Votre Réponse'
+              ),
+            ),
+          ) : new Container(),
+          _question ? Container(
+        padding: EdgeInsets.only(top: 30.0),
+        child : FloatingActionButton.extended(
+        heroTag: "btn1",
+        icon: Icon(Icons.help_outline),
+        label: Text("Question"),
+        onPressed: _showQuestion,
+      ),
+        ) : new Container(),
+!_question ? Container(
+        padding: EdgeInsets.only(top: 30.0),
+        child : FloatingActionButton.extended(
+        heroTag: "btn3",
+        icon: Icon(Icons.help_outline),
+        label: Text("Valider"),
+        onPressed:_validateQuestion,
+      ),
+        ) : new Container(),
+
         Container(
         padding: EdgeInsets.only(top: 30.0),
         child : FloatingActionButton.extended(
+                        heroTag: "btn2",
+
         icon: Icon(Icons.camera_alt),
         label: Text("Scan"),
         onPressed: _scanQR,
       ),
-        )
-          ]
+        ),
+        
+            ]
         )
       )
     );
