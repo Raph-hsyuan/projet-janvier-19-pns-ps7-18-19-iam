@@ -48,14 +48,9 @@ class QrScreenState extends State<QrScreen> {
         answer = o.data["question"]["good_answer"];
         _question = true;
       });
-      global.objectsIds.add(qrResult);
-      global.checkListObjects.removeWhere((object) => object["id"] == int.parse(qrResult));
 
-      if(global.checkListObjects.isEmpty){
-        global.seed = -1;
-      }
+      global.instance.addScannedObject(o.data);
 
-      print( global.objectsIds.length);
     } on PlatformException catch (ex) {
       if (ex.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {

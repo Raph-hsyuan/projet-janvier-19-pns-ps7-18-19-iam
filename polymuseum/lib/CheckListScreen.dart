@@ -30,8 +30,8 @@ class CheckListScreenState extends State<CheckListScreen> {
         title: new Text("Check list"),
       ),
       body: ListView.builder(
-        itemCount: global.checkListObjects.length,
-        itemBuilder: (context, index) => ListTile(title: new Text(global.checkListObjects[index]["name"].toString())),
+        itemCount: global.instance.checkListObjectsCount,
+        itemBuilder: (context, index) => ListTile(title: new Text(global.instance.checkListObjects[index]["name"].toString())),
       ),
     );
   }
