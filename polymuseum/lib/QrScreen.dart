@@ -39,7 +39,12 @@ class QrScreenState extends State<QrScreen> {
   Future _scanQR() async {
     try {
       String qrResult = await BarcodeScanner.scan();
+      setState(() {
         result = "Chargement en cours...";
+        description = " ";
+        question = " ";
+        answer = " ";
+      });
       int intId = int.parse(qrResult);
       var o = await dbHelper.getObject(intId);
 

@@ -9,7 +9,7 @@ class BeaconsTool{
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   DBHelper dbHelper = DBHelper.instance;
-  double LEGALDISTANCE = 1.0;
+  double LEGALDISTANCE = 2.0;
   factory BeaconsTool() => _getInstance();
   static BeaconsTool get instance => _getInstance();
   static BeaconsTool _instance;
