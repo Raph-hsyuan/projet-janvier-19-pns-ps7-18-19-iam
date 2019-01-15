@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:polymuseum/genVisitScreen.dart';
-import 'package:polymuseum/pdf.dart';
+import 'package:polymuseum/docGenScreen.dart';
 import 'package:polymuseum/quizPersoScreen.dart';
 import 'package:polymuseum/global.dart' as global;
 
@@ -79,21 +79,12 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
               },
             ),
             RaisedButton(
-              child: Text('Generer un pdf'),
+              child: Text('Generer un document'),
               onPressed: () {
                 selectRandomObjects();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Pdf(objects: selectedObjects,)),
-                );
-              },
-            ),
-            RaisedButton(
-              child: Text('Generer une visite'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GenVisitScreen()),
+                  MaterialPageRoute(builder: (context) => DocGenScreen(objects: selectedObjects,)),
                 );
               },
             ),

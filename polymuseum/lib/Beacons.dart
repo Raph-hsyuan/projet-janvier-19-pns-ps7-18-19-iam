@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:polymuseum/BeaconScanner.dart';
 import 'package:polymuseum/DBHelper.dart';
 
 int currentMinor = 0;
@@ -70,7 +71,7 @@ class _BeaconsState extends State<Beacons> {
 
   initBeacon() async {
     try {
-      await flutterBeacon.initializeScanning;
+      await BeaconScanner.instance.initializeScanning;
       print('Beacon scanner initialized');
     } on PlatformException catch (e) {
       print(e);
@@ -91,7 +92,7 @@ class _BeaconsState extends State<Beacons> {
       regions.add(Region(identifier: 'com.beacon'));
     }
 
-    _streamRanging = flutterBeacon.ranging(regions).listen((result) {
+    _streamRanging = BeaconScanner.instance.ranging(regions).listen((result) {
       if (result != null && mounted) {
         setState(() {
           _regionBeacons[result.region] = result.beacons;

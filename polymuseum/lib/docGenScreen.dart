@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:pdf/pdf.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission/permission.dart';
 
-class Pdf extends StatefulWidget {
+class DocGenScreen extends StatefulWidget {
 
   List<Map<String, dynamic>> objects;
 
-  Pdf({Key key, @required this.objects}) : super(key: key);
+  DocGenScreen({Key key, @required this.objects}) : super(key: key);
 
   @override
-  _PdfState createState() => _PdfState(objects : objects);
+  _DocGenScreenState createState() => _DocGenScreenState(objects : objects);
 }
 
-class _PdfState extends State<Pdf> {
+class _DocGenScreenState extends State<DocGenScreen> {
 
   List<String> textAff = [];
   List<Map<String, dynamic>> objects;
   bool enter = false;
   List<String> goodAnswers =[];
 
-  _PdfState({@required this.objects}) : super(){
+  _DocGenScreenState({@required this.objects}) : super(){
     for(var o in objects){
       textAff.add(o["question"]["text"]);
       goodAnswers.add(o["question"]["good_answer"]);
@@ -33,7 +32,7 @@ class _PdfState extends State<Pdf> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("PDF"),
+        title: Text("Document"),
       ),
       body: Center(
         child: new Column(
@@ -50,7 +49,7 @@ class _PdfState extends State<Pdf> {
                     _write();
                   }
                 },
-                child: Text('Generer un pdf'),
+                child: Text('Generer un document'),
               ),
             ],
         ),
@@ -73,14 +72,20 @@ class _PdfState extends State<Pdf> {
   Future<Null> _write() async {
     print(textAff.length);
     var buffer = new StringBuffer();
+    int i = 1;
+    int j = 1;
     for(String s in textAff) {
+      buffer.write('$i . ');
       buffer.write(s);
-      buffer.write('\n');
+      buffer.write('\n\n');
+      ++i;
     }
-    buffer.write('\n');
+    buffer.write('\n\n\n');
     for(String s in goodAnswers) {
+      buffer.write('$j . ');
       buffer.write(s);
-      buffer.write('\n');
+      buffer.write('\n\n');
+      ++j;
     }
     await (await _getLocalFile()).writeAsString(buffer.toString());
   }

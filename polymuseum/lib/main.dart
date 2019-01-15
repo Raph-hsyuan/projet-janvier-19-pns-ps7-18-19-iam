@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:polymuseum/genQuizPersoScreen.dart';
 import 'package:polymuseum/QrScreen.dart';
 import 'package:polymuseum/Beacons.dart';
+import 'package:polymuseum/BeaconScanner.dart';
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
 import 'genVisitScreen.dart';
@@ -11,11 +12,27 @@ import 'package:polymuseum/VisitChooserScreen.dart';
 import 'package:polymuseum/CheckListScreen.dart';
 import 'package:polymuseum/BeaconsTool.dart';
 import 'package:polymuseum/Carte.dart';
+import 'package:polymuseum/Scanner.dart';
+
 void main() async {
+
+  //Beacons
+  BeaconScanner.setInstanceOnce(new BeaconScanner());
+  BeaconsTool.setInstanceOnce(new BeaconsTool());
   BeaconsTool beaconsTool = BeaconsTool.instance;
   await beaconsTool.initBeacon();
+
+  //DBHelper
   await DBHelper.updateSettings();
+  DBHelper.setInstanceOnce(DBHelper());
+
+  //Global
   global.setInstanceOnce(global.DefaultGlobal());
+
+  //QrCode Scanner
+  Scanner.setInstanceOnce(new Scanner());
+
+
 
   runApp(MaterialApp(
     title: 'PolyMusem',

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:polymuseum/Scanner.dart';
 import 'package:flutter/services.dart';
 import 'DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
@@ -38,7 +38,7 @@ class QrScreenState extends State<QrScreen> {
 
   Future _scanQR() async {
     try {
-      String qrResult = await BarcodeScanner.scan();
+      String qrResult = await Scanner.instance.scan();
       setState(() {
         result = "Chargement en cours...";
         description = " ";
@@ -57,17 +57,18 @@ class QrScreenState extends State<QrScreen> {
       }
 
       setState(() {
+        if(o!=null){
         result = o.data["name"].toString();
         description = o.data["description"].toString();
         question = o.data["question"]["text"];
         answer = o.data["question"]["good_answer"];
         _question = true;
-      });
+      }});
 
       global.instance.addScannedObject(o.data);
 
     } on PlatformException catch (ex) {
-      if (ex.code == BarcodeScanner.CameraAccessDenied) {
+      if (ex.code == Scanner.instance.CameraAccessDenied) {
         setState(() {
           result = "L'application n'a pas la permission d'utiliser la caméra du téléphone";
         });
@@ -182,11 +183,15 @@ class QrScreenState extends State<QrScreen> {
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20), 
           )) : new Container(),
           _show ? Container(
+            margin: EdgeInsets.only(top: 30.0),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+            ),
             child : TextField(
               controller: questionController,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Votre Réponse'
+              decoration: InputDecoration (
+              hintText: 'Votre Réponse',
+              filled: true,
               ),
             ),
           ) : new Container(),

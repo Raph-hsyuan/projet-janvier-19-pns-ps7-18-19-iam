@@ -3,16 +3,25 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:polymuseum/DBHelper.dart';
+import 'package:polymuseum/BeaconScanner.dart';
 
-class BeaconsTool{
+class BeaconsTool {
+
+  factory BeaconsTool() => _getInstance();
+  static BeaconsTool get instance => _getInstance();
+  static BeaconsTool _instance;
+
+  static setInstanceOnce(BeaconsTool obj){
+    if(_instance == null)
+      _instance = obj;
+  }
+
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   DBHelper dbHelper = DBHelper.instance;
   double LEGALDISTANCE = 2.0;
-  factory BeaconsTool() => _getInstance();
-  static BeaconsTool get instance => _getInstance();
-  static BeaconsTool _instance;
+
 
   BeaconsTool._internal(){
     return;
@@ -31,7 +40,7 @@ class BeaconsTool{
 
   initBeacon() async {
     try {
-      await flutterBeacon.initializeScanning;
+      await BeaconScanner.instance.initializeScanning;
       print('Beacon scanner initialized');
     } on PlatformException catch (e) {
       print(e);
@@ -52,8 +61,9 @@ class BeaconsTool{
       regions.add(Region(identifier: 'com.beacon'));
     }
 
-    _streamRanging = flutterBeacon.ranging(regions).listen((result) {
+    _streamRanging = BeaconScanner.instance.ranging(regions).listen((result) {
       if (result != null) {
+        _regionBeacons.clear();
         _regionBeacons[result.region] = result.beacons;
         _beacons.clear();
         _regionBeacons.values.forEach((list) {
