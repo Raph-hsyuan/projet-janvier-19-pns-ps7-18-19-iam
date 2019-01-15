@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:polymuseum/DBHelper.dart';
+import 'package:polymuseum/BeaconScanner.dart';
 
 class BeaconsTool {
 
@@ -11,7 +12,7 @@ class BeaconsTool {
   static BeaconsTool _instance;
 
   static setInstanceOnce(BeaconsTool obj){
-    if(instance == null)
+    if(_instance == null)
       _instance = obj;
   }
 
@@ -39,7 +40,7 @@ class BeaconsTool {
 
   initBeacon() async {
     try {
-      await flutterBeacon.initializeScanning;
+      await BeaconScanner.instance.initializeScanning;
       print('Beacon scanner initialized');
     } on PlatformException catch (e) {
       print(e);
@@ -60,8 +61,9 @@ class BeaconsTool {
       regions.add(Region(identifier: 'com.beacon'));
     }
 
-    _streamRanging = flutterBeacon.ranging(regions).listen((result) {
+    _streamRanging = BeaconScanner.instance.ranging(regions).listen((result) {
       if (result != null) {
+        _regionBeacons.clear();
         _regionBeacons[result.region] = result.beacons;
         _beacons.clear();
         _regionBeacons.values.forEach((list) {
