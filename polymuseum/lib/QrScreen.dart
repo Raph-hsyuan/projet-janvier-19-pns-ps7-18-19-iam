@@ -48,7 +48,13 @@ class QrScreenState extends State<QrScreen> {
       int intId = int.parse(qrResult);
       var o = await dbHelper.getObject(intId);
 
-      bool check = await beaconsTool.checkPosition(intId);
+      bool check = false;
+      for(int i=0; i<100; i++){
+        if(!check)
+          check = await beaconsTool.checkPosition(intId);
+        else
+          break;
+      }
       if(!check){
           setState(() {
           result = "Vous devez aller plus proche !";

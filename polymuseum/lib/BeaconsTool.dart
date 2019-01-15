@@ -19,7 +19,7 @@ class BeaconsTool {
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   DBHelper dbHelper = DBHelper.instance;
-  double LEGALDISTANCE = 2.0;
+  double LEGALDISTANCE = 1.5;
 
 
   BeaconsTool._internal(){
@@ -92,6 +92,7 @@ class BeaconsTool {
     var obj = await DBHelper.instance.getObject(index);
     String beaconUUID = obj.data['checkBeacons']['UUID'];
     String beaconMinor = obj.data['checkBeacons']['minor'];
+    print(_beacons.length.toString()+':trial');
     for(Beacon beacon in _beacons)
       if(beacon.proximityUUID == beaconUUID && beacon.minor.toString() == beaconMinor)
         if(beacon.accuracy <= LEGALDISTANCE)
@@ -113,14 +114,13 @@ class BeaconsTool {
       j++;
     }
     Beacon mark;
+    double min = 999;
     for(Beacon b in find){
-      double min = 999;
       if(b.accuracy<min){
         min = b.accuracy;
         mark = b;
       }
     }
-    print(mark.accuracy);
     return mark;
   }
 
