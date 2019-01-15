@@ -40,7 +40,7 @@ class BeaconsTool {
 
   initBeacon() async {
     try {
-      await BeaconScanner.instance.initializeScanning;
+      await flutterBeacon.initializeScanning;
       print('Beacon scanner initialized');
     } on PlatformException catch (e) {
       print(e);
@@ -61,7 +61,7 @@ class BeaconsTool {
       regions.add(Region(identifier: 'com.beacon'));
     }
 
-    _streamRanging = BeaconScanner.instance.ranging(regions).listen((result) {
+    _streamRanging = flutterBeacon.ranging(regions).listen((result) {
       if (result != null) {
         _regionBeacons.clear();
         _regionBeacons[result.region] = result.beacons;
