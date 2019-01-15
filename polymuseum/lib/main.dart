@@ -10,7 +10,7 @@ import 'genVisitScreen.dart';
 import 'package:polymuseum/VisitChooserScreen.dart';
 import 'package:polymuseum/CheckListScreen.dart';
 import 'package:polymuseum/BeaconsTool.dart';
-
+import 'package:polymuseum/Carte.dart';
 void main() async {
   BeaconsTool beaconsTool = BeaconsTool.instance;
   await beaconsTool.initBeacon();
@@ -51,7 +51,7 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Beacons()),
+                    MaterialPageRoute(builder: (context) => Carte()),
                   );
                 },
               ),
