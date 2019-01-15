@@ -2,10 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math' hide Point;
-
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:polymuseum/DBHelper.dart';
+import 'package:polymuseum/BeaconsTool.dart';
+
+BeaconsTool beaconsTool = BeaconsTool.instance;
 
 class Line{
   Offset p1;
@@ -24,30 +26,45 @@ class Carte extends StatefulWidget {
 class _CarteState extends State<Carte>
     with SingleTickerProviderStateMixin {
 
-  AnimationController controller;
+  //AnimationController controller;
   final lines = <Line>[];
+  final points = <Offset>[];
   _CarteState();
 
   @override
   void initState() {
     super.initState();
-    lines.add(Line(Offset(80.0,250.0),Offset(140.0,250.0)));
-    lines.add(Line(Offset(80.0,250.0),Offset(80.0,310.0)));
-    lines.add(Line(Offset(60.0,310.0),Offset(90.0,310.0)));//
-    lines.add(Line(Offset(60.0,310.0),Offset(60.0,410.0)));
-    lines.add(Line(Offset(60.0,410.0),Offset(160.0,410.0)));
-    lines.add(Line(Offset(160.0,400.0),Offset(160.0,410.0)));//
-    lines.add(Line(Offset(160.0,410.0),Offset(300.0,410.0)));
-    lines.add(Line(Offset(300.0,410.0),Offset(300.0,270.0)));
-    lines.add(Line(Offset(300.0,270.0),Offset(160.0,270.0)));
-    lines.add(Line(Offset(160.0,270.0),Offset(160.0,320.0)));//
-    lines.add(Line(Offset(160.0,310.0),Offset(130.0,310.0)));//
-    lines.add(Line(Offset(140.0,310.0),Offset(140.0,250.0)));
+    downloadMap();
+  }
+
+  downloadMap() async{
+    var obj = await DBHelper.instance.getExhibition(2);
+    int i = 1;
+    String index = '';
+    while(obj.data['l'+i.toString()]!=null){
+      index = 'l'+i.toString();
+      setState(() {
+              lines.add(Line (Offset(obj.data[index][0]*1.0,
+                            obj.data[index][1]*1.0),
+                      Offset(obj.data[index][2]*1.0,
+                            obj.data[index][3]*1.0)));
+            });
+      i++;
+    }
+    var obj2 = await DBHelper.instance.getExhibition(3);
+    int j = 0;
+    List<dynamic> map = obj2.data['beacons'];
+    while(map.length>j){
+      setState(() {
+              points.add(Offset(map[j]['x']*1.0,map[j]['y']*1.0));
+            });
+      j++;
+    }
   }
 
   @override
   void dispose() {
-    controller.stop();
+    //controller.stop();
     super.dispose();
   }
 
@@ -66,13 +83,15 @@ class _CarteState extends State<Carte>
                     child: new CustomPaint(
                         willChange: true,
                         child: new Container(),
-                        foregroundPainter: new LinePainter(lines)))),
-        ));
+                        foregroundPainter: new MapPainter(lines,points))))));
   }
+
 }
-class LinePainter extends CustomPainter{
+
+class MapPainter extends CustomPainter{
   final lines;
-  LinePainter(this.lines);
+  final points;
+  MapPainter(this.lines,this.points);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -84,10 +103,15 @@ class LinePainter extends CustomPainter{
     ..maskFilter = MaskFilter.blur(BlurStyle.inner, 0.5);
     for (Line line in lines)
       canvas.drawLine(line.p1,line.p2, paint);
+    for (Offset point in points)
+      canvas.drawCircle(point, 10, paint);
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
+
 }
+
+
 
 
