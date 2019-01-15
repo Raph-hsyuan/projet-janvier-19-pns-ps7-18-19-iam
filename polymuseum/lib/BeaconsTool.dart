@@ -4,15 +4,23 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:polymuseum/DBHelper.dart';
 
-class BeaconsTool{
+class BeaconsTool {
+
+  factory BeaconsTool() => _getInstance();
+  static BeaconsTool get instance => _getInstance();
+  static BeaconsTool _instance;
+
+  static setInstanceOnce(BeaconsTool obj){
+    if(instance == null)
+      _instance = obj;
+  }
+
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   DBHelper dbHelper = DBHelper.instance;
   double LEGALDISTANCE = 2.0;
-  factory BeaconsTool() => _getInstance();
-  static BeaconsTool get instance => _getInstance();
-  static BeaconsTool _instance;
+
 
   BeaconsTool._internal(){
     return;

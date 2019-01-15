@@ -2,7 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBHelper {
 
-  static DBHelper instance = new DBHelper();
+  static DBHelper _instance;
+  static DBHelper get instance => _instance;
+
+  static setInstanceOnce(obj){
+    if(_instance == null)
+      _instance = obj;
+  }
 
   static updateSettings() async {
     await Firestore.instance.settings(

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:polymuseum/Scanner.dart';
 import 'package:flutter/services.dart';
 import 'DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
@@ -38,7 +38,7 @@ class QrScreenState extends State<QrScreen> {
 
   Future _scanQR() async {
     try {
-      String qrResult = await BarcodeScanner.scan();
+      String qrResult = await Scanner.instance.scan();
       setState(() {
         result = "Chargement en cours...";
         description = " ";
@@ -68,7 +68,7 @@ class QrScreenState extends State<QrScreen> {
       global.instance.addScannedObject(o.data);
 
     } on PlatformException catch (ex) {
-      if (ex.code == BarcodeScanner.CameraAccessDenied) {
+      if (ex.code == Scanner.instance.CameraAccessDenied) {
         setState(() {
           result = "L'application n'a pas la permission d'utiliser la caméra du téléphone";
         });

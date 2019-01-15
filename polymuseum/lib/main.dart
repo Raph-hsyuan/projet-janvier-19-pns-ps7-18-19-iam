@@ -11,11 +11,25 @@ import 'package:polymuseum/VisitChooserScreen.dart';
 import 'package:polymuseum/CheckListScreen.dart';
 import 'package:polymuseum/BeaconsTool.dart';
 import 'package:polymuseum/Carte.dart';
+import 'package:polymuseum/Scanner.dart';
+
 void main() async {
+
+  //Beacons
+  BeaconsTool.setInstanceOnce(new BeaconsTool());
   BeaconsTool beaconsTool = BeaconsTool.instance;
   await beaconsTool.initBeacon();
+
+  //DBHelper
   await DBHelper.updateSettings();
+  DBHelper.setInstanceOnce(DBHelper());
+
+  //Global
   global.setInstanceOnce(global.DefaultGlobal());
+
+  //QrCode Scanner
+  Scanner.setInstanceOnce(new Scanner());
+
 
   runApp(MaterialApp(
     title: 'PolyMusem',
