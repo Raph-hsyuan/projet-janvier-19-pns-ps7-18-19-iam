@@ -19,7 +19,6 @@ dependencies:
   flutter_beacon: ^0.1.1
   flutter_local_notifications:
   auto_size_text: ^0.3.0
-  pdf: ^1.0.8
   path_provider: ^0.4.1
   permission: ^0.1.0
   simple_permissions: ^0.1.2
