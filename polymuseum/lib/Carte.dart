@@ -2,10 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/animation.dart';
+// import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/BeaconsTool.dart';
+import 'package:flutter_beacon/flutter_beacon.dart';
+
 
 BeaconsTool beaconsTool = BeaconsTool.instance;
 
@@ -29,6 +31,8 @@ class _CarteState extends State<Carte>
   //AnimationController controller;
   final lines = <Line>[];
   final points = <Offset>[];
+  String region = '';
+  Offset current;
   _CarteState();
 
   @override
@@ -38,6 +42,26 @@ class _CarteState extends State<Carte>
   }
 
   downloadMap() async{
+    Beacon nearby = await beaconsTool.getNearby();
+    var o = await DBHelper.instance.getExhibition(3);
+    final map = o.data['beacons'];
+    double x;
+    double y;
+    int j=0;
+    String regionName = '';
+    while(map.length>j){
+      String id = nearby.proximityUUID+nearby.major.toString()+nearby.minor.toString();
+      if(id == map[j]['ID']){
+        x= map[j]['x']*1.0;
+        y= map[j]['y']*1.0;
+        regionName = map[j]['region'];
+      }
+      j++;
+    }
+    setState(() {
+          current = Offset(x, y);
+          region = regionName;
+        });
     var obj = await DBHelper.instance.getExhibition(2);
     int i = 1;
     String index = '';
@@ -51,12 +75,11 @@ class _CarteState extends State<Carte>
             });
       i++;
     }
-    var obj2 = await DBHelper.instance.getExhibition(3);
-    int j = 0;
-    List<dynamic> map = obj2.data['beacons'];
+    // var obj2 = await DBHelper.instance.getExhibition(3);
+    j = 0;
     while(map.length>j){
       setState(() {
-              points.add(Offset(map[j]['x']*1.0,map[j]['y']*1.0));
+              points.add(new Offset(map[j]['x']*1.0,map[j]['y']*1.0));
             });
       j++;
     }
@@ -71,7 +94,7 @@ class _CarteState extends State<Carte>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(title: new Text('Carte de musee')),
+        appBar: new AppBar(title: new Text(region)),
         body: new Builder(
             builder: (context) => new GestureDetector(
                 child: new Container(
@@ -83,7 +106,7 @@ class _CarteState extends State<Carte>
                     child: new CustomPaint(
                         willChange: true,
                         child: new Container(),
-                        foregroundPainter: new MapPainter(lines,points))))));
+                        foregroundPainter: new MapPainter(lines,points,current))))));
   }
 
 }
@@ -91,7 +114,8 @@ class _CarteState extends State<Carte>
 class MapPainter extends CustomPainter{
   final lines;
   final points;
-  MapPainter(this.lines,this.points);
+  final current;
+  MapPainter(this.lines,this.points,this.current);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -105,6 +129,7 @@ class MapPainter extends CustomPainter{
       canvas.drawLine(line.p1,line.p2, paint);
     for (Offset point in points)
       canvas.drawCircle(point, 10, paint);
+    canvas.drawCircle(current, 20, paint);
   }
 
   @override

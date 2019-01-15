@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:polymuseum/DBHelper.dart';
-import 'package:polymuseum/BeaconScanner.dart';
 
 class BeaconsTool {
 
@@ -40,7 +39,7 @@ class BeaconsTool {
 
   initBeacon() async {
     try {
-      await BeaconScanner.instance.initializeScanning;
+      await flutterBeacon.initializeScanning;
       print('Beacon scanner initialized');
     } on PlatformException catch (e) {
       print(e);
@@ -61,7 +60,7 @@ class BeaconsTool {
       regions.add(Region(identifier: 'com.beacon'));
     }
 
-    _streamRanging = BeaconScanner.instance.ranging(regions).listen((result) {
+    _streamRanging = flutterBeacon.ranging(regions).listen((result) {
       if (result != null) {
         _regionBeacons.clear();
         _regionBeacons[result.region] = result.beacons;
@@ -98,6 +97,31 @@ class BeaconsTool {
         if(beacon.accuracy <= LEGALDISTANCE)
           return true;
     return false;
+  }
+
+  Future<Beacon> getNearby() async {
+    final find = <Beacon>[] ;
+    var obj = await DBHelper.instance.getExhibition(3);
+    int j = 0;
+    final map = obj.data['beacons'];
+    while(map.length>j){
+      for(Beacon b in _beacons){
+        String id = b.proximityUUID+b.major.toString()+b.minor.toString();
+        if(id == map[j]['ID'])
+          find.add(b);
+      }
+      j++;
+    }
+    Beacon mark;
+    for(Beacon b in find){
+      double max = 0;
+      if(b.accuracy>max){
+        max = b.accuracy;
+        mark = b;
+      }
+    }
+
+    return mark;
   }
 
 }

@@ -64,11 +64,20 @@ class FirstScreen extends StatelessWidget {
                 },
               ),
               RaisedButton(
-                child: Text('Beacons'),
+                child: Text('Explorer'),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Carte()),
+                  );
+                },
+              ),
+              RaisedButton(
+                child: Text('Beacons Finder'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Beacons()),
                   );
                 },
               ),
