@@ -42,7 +42,7 @@ class DefaultGlobal extends Global {
   addScannedObject(Map<String, dynamic> obj){
     _scannedObjects[obj["id"].toString()] = obj;
 
-    _checkListObjects.remove(obj["id"]);
+    _checkListObjects.remove(obj["id"].toString());
     if(_checkListObjects.isEmpty) _seed = -1;
   }
 
@@ -51,7 +51,7 @@ class DefaultGlobal extends Global {
     if(ids == null) return _scannedObjects.values.toList();
 
     return _scannedObjects.values.where((obj){
-      return ids.contains(obj["id"]);
+      return ids.contains(obj["id"].toString());
     }).toList();
   }
 
