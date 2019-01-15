@@ -72,14 +72,20 @@ class _DocGenScreenState extends State<DocGenScreen> {
   Future<Null> _write() async {
     print(textAff.length);
     var buffer = new StringBuffer();
+    int i = 1;
+    int j = 1;
     for(String s in textAff) {
+      buffer.write('$i . ');
       buffer.write(s);
-      buffer.write('\n');
+      buffer.write('\n\n');
+      ++i;
     }
-    buffer.write('\n');
+    buffer.write('\n\n\n');
     for(String s in goodAnswers) {
+      buffer.write('$j . ');
       buffer.write(s);
-      buffer.write('\n');
+      buffer.write('\n\n');
+      ++j;
     }
     await (await _getLocalFile()).writeAsString(buffer.toString());
   }
