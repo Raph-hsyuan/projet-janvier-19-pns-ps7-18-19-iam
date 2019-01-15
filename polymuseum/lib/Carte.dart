@@ -41,7 +41,8 @@ class _CarteState extends State<Carte>
     downloadMap();
   }
 
-  downloadMap() async{
+  updatePosition() async{
+    while(true){
     Beacon nearby = await beaconsTool.getNearby();
     var o = await DBHelper.instance.getExhibition(3);
     final map = o.data['beacons'];
@@ -49,6 +50,7 @@ class _CarteState extends State<Carte>
     double y;
     int j=0;
     String regionName = '';
+    
     while(map.length>j){
       String id = nearby.proximityUUID+nearby.major.toString()+nearby.minor.toString();
       if(id == map[j]['ID']){
@@ -58,10 +60,18 @@ class _CarteState extends State<Carte>
       }
       j++;
     }
+
     setState(() {
           current = Offset(x, y);
           region = regionName;
         });
+    }
+  }
+  
+  downloadMap() async{
+    updatePosition();
+    var o = await DBHelper.instance.getExhibition(3);
+    final map = o.data['beacons'];
     var obj = await DBHelper.instance.getExhibition(2);
     int i = 1;
     String index = '';
@@ -76,7 +86,7 @@ class _CarteState extends State<Carte>
       i++;
     }
     // var obj2 = await DBHelper.instance.getExhibition(3);
-    j = 0;
+    int j = 0;
     while(map.length>j){
       setState(() {
               points.add(new Offset(map[j]['x']*1.0,map[j]['y']*1.0));

@@ -114,13 +114,13 @@ class BeaconsTool {
     }
     Beacon mark;
     for(Beacon b in find){
-      double max = 0;
-      if(b.accuracy>max){
-        max = b.accuracy;
+      double min = 999;
+      if(b.accuracy<min){
+        min = b.accuracy;
         mark = b;
       }
     }
-
+    print(mark.accuracy);
     return mark;
   }
 
