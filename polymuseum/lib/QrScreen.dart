@@ -57,12 +57,13 @@ class QrScreenState extends State<QrScreen> {
       }
 
       setState(() {
+        if(o!=null){
         result = o.data["name"].toString();
         description = o.data["description"].toString();
         question = o.data["question"]["text"];
         answer = o.data["question"]["good_answer"];
         _question = true;
-      });
+      }});
 
       global.instance.addScannedObject(o.data);
 
@@ -182,11 +183,15 @@ class QrScreenState extends State<QrScreen> {
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20), 
           )) : new Container(),
           _show ? Container(
+            margin: EdgeInsets.only(top: 30.0),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+            ),
             child : TextField(
               controller: questionController,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Votre Réponse'
+              decoration: InputDecoration (
+              hintText: 'Votre Réponse',
+              filled: true,
               ),
             ),
           ) : new Container(),

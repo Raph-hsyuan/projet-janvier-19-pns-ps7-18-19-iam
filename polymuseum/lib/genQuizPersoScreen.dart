@@ -88,15 +88,6 @@ class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
                 );
               },
             ),
-            RaisedButton(
-              child: Text('Generer une visite'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GenVisitScreen()),
-                );
-              },
-            ),
           ],
         ),
       ),
