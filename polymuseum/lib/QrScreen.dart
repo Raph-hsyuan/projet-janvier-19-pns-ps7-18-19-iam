@@ -64,6 +64,7 @@ class QrScreenState extends State<QrScreen> {
 
       setState(() {
         if(o!=null){
+        print("OKKKKKKKKKKKKKKKKKKK="+o.toString());
         result = o["name"].toString();
         description = o["description"].toString();
         question = o["question"]["text"];
@@ -80,7 +81,7 @@ class QrScreenState extends State<QrScreen> {
         });
       } else {
         setState(() {
-          result = "Une erreur est survenue $ex";
+          result = "Une erreur est survenue";
         });
       }
     } on FormatException {
@@ -89,7 +90,7 @@ class QrScreenState extends State<QrScreen> {
       });
     } catch (ex) {
       setState(() {
-          result = "Une erreur est survenue $ex";
+          result = "Une erreur est survenue";
       });
     }
   }
