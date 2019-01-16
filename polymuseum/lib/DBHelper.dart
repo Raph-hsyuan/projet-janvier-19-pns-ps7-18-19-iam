@@ -70,7 +70,7 @@ class DBHelper {
   int addVisit(Set<String> objectsIds) {
     int seed = objectsIds.toString().hashCode;
     Firestore.instance.collection("visits").add({
-      "id": seed.toString().hashCode,
+      "id": seed,
       "objects" : objectsIds.toList()
     });
     return seed;
