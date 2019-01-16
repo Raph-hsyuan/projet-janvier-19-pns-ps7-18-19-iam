@@ -30,7 +30,7 @@ class _CarteState extends State<Carte>
   final lines = <Line>[];
   final points = <Offset>[];
   String region = '';
-  Offset current;
+  Offset current = Offset(0, 0);
   _CarteState();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
@@ -74,7 +74,7 @@ class _CarteState extends State<Carte>
           current = Offset(x, y);
           region = regionName;
         });
-    pushWelcomeMessage(nearby.proximityUUID, nearby.minor, nearby.accuracy);
+    await pushWelcomeMessage(nearby.proximityUUID, nearby.minor, nearby.accuracy);
   }
   
   downloadMap() async{
@@ -98,7 +98,7 @@ class _CarteState extends State<Carte>
     int j = 0;
     while(map.length>j){
       setState(() {
-              points.add(new Offset(map[j]['x']*1.0,map[j]['y']*1.0));
+              points.add(Offset(map[j]['x']*1.0,map[j]['y']*1.0));
             });
       j++;
     }
@@ -221,11 +221,11 @@ class _CarteState extends State<Carte>
     return compare;
   }
 
-  int currentMinor;
-  String currentUUID;
-  String currentRegion;
+  int currentMinor = 9999;
+  String currentUUID = '';
+  String currentRegion = '';
 
-  void pushWelcomeMessage(String UUID, int minor, double distance) async {
+  pushWelcomeMessage(String UUID, int minor, double distance) async {
     if(currentMinor == minor && currentUUID == UUID) return;
     if(distance > 0.6) return;
     currentMinor = minor;
