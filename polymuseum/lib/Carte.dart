@@ -231,15 +231,15 @@ class _CarteState extends State<Carte>
     currentMinor = minor;
     currentUUID = UUID;
     var text = await DBHelper.instance.getExhibitionByUUID(UUID);
-     _showNotification(text.data['message'][minor.toString()]);
-     currentRegion = text.data['message'][minor.toString()] + ' Region';
+     _showNotification(text['message'][minor.toString()]);
+     currentRegion = text['message'][minor.toString()] + ' Region';
   }
   
   Future<Beacon> getNearby() async {
     final find = <Beacon>[] ;
     var obj = await DBHelper.instance.getExhibition(3);
     int j = 0;
-    final map = obj.data['beacons'];
+    final map = obj['beacons'];
     while(map.length>j){
       for(Beacon b in _beacons){
         String id = b.proximityUUID+b.major.toString()+b.minor.toString();
