@@ -1,10 +1,9 @@
 import 'package:polymuseum/DBHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MockedDBHelper {
+class MockedDBHelper extends DBHelper {
 
-  @override
-  static void updateSettings() async {}
+  @override updateSettings() async {}
 
   Map<String, List<Map<String, dynamic>>>  _description;
   
@@ -20,19 +19,20 @@ class MockedDBHelper {
     };
   }
 
+
   @override
-  Future<Map<String, dynamic>> _getDocumentInCollectionById(String collectionName, int id) {
-    var coll = _description[collectionName];
-    var docs = coll.where((o) => o["id"] == id);
-    if(docs.isEmpty) return null;
-    return Future.value(docs.first);
+  Future<Map<String, dynamic>> getDocumentInCollectionById(String collectionName, int id) {
+    List<dynamic> coll = _description[collectionName];
+    List<dynamic> lst = coll.where((o) => o["id"] == id).toList();
+    if(lst.isEmpty) return null;
+    return Future.value(lst.first);
   }
-  
+
   @override
   Future<Map<String, dynamic>> getExhibitionByUUID(String UUID) {
-    var docs = _description["exhibitions"];
-    List<Map<String, dynamic>> lst = docs.where((o) => o["UUID"] == UUID).toList();
-    return Future.value(lst.first);
+    var collections = _description["exhibitions"].where((exhibition) => exhibition["UUID"] == UUID);
+    if(collections.isEmpty) return null;
+    return Future.value(collections.first);
   }
 
 }

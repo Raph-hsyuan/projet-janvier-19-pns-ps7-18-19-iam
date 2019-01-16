@@ -136,8 +136,8 @@ class _BeaconsState extends State<Beacons> {
     currentMinor = minor;
     currentUUID = UUID;
     var text = await DBHelper.instance.getExhibitionByUUID(UUID);
-     _showNotification(text.data['message'][minor.toString()]);
-     currentRegion = text.data['message'][minor.toString()] + ' Region';
+     _showNotification(text['message'][minor.toString()]);
+     currentRegion = text['message'][minor.toString()] + ' Region';
   }
 
   @override

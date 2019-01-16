@@ -23,8 +23,8 @@ void main() async {
   await beaconsTool.initBeacon();
 
   //DBHelper
-  await DBHelper.updateSettings();
   DBHelper.setInstanceOnce(DBHelper());
+  await DBHelper.instance.updateSettings();
 
   //Global
   global.setInstanceOnce(global.DefaultGlobal());

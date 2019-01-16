@@ -72,7 +72,7 @@ class VisitChooserScreenState extends State<VisitChooserScreen> {
               });
 
                 
-                var visit = await DBHelper.instance.getVisit(_seed);
+                Map<String, dynamic> visit = await DBHelper.instance.getVisit(_seed);
                 if(visit == null){
                   setState((){
                     _msg = _DEFAULT_ERROR_MSG;
@@ -83,11 +83,11 @@ class VisitChooserScreenState extends State<VisitChooserScreen> {
 
                 global.instance.initCheckList();
 
-                var objectsIds = visit.data["objects"];
+                var objectsIds = visit["objects"];
 
                 for(var id in objectsIds){
-                  DocumentSnapshot obj = await DBHelper.instance.getObject(int.parse(id));
-                  global.instance.addCheckListObject(obj.data);
+                  Map<String, dynamic> obj = await DBHelper.instance.getObject(int.parse(id));
+                  global.instance.addCheckListObject(obj);
                 }
 
                 setState(() {

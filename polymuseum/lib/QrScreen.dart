@@ -64,14 +64,14 @@ class QrScreenState extends State<QrScreen> {
 
       setState(() {
         if(o!=null){
-        result = o.data["name"].toString();
-        description = o.data["description"].toString();
-        question = o.data["question"]["text"];
-        answer = o.data["question"]["good_answer"];
+        result = o["name"].toString();
+        description = o["description"].toString();
+        question = o["question"]["text"];
+        answer = o["question"]["good_answer"];
         _question = true;
       }});
 
-      global.instance.addScannedObject(o.data);
+      global.instance.addScannedObject(o);
 
     } on PlatformException catch (ex) {
       if (ex.code == Scanner.instance.CameraAccessDenied) {

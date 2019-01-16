@@ -54,7 +54,7 @@ class _CarteState extends State<Carte>
     //   print(mark.minor.toString()+' : '+mark.accuracy.toString());
     // }
     var o = await DBHelper.instance.getExhibition(3);
-    final map = o.data['beacons'];
+    final map = o['beacons'];
     double x;
     double y;
     int j=0;
@@ -80,17 +80,17 @@ class _CarteState extends State<Carte>
   downloadMap() async{
     updatePosition();
     var o = await DBHelper.instance.getExhibition(3);
-    final map = o.data['beacons'];
+    final map = o['beacons'];
     var obj = await DBHelper.instance.getExhibition(2);
     int i = 1;
     String index = '';
-    while(obj.data['l'+i.toString()]!=null){
+    while(obj['l'+i.toString()]!=null){
       index = 'l'+i.toString();
       setState(() {
-              lines.add(Line (Offset(obj.data[index][0]*1.0,
-                            obj.data[index][1]*1.0),
-                      Offset(obj.data[index][2]*1.0,
-                            obj.data[index][3]*1.0)));
+              lines.add(Line (Offset(obj[index][0]*1.0,
+                            obj[index][1]*1.0),
+                      Offset(obj[index][2]*1.0,
+                            obj[index][3]*1.0)));
             });
       i++;
     }

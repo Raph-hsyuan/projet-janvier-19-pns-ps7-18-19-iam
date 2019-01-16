@@ -10,7 +10,7 @@ class DBHelper {
       _instance = obj;
   }
 
-  static updateSettings() async {
+  updateSettings() async {
     await Firestore.instance.settings(
       timestampsInSnapshotsEnabled: true
     );
@@ -19,19 +19,12 @@ class DBHelper {
 
   ///  PRIVATE METHODS ///
 
-  Future<DocumentSnapshot> _getDocumentInCollectionById(String collectionName, int id) async {
+  Future<Map<String, dynamic>> getDocumentInCollectionById(String collectionName, int id) async {
     QuerySnapshot snapshot = await Firestore.instance.collection(collectionName).where("id", isEqualTo: id)
                              .getDocuments().asStream().first;
     if(snapshot.documents.isEmpty) return null;
-    return snapshot.documents.first;
+    return snapshot.documents.first.data;
   }
-
-  Future<bool> _isDocumentInCollection(String collectionName, int id) async {
-    var querySnapshot = await Firestore.instance.collection(collectionName).where("id", isEqualTo: id)
-                            .getDocuments();
-    return querySnapshot.documents.isNotEmpty;
-  }
-
 
 
   /// PUBLIC METHODS ///
@@ -45,8 +38,8 @@ class DBHelper {
 
     uneFonction() async {
       var doc = await DBHelper.instance.getObject(0);
-      doc.data //map document's key -> value
-      var object_name = doc.data["name"]);
+      doc //map document's key -> value
+      var object_name = doc["name"];
 
       setState((){
         name = object_name;
@@ -55,22 +48,22 @@ class DBHelper {
 
   */
 
-  Future<DocumentSnapshot> getObject(int id){
-    return _getDocumentInCollectionById("objects", id);
+  Future<Map<String, dynamic>> getObject(int id) async {
+    return getDocumentInCollectionById("objects", id);
   }
 
-  Future<DocumentSnapshot> getExhibition(int id){
-    return _getDocumentInCollectionById("exhibitions", id);
+  Future<Map<String,dynamic>> getExhibition(int id){
+    return getDocumentInCollectionById("exhibitions", id);
   }
   
-  Future<DocumentSnapshot> getExhibitionByUUID(String UUID) async {
+  Future<Map<String, dynamic>> getExhibitionByUUID(String UUID) async {
     var obj = await Firestore.instance.collection("exhibitions").where("UUID", isEqualTo: UUID)
                              .getDocuments().asStream().first;
-    return obj.documents.first;
+    return obj.documents.first.data;
   }
 
-  Future<DocumentSnapshot> getVisit(int id){
-    return _getDocumentInCollectionById("visits", id);
+  Future<Map<String, dynamic>> getVisit(int id){
+    return getDocumentInCollectionById("visits", id);
   }
 
   

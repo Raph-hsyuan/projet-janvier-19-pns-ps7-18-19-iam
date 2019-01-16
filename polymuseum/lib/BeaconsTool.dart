@@ -90,8 +90,8 @@ class BeaconsTool {
 
   Future<bool> checkPosition(int index) async {
     var obj = await DBHelper.instance.getObject(index);
-    String beaconUUID = obj.data['checkBeacons']['UUID'];
-    String beaconMinor = obj.data['checkBeacons']['minor'];
+    String beaconUUID = obj['checkBeacons']['UUID'];
+    String beaconMinor = obj['checkBeacons']['minor'];
     print(_beacons.length.toString()+':trial');
     for(Beacon beacon in _beacons)
       if(beacon.proximityUUID == beaconUUID && beacon.minor.toString() == beaconMinor)
@@ -104,7 +104,7 @@ class BeaconsTool {
     final find = <Beacon>[] ;
     var obj = await DBHelper.instance.getExhibition(3);
     int j = 0;
-    final map = obj.data['beacons'];
+    final map = obj['beacons'];
     while(map.length>j){
       for(Beacon b in _beacons){
         String id = b.proximityUUID+b.major.toString()+b.minor.toString();
