@@ -13,7 +13,7 @@ import 'package:polymuseum/screens/CheckListScreen.dart';
 import 'package:polymuseum/sensors/BeaconsTool.dart';
 import 'package:polymuseum/screens/MapScreen.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
-
+import 'package:polymuseum/boussole.dart';
 void main() async {
 
   //Beacons
@@ -78,6 +78,15 @@ class FirstScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Beacons()),
+                  );
+                },
+              ),
+              RaisedButton(
+                child: Text('Boussole Tester'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyApp()),
                   );
                 },
               ),
