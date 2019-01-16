@@ -87,7 +87,8 @@ class _CarteState extends State<Carte>
           region = regionName;
         });
     print('---------------\n\n\n'+'Now at '+region+'\n\n\n----------------');
-    await pushWelcomeMessage(nearby.proximityUUID, nearby.minor, nearby.accuracy);
+    var text = await DBHelper.instance.getExhibitionByUUID(nearby.proximityUUID);
+    await _showNotification(text['message'][nearby.minor.toString()]);
 
 
   }
@@ -242,16 +243,6 @@ class _CarteState extends State<Carte>
   int currentMinor = 9999;
   String currentUUID = '';
   String currentRegion = '';
-
-  pushWelcomeMessage(String UUID, int minor, double distance) async {
-    if(currentMinor == minor && currentUUID == UUID) return;
-    //if(distance > 0.6) return;
-    currentMinor = minor;
-    currentUUID = UUID;
-    var text = await DBHelper.instance.getExhibitionByUUID(UUID);
-     _showNotification(text['message'][minor.toString()]);
-     currentRegion = text['message'][minor.toString()] + ' Region';
-  }
   
   Future<Beacon> getNearby() async {
     final find = <Beacon>[] ;
