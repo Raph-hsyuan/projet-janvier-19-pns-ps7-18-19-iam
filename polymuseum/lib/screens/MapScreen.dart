@@ -3,8 +3,10 @@ import 'package:polymuseum/DBHelper.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 
 // StreamSubscription<RangingResult> _streamRanging;
 // BeaconsTool beaconsTool = BeaconsTool.instance;
@@ -36,7 +38,8 @@ class _MapScreenState extends State<MapScreen>
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
-
+  double _direction;
+  double pi = 3.1415926;
   
   @override
   void initState() {
@@ -44,6 +47,11 @@ class _MapScreenState extends State<MapScreen>
     initNotification();
     super.initState();
     downloadMap();
+    FlutterCompass.events.listen((double direction) {
+      setState(() {
+        _direction = direction;
+      });
+    });
   }
 
   updatePosition() async{
@@ -51,7 +59,6 @@ class _MapScreenState extends State<MapScreen>
     Beacon mark = nearby;
     for(int i = 0;i<50;i++){
       nearby = await getNearby();
-      if(nearby == null) continue;
       if(nearby.accuracy<mark.accuracy)
         mark = nearby;
       // print(mark.minor.toString()+' : '+mark.accuracy.toString());
@@ -134,19 +141,54 @@ class _MapScreenState extends State<MapScreen>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(title: new Text(region)),
+        //appBar: new AppBar(title: new Text(region)),
         body: new Builder(
             builder: (context) => new GestureDetector(
                 child: new Container(
                     decoration:BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('images/carte.png')
+                        image: AssetImage('images/carte.png'),
+                        fit: BoxFit.fill
                       )
                     ),
-                    child: new CustomPaint(
+                    child: new Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: 180,
+                          left: 35,
+                          child:
+                            new Text(
+                              region,
+                              style: new TextStyle(fontSize: 21.0, color: Colors.brown[600],fontFamily: 'Broadwell'),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                              textAlign: TextAlign.left,
+                       )),
+                        Positioned(
+                          top: 100,
+                          left:35,
+                          right:35,
+                          child:
+                            new Text(
+                              'PolyMuseum',
+                              style: new TextStyle(fontSize: 41.0, color: Colors.brown[600],fontFamily: 'Broadwell'),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              textAlign: TextAlign.left,
+                       )),
+                       CustomPaint(
                         willChange: true,
                         child: new Container(),
-                        foregroundPainter: new MapPainter(lines,points,current))))));
+                        foregroundPainter: new MapPainter(lines,points)),
+                       Positioned(
+                        top:current.dy-27.5,
+                        left: current.dx-27.5,
+                        child:Transform.rotate(
+                          angle: ((_direction ?? 0) * (pi / 180)),
+                          child: new Image.asset('images/Point.png'))),
+                      ])))));
   }
 
   initNotification() async {
@@ -154,7 +196,7 @@ class _MapScreenState extends State<MapScreen>
     var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
     var initSetttings = new InitializationSettings(android, iOS);
-    flutterLocalNotificationsPlugin.initialize(initSetttings);
+    await flutterLocalNotificationsPlugin.initialize(initSetttings);
   }
 
   Future onSelectNotification(String payload) {
@@ -274,8 +316,7 @@ class _MapScreenState extends State<MapScreen>
 class MapPainter extends CustomPainter{
   final lines;
   final points;
-  final current;
-  MapPainter(this.lines,this.points,this.current);
+  MapPainter(this.lines,this.points);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -289,7 +330,7 @@ class MapPainter extends CustomPainter{
       canvas.drawLine(line.p1,line.p2, paint);
     for (Offset point in points)
       canvas.drawCircle(point, 10, paint);
-    canvas.drawCircle(current, 20, paint);
+    //canvas.drawCircle(current, 20, paint);
   }
 
   @override
