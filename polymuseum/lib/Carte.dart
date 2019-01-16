@@ -30,13 +30,14 @@ class _CarteState extends State<Carte>
   final lines = <Line>[];
   final points = <Offset>[];
   String region = '';
-  Offset current = Offset(0, 0);
+  Offset current = Offset(-100, -100);
   _CarteState();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
 
+  
   @override
   void initState() {
     initBeacon();
@@ -47,12 +48,22 @@ class _CarteState extends State<Carte>
 
   updatePosition() async{
     Beacon nearby = await getNearby();
-    // for(int i = 0;i<50;i++){
-    //   nearby = await getNearby();
-    //   if(nearby.accuracy<mark.accuracy)
-    //     mark = nearby;
-    //   print(mark.minor.toString()+' : '+mark.accuracy.toString());
-    // }
+    Beacon mark = nearby;
+    for(int i = 0;i<50;i++){
+      nearby = await getNearby();
+      if(nearby == null) continue;
+      if(nearby.accuracy<mark.accuracy)
+        mark = nearby;
+      // print(mark.minor.toString()+' : '+mark.accuracy.toString());
+    }
+    if(mark == null){
+      setState(() {
+              region = 'Signal Not Found!';
+            });
+      return;
+    }
+
+    nearby = mark;
     var o = await DBHelper.instance.getExhibition(3);
     final map = o['beacons'];
     double x;
@@ -70,14 +81,21 @@ class _CarteState extends State<Carte>
       }
       j++;
     }
+    if(region == regionName) return;
     setState(() {
           current = Offset(x, y);
           region = regionName;
         });
+    print('---------------\n\n\n'+'Now at '+region+'\n\n\n----------------');
     await pushWelcomeMessage(nearby.proximityUUID, nearby.minor, nearby.accuracy);
+
+
   }
   
   downloadMap() async{
+    setState(() {
+          region = 'Locating...';
+        });
     updatePosition();
     var o = await DBHelper.instance.getExhibition(3);
     final map = o['beacons'];
@@ -227,7 +245,7 @@ class _CarteState extends State<Carte>
 
   pushWelcomeMessage(String UUID, int minor, double distance) async {
     if(currentMinor == minor && currentUUID == UUID) return;
-    if(distance > 0.6) return;
+    //if(distance > 0.6) return;
     currentMinor = minor;
     currentUUID = UUID;
     var text = await DBHelper.instance.getExhibitionByUUID(UUID);
