@@ -1,21 +1,22 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:polymuseum/genVisitScreen.dart';
-import 'package:polymuseum/docGenScreen.dart';
-import 'package:polymuseum/quizPersoScreen.dart';
+import 'package:polymuseum/screens/VisitGeneratorScreen.dart';
+import 'package:polymuseum/screens/DocGeneratorScreen.dart';
+import 'package:polymuseum/screens/QuizGeneratorScreen.dart';
+import 'package:polymuseum/screens/QuizPersoScreen.dart';
 import 'package:polymuseum/global.dart' as global;
 
-class GenQuizPersoScreen extends StatefulWidget {
+class QuizGeneratorScreen extends StatefulWidget {
 
-  GenQuizPersoScreen({Key key}) : super(key: key);
+  QuizGeneratorScreen({Key key}) : super(key: key);
 
   @override
-  _GenQuizPersoScreenState createState() => _GenQuizPersoScreenState();
+  _QuizGeneratorScreenState createState() => _QuizGeneratorScreenState();
 
 }
 
-class _GenQuizPersoScreenState extends State<GenQuizPersoScreen> {
+class _QuizGeneratorScreenState extends State<QuizGeneratorScreen> {
 
   List<int> nbQuiz = [];
   int selectedNb = 1;

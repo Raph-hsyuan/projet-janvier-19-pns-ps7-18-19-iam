@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:polymuseum/resultQuizScreen.dart';
+import 'package:polymuseum/screens/QuizResultScreen.dart';
 
 class QuizPersoScreen extends StatefulWidget {
 
@@ -83,7 +83,7 @@ class QuizPersoScreen extends StatefulWidget {
                 checkAnswers();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ResultQuizScreen(score : score, scoreTotal : scoreTotal)),
+                  MaterialPageRoute(builder: (context) => QuizResultScreen(score : score, scoreTotal : scoreTotal)),
                 );
               },
             ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:polymuseum/main.dart';
-import 'DBHelper.dart';
-import 'global.dart' as global;
+import '../DBHelper.dart';
+import '../global.dart' as global;
 
-class GenVisitScreen extends StatelessWidget {
+class VisitGeneratorScreen extends StatelessWidget {
 
-  GenVisitScreen({Key key}) : super(key: key);
+  VisitGeneratorScreen({Key key}) : super(key: key);
   DBHelper dbHelper = DBHelper.instance; 
 
   @override

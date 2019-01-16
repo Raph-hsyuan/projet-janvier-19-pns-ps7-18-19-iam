@@ -1,18 +1,18 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:polymuseum/genQuizPersoScreen.dart';
-import 'package:polymuseum/QrScreen.dart';
-import 'package:polymuseum/Beacons.dart';
-import 'package:polymuseum/BeaconScanner.dart';
+import 'package:polymuseum/screens/QuizGeneratorScreen.dart';
+import 'package:polymuseum/screens/QrScreen.dart';
+import 'package:polymuseum/sensors/Beacons.dart';
+import 'package:polymuseum/sensors/BeaconScanner.dart';
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
-import 'genVisitScreen.dart';
-import 'package:polymuseum/VisitChooserScreen.dart';
-import 'package:polymuseum/CheckListScreen.dart';
-import 'package:polymuseum/BeaconsTool.dart';
-import 'package:polymuseum/Carte.dart';
-import 'package:polymuseum/Scanner.dart';
+import 'package:polymuseum/screens/VisitGeneratorScreen.dart';
+import 'package:polymuseum/screens/VisitChooserScreen.dart';
+import 'package:polymuseum/screens/CheckListScreen.dart';
+import 'package:polymuseum/sensors/BeaconsTool.dart';
+import 'package:polymuseum/screens/MapScreen.dart';
+import 'package:polymuseum/sensors/Scanner.dart';
 
 void main() async {
 
@@ -68,7 +68,7 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Carte()),
+                    MaterialPageRoute(builder: (context) => MapScreen()),
                   );
                 },
               ),
@@ -86,7 +86,7 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => GenVisitScreen()),
+                    MaterialPageRoute(builder: (context) => VisitGeneratorScreen()),
                   );
                 },
               ),
@@ -95,7 +95,7 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => GenQuizPersoScreen()),
+                    MaterialPageRoute(builder: (context) => QuizGeneratorScreen()),
                   );
                 },
               ),
