@@ -18,12 +18,12 @@ class Line{
   }
 }
 
-class Carte extends StatefulWidget {
+class MapScreen extends StatefulWidget {
   @override
-  _CarteState createState() => new _CarteState();
+  _MapScreenState createState() => new _MapScreenState();
 }
 
-class _CarteState extends State<Carte>
+class _MapScreenState extends State<MapScreen>
     with SingleTickerProviderStateMixin {
 
   //AnimationController controller;
@@ -31,7 +31,7 @@ class _CarteState extends State<Carte>
   final points = <Offset>[];
   String region = '';
   Offset current = Offset(-100, -100);
-  _CarteState();
+  _MapScreenState();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};

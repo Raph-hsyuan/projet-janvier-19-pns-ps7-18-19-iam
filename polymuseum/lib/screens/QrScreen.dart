@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:polymuseum/Scanner.dart';
+import 'package:polymuseum/sensors/Scanner.dart';
 import 'package:flutter/services.dart';
-import 'DBHelper.dart';
+import '../DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
-import 'package:polymuseum/BeaconsTool.dart';
+import 'package:polymuseum/sensors/BeaconsTool.dart';
 
 
 import 'package:auto_size_text/auto_size_text.dart';

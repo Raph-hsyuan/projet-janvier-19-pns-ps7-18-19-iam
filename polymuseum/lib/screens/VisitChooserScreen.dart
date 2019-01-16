@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:polymuseum/CheckListScreen.dart';
+import 'package:polymuseum/screens/CheckListScreen.dart';
 import 'package:polymuseum/global.dart' as global;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:polymuseum/DBHelper.dart';
