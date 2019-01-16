@@ -8,7 +8,7 @@ import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
 import 'package:polymuseum/sensors/BeaconsTool.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
-
+import 'package:polymuseum/boussole.dart';
 void main() async {
 
   //Beacons

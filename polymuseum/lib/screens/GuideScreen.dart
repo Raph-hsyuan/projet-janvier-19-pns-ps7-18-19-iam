@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polymuseum/boussole.dart';
 import 'package:polymuseum/screens/QuizGeneratorScreen.dart';
 import 'package:polymuseum/screens/QrScreen.dart';
 import 'package:polymuseum/screens/VisitorScreen.dart';
@@ -53,6 +54,15 @@ class GuideScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => QuizGeneratorScreen()),
+                  );
+                },
+              ),
+              RaisedButton(
+                child: Text('Boussole Tester'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyApp()),
                   );
                 },
               ),
