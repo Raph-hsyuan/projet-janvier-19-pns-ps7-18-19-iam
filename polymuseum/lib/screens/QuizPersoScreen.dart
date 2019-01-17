@@ -16,12 +16,14 @@ class QuizPersoScreen extends StatefulWidget {
     final List<Map<String, dynamic>> objects;
     bool enter = false;
     List<String> answers = [];
-    List<String> goodAnswers =[];
+    List<String> goodAnswers = [];
+    List<List<String>> wrongAnswers = [];
     int score = 0;
     int scoreTotal = 0;
 
     _QuizPersoScreen({@required this.objects}) : super() {
       for(var o in objects){
+        answers.add("");
         textAff.add(o["question"]["text"]);
         goodAnswers.add(o["question"]["good_answer"]);
       }
@@ -60,7 +62,7 @@ class QuizPersoScreen extends StatefulWidget {
                                     ),
                                     //controller: myController,
                                     onChanged: (text) {
-                                      answers.add(text);
+                                      answers[index] = text.trim();
                                     },
                                   ),
                                 ),
@@ -83,7 +85,7 @@ class QuizPersoScreen extends StatefulWidget {
                 checkAnswers();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => QuizResultScreen(score : score, scoreTotal : scoreTotal)),
+                  MaterialPageRoute(builder: (context) => QuizResultScreen(score : score, scoreTotal : scoreTotal, wrongAnswers: wrongAnswers)),
                 );
               },
             ),
@@ -95,15 +97,19 @@ class QuizPersoScreen extends StatefulWidget {
 
 
   void checkAnswers(){
-    print('Valider');
+    print('---------Valider---------');
     print(answers);
     for(int  i=0; i<goodAnswers.length;++i){
-      if(answers.contains(goodAnswers[i]))
+      if(answers[i] == goodAnswers[i].trim())
         score = score + 10;
+      else
+        wrongAnswers.add([textAff[i], answers[i], goodAnswers[i]]);
     }
     scoreTotal = 10 * objects.length;
     print(score);
     print(scoreTotal);
+    print("---------------------");
+    print(wrongAnswers);
   }
 
 }
