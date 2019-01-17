@@ -31,6 +31,7 @@ class _MapScreenState extends State<MapScreen>
   //AnimationController controller;
   final lines = <Line>[];
   final points = <Offset>[];
+  final tresors = <Offset>[];
   String region = '';
   Offset current = Offset(-100, -100);
   _MapScreenState();
@@ -45,6 +46,7 @@ class _MapScreenState extends State<MapScreen>
   double shaking = 0.2;
   bool shakeState = false;
   int shakeStopCount = 0;
+  String currentBeaconID = '';
 
   @override
   void initState() {
@@ -74,8 +76,27 @@ class _MapScreenState extends State<MapScreen>
       }
       if(shakeState){
         shaking == 0? shaking = 0.2:shaking = 0;
+        updateTresor();
       }
     });
+  }
+
+  updateTresor() async {
+    List<Offset> foundTresors = [];
+    int index = 0;
+    while(await DBHelper.instance.getObject(index)!=null){
+      var tre = await DBHelper.instance.getObject(index);
+      if(tre['checkBeacons']['IDlong'] == currentBeaconID)
+        foundTresors.add(Offset(tre['position']['x']*1.0,tre['position']['y']*1.0));
+      index++;
+    }
+    print('111111\n\n\n\n');
+    if(foundTresors.length!=0){
+      setState(() {
+              tresors.clear();
+              tresors.addAll(foundTresors);
+            });
+    }
   }
 
   updatePosition() async{
@@ -122,11 +143,10 @@ class _MapScreenState extends State<MapScreen>
           current = Offset(x, y);
           region = regionName;
         });
+    currentBeaconID = nearby.proximityUUID+nearby.major.toString()+nearby.minor.toString();
     print('---------------\n\n\n'+'Now at '+region+'\n\n\n----------------');
     var text = await DBHelper.instance.getExhibitionByUUID(nearby.proximityUUID);
     await _showNotification(text['message'][nearby.minor.toString()]);
-
-
   }
   
   downloadMap() async{
@@ -192,6 +212,7 @@ class _MapScreenState extends State<MapScreen>
                                   backgroundColor:Colors.brown[600],
                                   icon: Icon(Icons.camera_alt),
                                   label: Text("Scan"),
+                                  onPressed: null,
                                   )
                           ),
                         Positioned(
@@ -242,7 +263,7 @@ class _MapScreenState extends State<MapScreen>
                        CustomPaint(
                         willChange: true,
                         child: new Container(),
-                        foregroundPainter: new MapPainter(lines,points)),
+                        foregroundPainter: new MapPainter(lines,points,tresors)),
                        Positioned(
                         top:current.dy-27.5,
                         left: current.dx-27.5,
@@ -376,7 +397,8 @@ class _MapScreenState extends State<MapScreen>
 class MapPainter extends CustomPainter{
   final lines;
   final points;
-  MapPainter(this.lines,this.points);
+  final tresors;
+  MapPainter(this.lines,this.points,this.tresors);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -390,7 +412,9 @@ class MapPainter extends CustomPainter{
       canvas.drawLine(line.p1,line.p2, paint);
     for (Offset point in points)
       canvas.drawCircle(point, 10, paint);
-    //canvas.drawCircle(current, 20, paint);
+    paint.color = Colors.red;
+    for (Offset tresor in tresors)
+      canvas.drawCircle(tresor, 2, paint);
   }
 
   @override
