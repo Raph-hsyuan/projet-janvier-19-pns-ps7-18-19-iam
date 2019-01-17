@@ -1,5 +1,4 @@
 import 'package:polymuseum/DBHelper.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MockedDBHelper extends DBHelper {
 
