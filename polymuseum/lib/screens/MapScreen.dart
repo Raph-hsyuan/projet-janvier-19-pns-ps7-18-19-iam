@@ -7,6 +7,8 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:sensors/sensors.dart';
+import 'dart:math';
 // BeaconsTool beaconsTool = BeaconsTool.instance;
 
 class Line{
@@ -35,11 +37,14 @@ class _MapScreenState extends State<MapScreen>
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   StreamSubscription<double> _streamdoubleRanging;
+  List<double> _userAccelerometerValues;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   double _direction;
   double pi = 3.1415926;
   double shaking = 0.2;
+  bool shakeState = false;
+  int shakeStopCount = 0;
 
   @override
   void initState() {
@@ -50,8 +55,26 @@ class _MapScreenState extends State<MapScreen>
     _streamdoubleRanging = FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
-        shaking == 0? shaking = 0.2:shaking = 0;
       });
+    });
+    userAccelerometerEvents.listen((UserAccelerometerEvent event) {
+      double standard = 20.0;
+      double ac = pow(pow(event.x,2)+pow(event.y,2)+pow(event.z,2),0.5);
+      if(ac>standard && !shakeState){
+        setState(() {
+                  shakeState = true;       
+                  print('startshaking');
+                });
+      }else if(ac<standard && shakeState && shakeStopCount++ > 5){
+        setState(() {
+                  shakeState =false;
+                  shakeStopCount =0;
+                  print('stopshaking');
+                });
+      }
+      if(shakeState){
+        shaking == 0? shaking = 0.2:shaking = 0;
+      }
     });
   }
 
@@ -347,7 +370,6 @@ class _MapScreenState extends State<MapScreen>
     }
     return mark;
   }
-
 
 }
 
