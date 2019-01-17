@@ -6,6 +6,7 @@ import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/screens/VisitChooserScreen.dart';
 import 'package:polymuseum/screens/CheckListScreen.dart';
 import 'package:polymuseum/screens/MapScreen.dart';
+import 'package:polymuseum/screens/ActivityScreen.dart';
 
 class VisitorScreen extends StatelessWidget {
 
@@ -27,6 +28,15 @@ class VisitorScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => QrScreen()),
+                  );
+                },
+              ),
+              RaisedButton(
+                child: Text('Activité'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ActivityScreen()),
                   );
                 },
               ),
