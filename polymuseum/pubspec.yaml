@@ -23,6 +23,7 @@ dependencies:
   permission: ^0.1.0
   simple_permissions: ^0.1.2
   flutter_compass: ^0.1.0
+  sensors:
 
 
   # The following adds the Cupertino Icons font to your application.
