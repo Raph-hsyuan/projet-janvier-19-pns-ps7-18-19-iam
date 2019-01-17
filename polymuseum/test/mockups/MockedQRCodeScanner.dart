@@ -1,4 +1,4 @@
-import 'package:polymuseum/Scanner.dart';
+import 'package:polymuseum/sensors/Scanner.dart';
 
 class MockedQRCodeScanner extends Scanner {
 
