@@ -54,6 +54,7 @@ flutter:
   assets:
     - images/carte.png
     - images/Point.png
+    - images/shake.png
   fonts:
     - family: Broadwell
       fonts:

@@ -39,7 +39,8 @@ class _MapScreenState extends State<MapScreen>
   final _beacons = <Beacon>[];
   double _direction;
   double pi = 3.1415926;
-  
+  double shaking = 0.2;
+
   @override
   void initState() {
     initBeacon();
@@ -49,6 +50,7 @@ class _MapScreenState extends State<MapScreen>
     _streamdoubleRanging = FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
+        shaking == 0? shaking = 0.2:shaking = 0;
       });
     });
   }
@@ -161,6 +163,15 @@ class _MapScreenState extends State<MapScreen>
                     child: new Stack(
                       children: <Widget>[
                         Positioned(
+                          top: 490,
+                          left: 35,
+                          child : FloatingActionButton.extended(
+                                  backgroundColor:Colors.brown[600],
+                                  icon: Icon(Icons.camera_alt),
+                                  label: Text("Scan"),
+                                  )
+                          ),
+                        Positioned(
                           top: 180,
                           left: 35,
                           child:
@@ -185,6 +196,26 @@ class _MapScreenState extends State<MapScreen>
                               maxLines: 1,
                               textAlign: TextAlign.left,
                        )),
+                       Positioned(
+                        top:450,
+                        left: 230,
+                        child:Transform.rotate(
+                          angle: shaking,
+                          child: new Image.asset('images/shake.png'))
+                        ),
+                      Positioned(
+                        top: 560,
+                        left: 200,
+                        child:
+                          new Text(
+                              'Secouez le telephone\nCherchez les tresors',
+                              style: new TextStyle(fontSize: 11.0, color: Colors.brown[600],fontFamily: 'Broadwell'),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                              textAlign: TextAlign.left,
+                          )
+                        ),
                        CustomPaint(
                         willChange: true,
                         child: new Container(),
