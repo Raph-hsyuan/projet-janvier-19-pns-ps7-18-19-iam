@@ -64,7 +64,6 @@ class QrScreenState extends State<QrScreen> {
 
       setState(() {
         if(o!=null){
-        print("OKKKKKKKKKKKKKKKKKKK="+o.toString());
         result = o["name"].toString();
         description = o["description"].toString();
         question = o["question"]["text"];

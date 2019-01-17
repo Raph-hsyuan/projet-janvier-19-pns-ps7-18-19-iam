@@ -8,9 +8,14 @@ import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/global.dart' as global;
 import 'package:polymuseum/sensors/BeaconsTool.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
+import 'package:polymuseum/sensors/Gyroscope.dart';
+import 'package:polymuseum/sensors/Accelerometer.dart';
+import 'screens/RaceScreen.dart';
+
+
 
 void main() async {
-
+    
   //Beacons
   BeaconScanner.setInstanceOnce(new BeaconScanner());
   BeaconsTool.setInstanceOnce(new BeaconsTool());
@@ -27,13 +32,20 @@ void main() async {
   //QrCode Scanner
   Scanner.setInstanceOnce(new Scanner());
 
+  //Accelerometer
+  Accelerometer.setInstanceOnce(new Accelerometer());
 
+  //Gyroscope
+  Gyroscope.setInstanceOnce(new Gyroscope());
 
+  
   runApp(MaterialApp(
     title: 'PolyMusem',
     home: FirstScreen(),
   ));
 }
+
+
 
 class FirstScreen extends StatelessWidget {
 
@@ -64,6 +76,14 @@ class FirstScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => GuideScreen()),
+                  );
+                },
+              ),RaisedButton(
+                child: Text('Run'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RaceScreen()),
                   );
                 },
               ),
