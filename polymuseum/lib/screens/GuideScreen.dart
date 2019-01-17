@@ -6,6 +6,7 @@ import 'package:polymuseum/screens/VisitorScreen.dart';
 import 'package:polymuseum/sensors/Beacons.dart';
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/screens/VisitGeneratorScreen.dart';
+import 'package:polymuseum/global.dart' as global;
 
 class GuideScreen extends StatelessWidget {
 
@@ -13,6 +14,7 @@ class GuideScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Guide'),
@@ -72,7 +74,7 @@ class GuideScreen extends StatelessWidget {
         floatingActionButton: new FloatingActionButton(
             elevation: 0.0,
             child: new Icon(Icons.compare_arrows),
-            backgroundColor: new Color(0xFFE57373),
+            backgroundColor: new Color(0xFF000000),
             onPressed: (){
               Navigator.push(
                 context,
