@@ -21,10 +21,15 @@ class Accelerometer {
     }
   }
 
-  listen(){
+  listen(
+    void callback (List<double> coordinates)
+  ){
   userAccelerometerEvents.listen((UserAccelerometerEvent event) {
         _userAccelerometerValues = <double>[event.x, event.y, event.z];
+        callback(_userAccelerometerValues);
   });
+
+
   }
 
 }
