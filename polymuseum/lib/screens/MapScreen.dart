@@ -7,8 +7,6 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-
-// StreamSubscription<RangingResult> _streamRanging;
 // BeaconsTool beaconsTool = BeaconsTool.instance;
 
 class Line{
@@ -36,6 +34,7 @@ class _MapScreenState extends State<MapScreen>
   _MapScreenState();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
+  StreamSubscription<double> _streamdoubleRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   double _direction;
@@ -47,7 +46,7 @@ class _MapScreenState extends State<MapScreen>
     initNotification();
     super.initState();
     downloadMap();
-    FlutterCompass.events.listen((double direction) {
+    _streamdoubleRanging = FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
       });
@@ -57,16 +56,16 @@ class _MapScreenState extends State<MapScreen>
   updatePosition() async{
     Beacon nearby = await getNearby();
     Beacon mark = nearby;
-    for(int i = 0;i<50;i++){
+    for(int i = 0;i<40;i++){
+      Beacon check;
       nearby = await getNearby();
+      check = nearby;
+      if(check == null) break;
       if(nearby.accuracy<mark.accuracy)
         mark = nearby;
       // print(mark.minor.toString()+' : '+mark.accuracy.toString());
     }
     if(mark == null){
-      setState(() {
-              region = 'Signal Not Found!';
-            });
       return;
     }
 
@@ -90,6 +89,11 @@ class _MapScreenState extends State<MapScreen>
     }
     if(region == regionName) return;
     setState(() {
+    // MEMORY LEAK hasn't been handled
+    // this cause the memory leak because it can be still running after the 
+    // _streamdoubleRanging have been cancelled, but it must be a async method called by
+    // _streamdoubleRanging beacause _streandoubleRanging itself can't be async
+    // -HUANG
           current = Offset(x, y);
           region = regionName;
         });
@@ -134,6 +138,9 @@ class _MapScreenState extends State<MapScreen>
   void dispose() {
     if (_streamRanging != null) {
       _streamRanging.cancel();
+    }
+    if (_streamdoubleRanging != null) {
+      _streamdoubleRanging.cancel();
     }
     super.dispose();
   }
