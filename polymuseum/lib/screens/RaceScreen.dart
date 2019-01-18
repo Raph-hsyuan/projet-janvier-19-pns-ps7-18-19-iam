@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:polymuseum/sensors/Accelerometer.dart';
 import 'dart:math' as math;
 import 'package:polymuseum/DBHelper.dart';
+import 'package:polymuseum/sensors/NFCScanner.dart';
+import 'ActivityScreen.dart';
 
  Accelerometer accelerometer = Accelerometer.instance;
  DBHelper dbHelper = DBHelper.instance;
+ NFCScanner nfcScanner = NFCScanner.instance;
  
  class RaceScreen extends StatefulWidget{  
   @override
@@ -33,18 +36,21 @@ class RaceScreenState extends State<RaceScreen>  {
   
   int oldTime = 0;
 
+  List<Widget> leaderboard = [Text("\nLEARDERBOARD :\n")];
+  
   final control = TextEditingController();
   Stopwatch stopwatch = new Stopwatch()..start();
 
   @override
   void initState() {
     accelerometer.listen(update);
+    nfc();
   }
+
 
   void update(List<double> xyz){
     if(!stopped){
     setState(() {
-      if(!stopped){
           acceleration = xyz;
           celerity[0] =xyz[0]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
           celerity[1] =xyz[1]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
@@ -61,11 +67,11 @@ class RaceScreenState extends State<RaceScreen>  {
           c = speed*3.6;
           maxC = maxSpeed*3.6;
           result = c;
-          }
+          
     });}
   }
 
-  int stop(){
+  Future stop() async{
      setState(() {
             result = maxC;
             stopped = true;
@@ -73,6 +79,24 @@ class RaceScreenState extends State<RaceScreen>  {
         }); 
     stopwatch.reset();
     stopwatch.stop();
+
+
+    for(int id = 0; id<10;id++ ){
+      var o = await dbHelper.getDocumentInCollectionById("sprints", id);
+      if(o!=null){
+        setState(() {
+          leaderboard.add(Text(o["name"]+"temps :"+o["speed"].toString()));
+         });
+      }
+
+    }
+  }
+
+  void nfc() async{
+    var o = await nfcScanner.read();
+    if(o.split("en")[1] == "4"){
+      stop();
+    }
   }
 
   void submit() async{
@@ -80,10 +104,10 @@ class RaceScreenState extends State<RaceScreen>  {
       var o = await dbHelper.getDocumentInCollectionById("sprints", id);
       if( o==null || o!=null && double.parse(o["speed"]) < maxC){
         if(control.text != null){
-          dbHelper.addSprint(control.text, maxC);
+          dbHelper.addSprint(id,control.text, maxC);
         }
         else{
-          dbHelper.addSprint("default", maxC);
+          dbHelper.addSprint(id,"default", maxC);
         }
         Navigator.of(context).pop();
         return;
@@ -94,6 +118,7 @@ class RaceScreenState extends State<RaceScreen>  {
   
     @override
   build(BuildContext context){
+
     return new Scaffold(
       body: new ListView(
         children : <Widget>[
@@ -110,9 +135,8 @@ class RaceScreenState extends State<RaceScreen>  {
         icon: Icon(Icons.stop),
         label: Text("Stop"),
         onPressed: stop,
-       
       ),
-      ]
+      !stopped ? Text("loading...") : Column ( children : leaderboard,),      ]
     ));
   }
 }
