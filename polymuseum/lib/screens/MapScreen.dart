@@ -9,6 +9,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:sensors/sensors.dart';
 import 'dart:math';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:vibrate/vibrate.dart';
+
+
 // BeaconsTool beaconsTool = BeaconsTool.instance;
 
 class Line{
@@ -38,7 +42,6 @@ class _MapScreenState extends State<MapScreen>
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   StreamSubscription<double> _streamdoubleRanging;
-  List<double> _userAccelerometerValues;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
   double _direction;
@@ -47,6 +50,7 @@ class _MapScreenState extends State<MapScreen>
   bool shakeState = false;
   int shakeStopCount = 0;
   String currentBeaconID = '';
+  static AudioCache player = new AudioCache();
 
   @override
   void initState() {
@@ -64,7 +68,9 @@ class _MapScreenState extends State<MapScreen>
       double ac = pow(pow(event.x,2)+pow(event.y,2)+pow(event.z,2),0.5);
       if(ac>standard && !shakeState){
         setState(() {
+                  player.play('shaking.wav');
                   shakeState = true;       
+                  updateTresor();
                   print('startshaking');
                 });
       }else if(ac<standard && shakeState && shakeStopCount++ > 5){
@@ -76,7 +82,6 @@ class _MapScreenState extends State<MapScreen>
       }
       if(shakeState){
         shaking == 0? shaking = 0.2:shaking = 0;
-        updateTresor();
       }
     });
   }
@@ -90,13 +95,18 @@ class _MapScreenState extends State<MapScreen>
         foundTresors.add(Offset(tre['position']['x']*1.0,tre['position']['y']*1.0));
       index++;
     }
-    print('111111\n\n\n\n');
-    if(foundTresors.length!=0){
-      setState(() {
-              tresors.clear();
-              tresors.addAll(foundTresors);
-            });
+    
+    print('update tresor\n\n\n\n');
+    setState(() {
+            tresors.clear();
+            tresors.addAll(foundTresors);
+          });
+    if(tresors.length>0){
+      player.play('found.wav');
+      Vibrate.vibrate();
     }
+
+    
   }
 
   updatePosition() async{
