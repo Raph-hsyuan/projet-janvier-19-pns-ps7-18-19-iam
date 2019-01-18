@@ -59,6 +59,7 @@ flutter:
     - images/shake.png
     - assets/shaking.wav
     - assets/found.wav
+    - assets/validate.wav
   fonts:
     - family: Broadwell
       fonts:

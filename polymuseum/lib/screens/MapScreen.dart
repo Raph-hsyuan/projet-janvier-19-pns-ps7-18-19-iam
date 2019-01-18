@@ -11,6 +11,8 @@ import 'package:sensors/sensors.dart';
 import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:vibrate/vibrate.dart';
+import 'package:polymuseum/sensors/Scanner.dart';
+import 'package:polymuseum/screens/Progress.dart';
 
 
 // BeaconsTool beaconsTool = BeaconsTool.instance;
@@ -36,6 +38,8 @@ class _MapScreenState extends State<MapScreen>
   final lines = <Line>[];
   final points = <Offset>[];
   final tresors = <Offset>[];
+  static final tresorsFound = <Offset>[];
+  bool checkingState = false;
   String region = '';
   Offset current = Offset(-100, -100);
   _MapScreenState();
@@ -51,6 +55,7 @@ class _MapScreenState extends State<MapScreen>
   int shakeStopCount = 0;
   String currentBeaconID = '';
   static AudioCache player = new AudioCache();
+  Scanner scanner = Scanner.instance;
 
   @override
   void initState() {
@@ -221,10 +226,22 @@ class _MapScreenState extends State<MapScreen>
                           child : FloatingActionButton.extended(
                                   backgroundColor:Colors.brown[600],
                                   icon: Icon(Icons.camera_alt),
-                                  label: Text("Scan"),
-                                  onPressed: null,
+                                  label: new Text("Scan",style:new TextStyle(fontFamily: 'Broadwell')),
+                                  onPressed: (){validateTresors();},
                                   )
                           ),
+                        region == 'Locating...' || checkingState?
+                        Positioned(
+                          top: 220,
+                          left: 200,
+                          child: new MyProgress(size: new Size(100.0, 20.0),color: Colors.brown)
+                        )
+                        :
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: new MyProgress(size: new Size(100.0, 20.0),color: Colors.brown)
+                        ),
                         Positioned(
                           top: 180,
                           left: 35,
@@ -237,20 +254,20 @@ class _MapScreenState extends State<MapScreen>
                               maxLines: 3,
                               textAlign: TextAlign.left,
                        )),
-                        Positioned(
+                      Positioned(
                           top: 100,
                           left:35,
                           right:35,
                           child:
                             new Text(
                               'PolyMuseum',
-                              style: new TextStyle(fontSize: 41.0, color: Colors.brown[600],fontFamily: 'Broadwell'),
+                              style: new TextStyle(fontWeight:FontWeight.w900,fontSize: 41.0, color: Colors.brown[600],fontFamily: 'Broadwell'),
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               textAlign: TextAlign.left,
                        )),
-                       Positioned(
+                      Positioned(
                         top:450,
                         left: 230,
                         child:Transform.rotate(
@@ -273,7 +290,7 @@ class _MapScreenState extends State<MapScreen>
                        CustomPaint(
                         willChange: true,
                         child: new Container(),
-                        foregroundPainter: new MapPainter(lines,points,tresors)),
+                        foregroundPainter: new MapPainter(lines,points,tresors,tresorsFound)),
                        Positioned(
                         top:current.dy-27.5,
                         left: current.dx-27.5,
@@ -402,13 +419,89 @@ class _MapScreenState extends State<MapScreen>
     return mark;
   }
 
+  validateTresors() async{
+    String result = '';
+    try{
+      String qrInfo = await scanner.scan();
+      int intId = int.parse(qrInfo);
+      bool check = false;
+      setState(() {
+          checkingState = true;
+            });
+      for(int i=0; i<20; i++){
+        if(!check)
+          check = await checkPosition(intId);
+        else
+          break;
+      }
+      setState(() {
+          checkingState = false;
+            });
+      if(!check){
+          result = "Vous devez aller plus proche !";
+      }else{
+        var tre = await DBHelper.instance.getObject(intId);
+        for(var f in tresorsFound)
+          if(f.dx == tre['position']['x']*1.0 && f.dy == tre['position']['y']*1.0)
+            result = 'Il est deja valide !';
+        if(result == ''){
+            setState(() {
+              tresorsFound.add(Offset(tre['position']['x']*1.0,tre['position']['y']*1.0));
+            });
+        player.play('validate.wav');
+      }
+      }
+
+    } on PlatformException catch (ex) {
+      if (ex.code == Scanner.instance.CameraAccessDenied) {
+          result = "L'application n'a pas la permission d'utiliser la camera du telephone";
+      } else {
+          result = "Une erreur est survenue";
+      }
+    } on FormatException {
+        result = "Vous n'avez rien scanne";
+      
+    } catch (ex) {
+          result = "Une erreur est survenue";
+    }
+    if(result != '')
+      showAlertDialog(context,result);
+  }
+
+
+  void showAlertDialog(BuildContext context,String message) {
+      NavigatorState navigator= context.rootAncestorStateOfType(const TypeMatcher<NavigatorState>());
+      debugPrint("navigator is null?"+(navigator==null).toString());
+      showDialog(
+        context: context,
+        builder: (_) => new AlertDialog(
+          shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+          title: new Text("UNE ERREUR",style:new TextStyle(fontSize: 20.0,fontFamily: 'Broadwell')),
+          content: new Text(message,style:new TextStyle(fontSize: 16.0,fontFamily: 'Broadwell')),
+          )
+      );
+  }
+
+  Future<bool> checkPosition(int index) async {
+    var obj = await DBHelper.instance.getObject(index);
+    String beaconUUID = obj['checkBeacons']['UUID'];
+    String beaconMinor = obj['checkBeacons']['minor'];
+    print('Target Signal not found, Another trail..');
+    for(Beacon beacon in _beacons)
+      if(beacon.proximityUUID == beaconUUID && beacon.minor.toString() == beaconMinor)
+        if(beacon.accuracy <= 1.5)
+          return true;
+    return false;
+  }
+
 }
 
 class MapPainter extends CustomPainter{
   final lines;
   final points;
   final tresors;
-  MapPainter(this.lines,this.points,this.tresors);
+  final tresorsfound;
+  MapPainter(this.lines,this.points,this.tresors,this.tresorsfound);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -425,13 +518,13 @@ class MapPainter extends CustomPainter{
     paint.color = Colors.red;
     for (Offset tresor in tresors)
       canvas.drawCircle(tresor, 2, paint);
+    paint.color = Colors.green;
+    paint.strokeWidth = 8;
+    for (Offset found in tresorsfound)
+      canvas.drawCircle(found, 3, paint);
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
 
 }
-
-
-
-
