@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polymuseum/screens/GuideScreen.dart';
+import 'package:polymuseum/screens/HuntScreen.dart';
 import 'package:polymuseum/screens/QuizGeneratorScreen.dart';
 import 'package:polymuseum/screens/QrScreen.dart';
 import 'package:polymuseum/DBHelper.dart';
@@ -46,6 +47,15 @@ class VisitorScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MapScreen()),
+                  );
+                },
+              ),
+              RaisedButton(
+                child: Text('Chasse aux tresors'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HuntScreen()),
                   );
                 },
               ),
