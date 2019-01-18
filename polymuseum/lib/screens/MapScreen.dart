@@ -12,8 +12,7 @@ import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:vibrate/vibrate.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
-import 'package:polymuseum/screens/Progress.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // BeaconsTool beaconsTool = BeaconsTool.instance;
 
@@ -232,15 +231,15 @@ class _MapScreenState extends State<MapScreen>
                           ),
                         region == 'Locating...' || checkingState?
                         Positioned(
-                          top: 220,
-                          left: 200,
-                          child: new MyProgress(size: new Size(100.0, 20.0),color: Colors.brown)
+                          top: 180,
+                          left: 280,
+                          child: SpinKitPouringHourglass(color: Colors.brown[600],size: 50.0,)
                         )
                         :
                         Positioned(
-                          top: 0,
-                          left: 0,
-                          child: new MyProgress(size: new Size(100.0, 20.0),color: Colors.brown)
+                          top: 160,
+                          left: 280,
+                          child: new Image.asset('images/yeah.png')
                         ),
                         Positioned(
                           top: 180,
