@@ -75,4 +75,12 @@ class DBHelper {
     });
     return seed;
   }  
+
+  void addSprint(String username, double speed) {
+    Firestore.instance.collection("sprints").add({
+      "id": username,
+      "speed" : speed.round().toString(),
+    });
+  }
+
 }
