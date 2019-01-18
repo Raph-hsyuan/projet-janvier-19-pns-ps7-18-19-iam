@@ -28,7 +28,7 @@ dependencies:
   audioplayers: ^0.8.0
   vibrate: ^0.0.4
 
-  #loading animation
+  #Very nice !!!! loading animation see https://github.com/jogboms/flutter_spinkit
   flutter_spinkit: "^3.1.0"
   
   # The following adds the Cupertino Icons font to your application.
