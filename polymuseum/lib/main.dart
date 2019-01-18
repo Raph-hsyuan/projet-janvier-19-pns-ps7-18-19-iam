@@ -11,7 +11,7 @@ import 'package:polymuseum/sensors/Scanner.dart';
 import 'package:polymuseum/sensors/Gyroscope.dart';
 import 'package:polymuseum/sensors/Accelerometer.dart';
 import 'screens/RaceScreen.dart';
-
+import 'package:polymuseum/sensors/NFCScanner.dart';
 
 
 void main() async {
@@ -38,6 +38,8 @@ void main() async {
   //Gyroscope
   Gyroscope.setInstanceOnce(new Gyroscope());
 
+  //NFC Scanner
+  NFCScanner.setInstanceOnce(new NFCScanner());
   
   runApp(MaterialApp(
     title: 'PolyMusem',
