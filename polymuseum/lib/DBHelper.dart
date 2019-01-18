@@ -66,6 +66,10 @@ class DBHelper {
     return getDocumentInCollectionById("visits", id);
   }
 
+  Future<Map<String, dynamic>> getSprint(int id) async{
+        return getDocumentInCollectionById("sprints", id);
+  }
+
   
   int addVisit(Set<String> objectsIds) {
     int seed = objectsIds.toString().hashCode;
@@ -76,10 +80,11 @@ class DBHelper {
     return seed;
   }  
 
-  void addSprint(String username, double speed) {
+  void addSprint(int id,String username, double speed) {
     Firestore.instance.collection("sprints").add({
-      "id": username,
+      "id": id,
       "speed" : speed.round().toString(),
+      "name" : username
     });
   }
 
