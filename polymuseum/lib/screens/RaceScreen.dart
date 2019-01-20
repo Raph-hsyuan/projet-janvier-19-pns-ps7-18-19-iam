@@ -5,7 +5,6 @@ import 'package:polymuseum/sensors/Accelerometer.dart';
 import 'dart:math' as math;
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/sensors/NFCScanner.dart';
-import 'ActivityScreen.dart';
 
  Accelerometer accelerometer = Accelerometer.instance;
  DBHelper dbHelper = DBHelper.instance;
@@ -39,12 +38,14 @@ class RaceScreenState extends State<RaceScreen>  {
   List<Widget> leaderboard = [Text("\nLEARDERBOARD :\n")];
   
   final control = TextEditingController();
-  Stopwatch stopwatch = new Stopwatch()..start();
+  Stopwatch stopwatch = new Stopwatch();
 
   @override
   void initState() {
+    super.initState();
     accelerometer.listen(update);
     nfc();
+    stopwatch.start();
   }
 
 
@@ -55,7 +56,8 @@ class RaceScreenState extends State<RaceScreen>  {
           celerity[0] =xyz[0]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
           celerity[1] =xyz[1]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
           celerity[2] =xyz[2]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
-
+          
+          //calculs de la vitesse selon les 3 axes
           speed = math.sqrt(math.pow(celerity[0], 2)+math.pow(celerity[1], 2)+math.pow(celerity[2], 2));
 
           oldTime = stopwatch.elapsedMilliseconds;
@@ -64,6 +66,7 @@ class RaceScreenState extends State<RaceScreen>  {
             maxSpeed = speed;
           }
 
+          //c = speed in Km/H
           c = speed*3.6;
           maxC = maxSpeed*3.6;
           result = c;
@@ -81,11 +84,11 @@ class RaceScreenState extends State<RaceScreen>  {
     stopwatch.stop();
 
 
-    for(int id = 0; id<10;id++ ){
+    for(int id = 0; id<10; id++ ){
       var o = await dbHelper.getDocumentInCollectionById("sprints", id);
       if(o!=null){
         setState(() {
-          leaderboard.add(Text(o["name"]+"temps :"+o["speed"].toString()));
+          leaderboard.add(Text(o["name"]+"temps : "+o["speed"].toString()));
          });
       }
 
@@ -93,6 +96,7 @@ class RaceScreenState extends State<RaceScreen>  {
   }
 
   void nfc() async{
+    //active le sacanner NFC, si le le téléphone scan le tag NFC correspondant à la fin de la course, la méthode stop() est appelé
     var o = await nfcScanner.read();
     if(o.split("en")[1] == "4"){
       stop();
@@ -102,7 +106,7 @@ class RaceScreenState extends State<RaceScreen>  {
   void submit() async{
     for(int id = 0; id<10;id++ ){
       var o = await dbHelper.getDocumentInCollectionById("sprints", id);
-      if( o==null || o!=null && double.parse(o["speed"]) < maxC){
+      if( o==null || o!=null && double.parse(o["speed"]) < maxC){ //le participant peut entrer dans le leaderboard seulement s'il fait parti du top10
         if(control.text != null){
           dbHelper.addSprint(id,control.text, maxC);
         }

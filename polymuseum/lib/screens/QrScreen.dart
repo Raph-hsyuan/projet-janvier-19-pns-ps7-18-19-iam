@@ -36,10 +36,16 @@ class QrScreenState extends State<QrScreen> {
     super.dispose();
   }
 
+  /*
+  La fonction _scanQR va changé l'état du screen en fonction de ce qui est lu par le scanner. 
+  Les exceptions (tels que la permissions refusé ou le fait de ne rien scanner) sont attrapées et affiche un message à l'attention de l'utilisateur.
+  */
+
   Future _scanQR() async {
     try {
       String qrResult = await Scanner.instance.scan();
       setState(() {
+        //le message "chargement en cours..." est affiché en attendant de recevoir le résultat de la base de données et du scanner de beacon
         result = "Chargement en cours...";
         description = " ";
         question = " ";
@@ -50,13 +56,16 @@ class QrScreenState extends State<QrScreen> {
 
       bool check = false;
       for(int i=0; i<100; i++){
-        if(!check)
+        if(!check){
+        //recherche du beacon correspondant à l'objet scanné 
           check = await beaconsTool.checkPosition(intId);
+        }
         else
           break;
       }
       if(!check){
           setState(() {
+          //si l'utilisateur est trop loin du beacon correspondant à l'objet scanné, il est invité à se rapprocher
           result = "Vous devez aller plus proche !";
         });
         return;
@@ -111,7 +120,7 @@ class QrScreenState extends State<QrScreen> {
   });
   }
 
-   Widget _validateQuestion(){
+   void _validateQuestion(){
      if(Text(questionController.text).data==answer){
         showDialog(
       context: context,

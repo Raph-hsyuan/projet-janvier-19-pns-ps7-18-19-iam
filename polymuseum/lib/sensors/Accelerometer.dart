@@ -1,11 +1,9 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-
 import 'package:sensors/sensors.dart';
 
-
+/*
+Comme la plupart des class associées à un capteur, il s'agit ici d'un wrapper
+permettant au reste du code d'être totalement indépendant de l'implémentation du plugin.
+*/
 class Accelerometer {
 
   static Accelerometer  _instance;
@@ -21,6 +19,7 @@ class Accelerometer {
     }
   }
 
+  //listen appel la méthode passé en paramètre à chaques fois que la valeur lu par l'accelerometre change et met à jour userAccelerometerValues.
   listen(
     void callback (List<double> coordinates)
   ){
