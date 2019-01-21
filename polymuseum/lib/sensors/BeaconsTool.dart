@@ -6,8 +6,7 @@ import 'package:polymuseum/DBHelper.dart';
 
 class BeaconsTool {
 
-  factory BeaconsTool() => _getInstance();
-  static BeaconsTool get instance => _getInstance();
+  static BeaconsTool get instance => _instance;
   static BeaconsTool _instance;
 
   static setInstanceOnce(BeaconsTool obj){
@@ -20,18 +19,6 @@ class BeaconsTool {
   final _beacons = <Beacon>[];
   DBHelper dbHelper = DBHelper.instance;
   double LEGALDISTANCE = 1.5;
-
-
-  BeaconsTool._internal(){
-    return;
-  }
-
-  static BeaconsTool _getInstance(){
-    if(_instance == null){
-      _instance = new BeaconsTool._internal();
-    }
-    return _instance;
-  }
 
   List<Beacon> getBeacons(){
     return _beacons;
