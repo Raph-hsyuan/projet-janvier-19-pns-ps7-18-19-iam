@@ -61,6 +61,9 @@ flutter:
     - images/Point.png
     - images/shake.png
     - images/yeah.png
+    - images/guide.jpg
+    - images/tourist.jpg
+    - images/welcome.png
     - assets/shaking.wav
     - assets/found.wav
     - assets/validate.wav
