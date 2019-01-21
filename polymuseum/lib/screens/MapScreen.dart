@@ -93,13 +93,18 @@ class _MapScreenState extends State<MapScreen>
   updateTresor() async {
     List<Offset> foundTresors = [];
     int index = 0;
+    setState(() {
+          checkingState = true;
+        });
     while(await DBHelper.instance.getObject(index)!=null){
       var tre = await DBHelper.instance.getObject(index);
       if(tre['checkBeacons']['IDlong'] == currentBeaconID)
         foundTresors.add(Offset(tre['position']['x']*1.0,tre['position']['y']*1.0));
       index++;
     }
-    
+    setState(() {
+          checkingState = false;
+        });
     print('update tresor\n\n\n\n');
     setState(() {
             tresors.clear();
