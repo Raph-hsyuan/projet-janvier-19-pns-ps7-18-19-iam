@@ -12,7 +12,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 DBHelper dbHelper = DBHelper.instance;
 BeaconsTool beaconsTool = BeaconsTool.instance;
-
+  //Beacons
+  
 class QrScreen extends StatefulWidget {
   @override
   QrScreenState createState() {
@@ -35,7 +36,11 @@ class QrScreenState extends State<QrScreen> {
     questionController.dispose();
     super.dispose();
   }
-
+  @override
+  void initState(){
+    super.initState();
+    beaconsTool.initBeacon();
+  }
   /*
   La fonction _scanQR va changé l'état du screen en fonction de ce qui est lu par le scanner. 
   Les exceptions (tels que la permissions refusé ou le fait de ne rien scanner) sont attrapées et affiche un message à l'attention de l'utilisateur.
@@ -246,4 +251,6 @@ class QrScreenState extends State<QrScreen> {
       )
     );
   }
+
+
   } 

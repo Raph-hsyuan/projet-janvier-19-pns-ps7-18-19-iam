@@ -5,7 +5,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/services.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:sensors/sensors.dart';
 import 'dart:math';
@@ -42,7 +42,7 @@ class _MapScreenState extends State<MapScreen>
   String region = '';
   Offset current = Offset(-100, -100);
   _MapScreenState();
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   StreamSubscription<double> _streamdoubleRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
@@ -59,7 +59,7 @@ class _MapScreenState extends State<MapScreen>
   @override
   void initState() {
     initBeacon();
-    // initNotification();
+    initNotification();
     super.initState();
     downloadMap();
     _streamdoubleRanging = FlutterCompass.events.listen((double direction) {
@@ -160,7 +160,7 @@ class _MapScreenState extends State<MapScreen>
     currentBeaconID = nearby.proximityUUID+nearby.major.toString()+nearby.minor.toString();
     print('---------------\n\n\n'+'Now at '+region+'\n\n\n----------------');
     var text = await DBHelper.instance.getExhibitionByUUID(nearby.proximityUUID);
-    // await _showNotification(text['message'][nearby.minor.toString()]);
+    await _showNotification(text['message'][nearby.minor.toString()]);
   }
   
   downloadMap() async{
@@ -299,13 +299,13 @@ class _MapScreenState extends State<MapScreen>
                       ])))));
   }
 
-  // initNotification() async {
-  //   flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  //   var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   var iOS = new IOSInitializationSettings();
-  //   var initSetttings = new InitializationSettings(android, iOS);
-  //   await flutterLocalNotificationsPlugin.initialize(initSetttings);
-  // }
+  initNotification() async {
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android, iOS);
+    await flutterLocalNotificationsPlugin.initialize(initSetttings);
+  }
 
   Future onSelectNotification(String payload) {
     debugPrint("payload : $payload");
@@ -318,22 +318,22 @@ class _MapScreenState extends State<MapScreen>
     );  
   }
 
-  // Future _showNotification(String message) async {
-  //   if(message.isEmpty) return;
-  //   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-  //       'your channel id', 'your channel name', 'your channel description',
-  //       importance: Importance.Max, priority: Priority.High);
-  //   var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-  //   var platformChannelSpecifics = new NotificationDetails(
-  //       androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-  //   await flutterLocalNotificationsPlugin.show(
-  //     0,
-  //     'Welcome to '+ message,
-  //     'Bonne journee',
-  //     platformChannelSpecifics,
-  //     payload: 'Default_Sound',
-  //   );
-  // }
+  Future _showNotification(String message) async {
+    if(message.isEmpty) return;
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'your channel id', 'your channel name', 'your channel description',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Welcome to '+ message,
+      'Bonne journee',
+      platformChannelSpecifics,
+      payload: 'Default_Sound',
+    );
+  }
 
   initBeacon() async {
     try {
@@ -346,16 +346,8 @@ class _MapScreenState extends State<MapScreen>
     final regions = <Region>[];
 
     if (Platform.isIOS) {
-      regions.add(
-        Region(
-            identifier: 'Cubeacon',
-            proximityUUID: 'CB10023F-A318-3394-4199-A8730C7C1AEC'),
-      );
       regions.add(Region(
-          identifier: 'Apple Airlocate',
-          proximityUUID: 'E2C56DB5-DFFB-48D2-B060-D0F5A71096E0'));
-      regions.add(Region(
-          identifier: 'PolyMuseum',
+          identifier: 'com.bluecats.BlueCats',
           proximityUUID: '61687109-905F-4436-91F8-E602F514C96D'));
     } else {
       regions.add(Region(identifier: 'com.beacon'));
