@@ -64,6 +64,7 @@ flutter:
     - assets/shaking.wav
     - assets/found.wav
     - assets/validate.wav
+    - assets/zelda.wav
   fonts:
     - family: Broadwell
       fonts:
