@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:polymuseum/sensors/Accelerometer.dart';
 import 'dart:math' as math;
 import 'package:polymuseum/DBHelper.dart';
-import 'package:polymuseum/sensors/NFCScanner.dart';
 
  Accelerometer accelerometer = Accelerometer.instance;
  DBHelper dbHelper = DBHelper.instance;
- NFCScanner nfcScanner = NFCScanner.instance;
  
  class Tennis extends StatefulWidget{  
   @override
@@ -26,6 +24,7 @@ class TennisState extends State<Tennis>  {
 
   double result = 0;
   bool stopped = true;
+  bool over =false;
   String title = "Donner un coup puissant pour obtenir votre score";
 
   double c = 0;
@@ -63,28 +62,19 @@ class TennisState extends State<Tennis>  {
      setState(() {
             result = maxC;
             stopped = true;
-            title = "Points de vitesse du coup maximum :";
+            title = "";
         }); 
     stopwatch.reset();
     stopwatch.stop();
+    over = true;
   }
 
   start(){
     accelerometer.listen(update);
-    nfc();
     stopwatch.start();
     setState(() {
               stopped = false;
         });
-  }
-
-
-  void nfc() async{
-    //active le sacanner NFC, si le le téléphone scan le tag NFC correspondant à la fin de la course, la méthode stop() est appelé
-    var o = await nfcScanner.read();
-    if(o.split("en")[1] == "4"){
-      stop();
-    }
   }
 
   @override
@@ -92,10 +82,19 @@ class TennisState extends State<Tennis>  {
     return new Scaffold(
       body: new ListView(
         children : <Widget>[
-          Text(title, style: new TextStyle(fontSize: 30.0)),
-          Text(result.round().toString(), style: new TextStyle(fontSize: 150.0)),
-          Text("POINTS : ", style: new TextStyle(fontSize: 75.0)),
-        stopped ? FloatingActionButton.extended(
+          Container(
+          margin: EdgeInsets.only(top: 50, bottom: 50),
+          child:Text("TENNIS", style: new TextStyle(fontSize: 50.0), textAlign: TextAlign.center,),),
+          !over ? Container(
+            margin: EdgeInsets.all(10),
+            padding: EdgeInsets.all(20.0),
+          child:Text(title, style: new TextStyle(fontSize: 30.0), textAlign: TextAlign.center,),
+          ) : Container(),
+          over ? Text(result.round().toString(), style: new TextStyle(fontSize: 80.0), textAlign: TextAlign.center,) : new Container(),
+          over ? Text("POINTS", style: new TextStyle(fontSize: 65.0), textAlign: TextAlign.center,) : new Container(),
+          new Container(
+            padding: EdgeInsets.only(top: 60.0),
+        child : !over ? (stopped ? FloatingActionButton.extended(
         icon: Icon(Icons.label_important ),
         label: Text("Start"),
         onPressed: start,
@@ -103,8 +102,8 @@ class TennisState extends State<Tennis>  {
         icon: Icon(Icons.stop),
         label: Text("Stop"),
         onPressed: stop,
-      ),
-    ]
+      )): Container()
+          )]
     ));
   }
 }
