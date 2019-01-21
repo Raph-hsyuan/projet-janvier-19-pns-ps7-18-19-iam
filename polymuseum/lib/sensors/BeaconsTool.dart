@@ -48,14 +48,9 @@ class BeaconsTool {
     final regions = <Region>[];
 
     if (Platform.isIOS) {
-      regions.add(
-        Region(
-            identifier: 'Cubeacon',
-            proximityUUID: 'CB10023F-A318-3394-4199-A8730C7C1AEC'),
-      );
       regions.add(Region(
-          identifier: 'Apple Airlocate',
-          proximityUUID: 'E2C56DB5-DFFB-48D2-B060-D0F5A71096E0'));
+          identifier: 'com.bluecats.BlueCats',
+          proximityUUID: '61687109-905F-4436-91F8-E602F514C96D'));
     } else {
       regions.add(Region(identifier: 'com.beacon'));
     }

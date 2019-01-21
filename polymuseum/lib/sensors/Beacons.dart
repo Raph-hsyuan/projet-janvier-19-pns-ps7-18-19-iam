@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:polymuseum/DBHelper.dart';
 
 int currentMinor = 0;
 String currentUUID = '';
-String currentRegion = 'Locating';
+String currentRegion = 'Locating...';
 
 void main() => runApp(Beacons());
 String beaconName;
@@ -20,7 +19,7 @@ class Beacons extends StatefulWidget {
 }
 
 class _BeaconsState extends State<Beacons> {
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
@@ -29,16 +28,16 @@ class _BeaconsState extends State<Beacons> {
   void initState() {
     super.initState();
     initBeacon();
-    // initNotification();
+    initNotification();
   }
 
-  // initNotification() async {
-  //   flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  //   var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   var iOS = new IOSInitializationSettings();
-  //   var initSetttings = new InitializationSettings(android, iOS);
-  //   flutterLocalNotificationsPlugin.initialize(initSetttings);
-  // }
+  initNotification() async {
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android, iOS);
+    flutterLocalNotificationsPlugin.initialize(initSetttings);
+  }
 
   Future onSelectNotification(String payload) {
     debugPrint("payload : $payload");
@@ -51,22 +50,22 @@ class _BeaconsState extends State<Beacons> {
     );  
   }
 
-  // Future _showNotification(String message) async {
-  //   if(message.isEmpty) return;
-  //   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-  //       'your channel id', 'your channel name', 'your channel description',
-  //       importance: Importance.Max, priority: Priority.High);
-  //   var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-  //   var platformChannelSpecifics = new NotificationDetails(
-  //       androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-  //   await flutterLocalNotificationsPlugin.show(
-  //     0,
-  //     'Welcome to '+ message,
-  //     'Bonne journee',
-  //     platformChannelSpecifics,
-  //     payload: 'Default_Sound',
-  //   );
-  // }
+  Future _showNotification(String message) async {
+    if(message.isEmpty) return;
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'your channel id', 'your channel name', 'your channel description',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Welcome to '+ message,
+      'Bonne journee',
+      platformChannelSpecifics,
+      payload: 'Default_Sound',
+    );
+  }
 
   initBeacon() async {
     try {
@@ -79,16 +78,9 @@ class _BeaconsState extends State<Beacons> {
     final regions = <Region>[];
 
     if (Platform.isIOS) {
-      regions.add(
-        Region(
-            identifier: 'Cubeacon',
-            proximityUUID: 'CB10023F-A318-3394-4199-A8730C7C1AEC'),
-      );
+
       regions.add(Region(
-          identifier: 'Apple Airlocate',
-          proximityUUID: 'E2C56DB5-DFFB-48D2-B060-D0F5A71096E0'));
-      regions.add(Region(
-          identifier: 'PolyMuseum',
+          identifier: 'com.bluecats.BlueCats',
           proximityUUID: '61687109-905F-4436-91F8-E602F514C96D'));
     } else {
       regions.add(Region(identifier: 'com.beacon'));
@@ -136,7 +128,7 @@ class _BeaconsState extends State<Beacons> {
     currentMinor = minor;
     currentUUID = UUID;
     var text = await DBHelper.instance.getExhibitionByUUID(UUID);
-    //  _showNotification(text['message'][minor.toString()]);
+     _showNotification(text['message'][minor.toString()]);
      currentRegion = text['message'][minor.toString()] + ' Region';
   }
 

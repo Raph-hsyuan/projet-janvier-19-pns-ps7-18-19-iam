@@ -15,12 +15,7 @@ import 'package:polymuseum/sensors/NFCScanner.dart';
 
 
 void main() async {
-    
-  //Beacons
-  BeaconScanner.setInstanceOnce(new BeaconScanner());
-  BeaconsTool.setInstanceOnce(new BeaconsTool());
-  BeaconsTool beaconsTool = BeaconsTool.instance;
-  await beaconsTool.initBeacon();
+  
 
   //DBHelper
   DBHelper.setInstanceOnce(DBHelper());
