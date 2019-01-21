@@ -1,16 +1,25 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:polymuseum/sensors/Accelerometer.dart';
-import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
+import 'package:polymuseum/sensors/NFCScanner.dart';
+import 'package:polymuseum/screens/RaceScreen.dart';
+
+NFCScanner nfcScanner = NFCScanner.instance;
+
+const _NFC_ID_TO_ACTIVITY_MAP = {
+  "0" : RaceScreen.create
+}; 
+
+const _NFC_ID_TO_ACTIVITY_NAME = {
+  "0" : "Course",
+  "1" : "Tennis"
+};
 
 
-Accelerometer accelerometer = Accelerometer.instance;
 
 class ActivityScreen extends StatefulWidget{  
   @override
   _ActivityScreenState createState(){
-    
     return new _ActivityScreenState();
   }
 }
@@ -19,6 +28,13 @@ class _ActivityScreenState extends State<ActivityScreen>  {
 
   @override
   Widget build(BuildContext context) {
+
+    nfcScanner.read().then((result){
+      var activity_constructor = _NFC_ID_TO_ACTIVITY_MAP[result];
+      Navigator.push(context, MaterialPageRoute(builder:(context) => activity_constructor()));
+    });
+
+
     return Scaffold(
       appBar: AppBar(title: Text("Activités")),
       body: Center(
@@ -28,8 +44,19 @@ class _ActivityScreenState extends State<ActivityScreen>  {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(30),
-              child: Text("Pour lancer une activité poser votre téléphone sur le tag NFC de l'activité.", textAlign: TextAlign.center)
-            )
+              child: Text("Passez votre téléphone sur le tag NFC d'une des activités suivantes pour la démarrer :")
+            ),
+            Expanded(
+              child: 
+              ListView.builder(
+                itemCount: _NFC_ID_TO_ACTIVITY_NAME.length,
+                itemBuilder: (context, index){
+                  return ListTile(
+                    title: Text(_NFC_ID_TO_ACTIVITY_NAME.values.elementAt(index), textAlign: TextAlign.center)
+                  );
+                },
+              )
+            ),
           ],
         ) 
       ),

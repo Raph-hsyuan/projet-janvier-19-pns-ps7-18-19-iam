@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:polymuseum/DBHelper.dart';
 
 int currentMinor = 0;
@@ -20,7 +20,7 @@ class Beacons extends StatefulWidget {
 }
 
 class _BeaconsState extends State<Beacons> {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   StreamSubscription<RangingResult> _streamRanging;
   final _regionBeacons = <Region, List<Beacon>>{};
   final _beacons = <Beacon>[];
@@ -29,16 +29,16 @@ class _BeaconsState extends State<Beacons> {
   void initState() {
     super.initState();
     initBeacon();
-    initNotification();
+    // initNotification();
   }
 
-  initNotification() async {
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
-    var iOS = new IOSInitializationSettings();
-    var initSetttings = new InitializationSettings(android, iOS);
-    flutterLocalNotificationsPlugin.initialize(initSetttings);
-  }
+  // initNotification() async {
+  //   flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+  //   var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+  //   var iOS = new IOSInitializationSettings();
+  //   var initSetttings = new InitializationSettings(android, iOS);
+  //   flutterLocalNotificationsPlugin.initialize(initSetttings);
+  // }
 
   Future onSelectNotification(String payload) {
     debugPrint("payload : $payload");
@@ -51,22 +51,22 @@ class _BeaconsState extends State<Beacons> {
     );  
   }
 
-  Future _showNotification(String message) async {
-    if(message.isEmpty) return;
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'Welcome to '+ message,
-      'Bonne journee',
-      platformChannelSpecifics,
-      payload: 'Default_Sound',
-    );
-  }
+  // Future _showNotification(String message) async {
+  //   if(message.isEmpty) return;
+  //   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+  //       'your channel id', 'your channel name', 'your channel description',
+  //       importance: Importance.Max, priority: Priority.High);
+  //   var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+  //   var platformChannelSpecifics = new NotificationDetails(
+  //       androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+  //   await flutterLocalNotificationsPlugin.show(
+  //     0,
+  //     'Welcome to '+ message,
+  //     'Bonne journee',
+  //     platformChannelSpecifics,
+  //     payload: 'Default_Sound',
+  //   );
+  // }
 
   initBeacon() async {
     try {
@@ -136,7 +136,7 @@ class _BeaconsState extends State<Beacons> {
     currentMinor = minor;
     currentUUID = UUID;
     var text = await DBHelper.instance.getExhibitionByUUID(UUID);
-     _showNotification(text['message'][minor.toString()]);
+    //  _showNotification(text['message'][minor.toString()]);
      currentRegion = text['message'][minor.toString()] + ' Region';
   }
 
