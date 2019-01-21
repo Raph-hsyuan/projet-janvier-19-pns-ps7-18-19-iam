@@ -1,3 +1,4 @@
+import 'package:audioplayers/audio_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:polymuseum/DBHelper.dart';
@@ -23,6 +24,7 @@ class _HuntScreen extends State<HuntScreen> {
  bool check = false;
  bool show = false;
  String result = "Chargement";
+ static AudioCache player = new AudioCache();
 
   _HuntScreen() : super() {
     getExhibDescription();
@@ -188,6 +190,11 @@ class _HuntScreen extends State<HuntScreen> {
          result = "Bravo";
          check = false;
          show = true;
+         try{
+           player.play('zelda.wav');
+         }catch(e){
+           print(e);
+         }
        }});
 
    } catch (ex) {

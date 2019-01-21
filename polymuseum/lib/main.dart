@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:polymuseum/screens/GuideScreen.dart';
 import 'package:polymuseum/screens/VisitorScreen.dart';
 import 'package:polymuseum/sensors/BeaconScanner.dart';
@@ -15,7 +16,7 @@ import 'package:polymuseum/sensors/NFCScanner.dart';
 
 
 void main() async {
-  
+
 
   //DBHelper
   DBHelper.setInstanceOnce(DBHelper());
@@ -35,7 +36,9 @@ void main() async {
 
   //NFC Scanner
   NFCScanner.setInstanceOnce(new NFCScanner());
-  
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(MaterialApp(
     title: 'PolyMusem',
     home: FirstScreen(),
