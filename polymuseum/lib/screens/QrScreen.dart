@@ -34,6 +34,7 @@ class QrScreenState extends State<QrScreen> {
   void dispose() {
     // Clean up the controller when the Widget is disposed
     questionController.dispose();
+    beaconsTool.dispose();
     super.dispose();
   }
   @override

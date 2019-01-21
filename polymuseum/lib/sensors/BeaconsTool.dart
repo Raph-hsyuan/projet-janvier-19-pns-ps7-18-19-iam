@@ -23,7 +23,10 @@ class BeaconsTool {
   List<Beacon> getBeacons(){
     return _beacons;
   }
-
+  void dispose(){
+    _streamRanging.cancel();
+  }
+  
   initBeacon() async {
     try {
       await flutterBeacon.initializeScanning;
