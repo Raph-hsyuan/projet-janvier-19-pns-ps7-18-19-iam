@@ -2,7 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
+    <key>NSCameraUsageDescription</key>
+    <string>Camera permission is required for barcode scanning.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We Use beacons to locate</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We need to Locate</string>
+    <key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
