@@ -78,14 +78,17 @@ class QrScreenState extends State<QrScreen> {
 
       setState(() {
         if(o!=null){
-        result = o["name"].toString();
-        description = o["description"].toString();
-        question = o["question"]["text"];
-        answer = o["question"]["good_answer"];
-        _question = true;
-      }});
+          result = o["name"].toString();
+          description = o["description"].toString();
+          question = o["question"]["text"];
+          answer = o["question"]["good_answer"];
+          _question = true;
+          global.instance.addScannedObject(o);
+        }else{
+          result = "Le QR code n'est pas valide";
+        }
+      });
 
-      global.instance.addScannedObject(o);
 
     } on PlatformException catch (ex) {
       if (ex.code == Scanner.instance.CameraAccessDenied) {

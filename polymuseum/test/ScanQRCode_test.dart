@@ -54,8 +54,6 @@ void main() async {
       })
     );
 
-
-
     await tester.tap(find.text("Visiteur"));
     await tester.pumpAndSettle();
 
@@ -105,6 +103,64 @@ void main() async {
   });
 
 
+  testWidgets('Scan d\' un QR Code valide trop éloigné', (WidgetTester tester) async {
+
+
+   await tester.pumpWidget(
+      StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+        return MaterialApp(
+          home: FirstScreen()
+        );
+      })
+    );
+
+
+    await tester.tap(find.text("Visiteur"));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text("Scan QR-code"));
+    await tester.pumpAndSettle();
+
+    (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = false;
+    (Scanner.instance as MockedScanner).qr_code = "0"; 
+
+
+    await tester.tap(find.text("Scan"));
+    await tester.pumpAndSettle();
+    
+    expect(find.text("Vous devez aller plus proche !"), findsOneWidget);
+
+  });
+
+
+  testWidgets('Scan d\' un QR Code invalide', (WidgetTester tester) async {
+
+
+   await tester.pumpWidget(
+      StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+        return MaterialApp(
+          home: FirstScreen()
+        );
+      })
+    );
+
+
+    await tester.tap(find.text("Visiteur"));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text("Scan QR-code"));
+    await tester.pumpAndSettle();
+
+    (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = true;
+    (Scanner.instance as MockedScanner).qr_code = "1000"; //QR code invalide
+
+
+    await tester.tap(find.text("Scan"));
+    await tester.pumpAndSettle();
+    
+    expect(find.text("Le QR code n'est pas valide"), findsOneWidget);
+
+  });
 }
 
 
