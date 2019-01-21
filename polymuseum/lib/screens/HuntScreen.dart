@@ -4,6 +4,10 @@ import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/screens/QrScreen.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
 
+/*
+* Les fonctions présentes dans ce fichiers sont pour la plupart mockee car le client
+* ne voulais pas que l'on perde du temps pour un si petit apport de valeur*/
+
 class HuntScreen extends StatefulWidget {
 
 
@@ -103,6 +107,10 @@ class _HuntScreen extends State<HuntScreen> {
     );
   }
 
+  /*
+  * Fonction permettant de recuperer dans la base de donnees la description d'une exposition
+  * Elle affecte au texte a afficher (textAff) la description voulue tout en appellant setState
+  * ce qui permet de recreer les widgets avec la bonne description affichee*/
   Future getExhibDescription() async {
     try {
       var desc = await DBHelper.instance.getExhibition(3);
@@ -114,6 +122,10 @@ class _HuntScreen extends State<HuntScreen> {
         print(e);
     }
   }
+ /*
+  * Fonction permettant de recuperer dans la base de donnees la description d'un objet
+  * Elle affecte au texte a afficher (textAff2) la description voulue tout en appellant setState
+  * ce qui permet de recreer les widgets avec la bonne description affichee*/
  Future getObjectDescription() async {
    try {
      var desc = await DBHelper.instance.getObject(1);
@@ -125,7 +137,10 @@ class _HuntScreen extends State<HuntScreen> {
      print(e);
    }
  }
-
+/*
+  * Fonction permettant de verifier si l utilisateur se trouve a proximité du bon beacon
+  * Elle met a jour un booleen check tout en appellant setState
+  * ce qui permet de recreer les widgets avec le bon booleen*/
   void checkPresence() async{
     print("enter");
     try {
@@ -145,6 +160,9 @@ class _HuntScreen extends State<HuntScreen> {
     }
   }
 
+  /*
+  La fonction _scanQR va changé l'état du screen en fonction de ce qui est lu par le scanner.
+  */
  Future _scanQR() async {
    try {
      String qrResult = await Scanner.instance.scan();
