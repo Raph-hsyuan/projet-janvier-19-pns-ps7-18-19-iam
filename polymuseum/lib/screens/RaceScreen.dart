@@ -10,7 +10,12 @@ import 'package:polymuseum/sensors/NFCScanner.dart';
  DBHelper dbHelper = DBHelper.instance;
  NFCScanner nfcScanner = NFCScanner.instance;
  
- class RaceScreen extends StatefulWidget{  
+class RaceScreen extends StatefulWidget{  
+
+  static create(){
+    return new RaceScreen(); 
+  }
+
   @override
   RaceScreenState createState(){
     return new RaceScreenState();
@@ -98,7 +103,7 @@ class RaceScreenState extends State<RaceScreen>  {
   void nfc() async{
     //active le sacanner NFC, si le le téléphone scan le tag NFC correspondant à la fin de la course, la méthode stop() est appelé
     var o = await nfcScanner.read();
-    if(o.split("en")[1] == "4"){
+    if(o == "4"){
       stop();
     }
   }
