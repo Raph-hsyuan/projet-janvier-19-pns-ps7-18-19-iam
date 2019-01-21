@@ -8,7 +8,12 @@ import 'package:polymuseum/DBHelper.dart';
  Accelerometer accelerometer = Accelerometer.instance;
  DBHelper dbHelper = DBHelper.instance;
  
- class Tennis extends StatefulWidget{  
+ class Tennis extends StatefulWidget{ 
+
+  static create(){
+    return new Tennis(); 
+  }
+
   @override
   TennisState createState(){
     return new TennisState();

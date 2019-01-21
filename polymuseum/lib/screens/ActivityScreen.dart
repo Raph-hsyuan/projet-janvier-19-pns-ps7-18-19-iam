@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:polymuseum/sensors/NFCScanner.dart';
 import 'package:polymuseum/screens/RaceScreen.dart';
+import 'TennisScreen.dart';
 
 NFCScanner nfcScanner = NFCScanner.instance;
 
 const _NFC_ID_TO_ACTIVITY_MAP = {
-  "0" : RaceScreen.create
+  "0" : RaceScreen.create,
+  "1" : Tennis.create,
+
 }; 
 
 const _NFC_ID_TO_ACTIVITY_NAME = {
@@ -32,6 +35,7 @@ class _ActivityScreenState extends State<ActivityScreen>  {
     nfcScanner.read().then((result){
       var activity_constructor = _NFC_ID_TO_ACTIVITY_MAP[result];
       Navigator.push(context, MaterialPageRoute(builder:(context) => activity_constructor()));
+      nfcScanner.stop();
     });
 
 
