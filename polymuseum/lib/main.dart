@@ -8,8 +8,13 @@ import 'package:polymuseum/sensors/Scanner.dart';
 import 'package:polymuseum/sensors/Gyroscope.dart';
 import 'package:polymuseum/sensors/Accelerometer.dart';
 import 'package:polymuseum/sensors/NFCScanner.dart';
+<<<<<<< HEAD
 import 'package:polymuseum/welcomePage/ChooseDialog.dart';
 import 'package:polymuseum/welcomePage/SplagePage.dart';
+=======
+import 'screens/TennisScreen.dart';
+
+>>>>>>> 7a7d765a6be11faf862e9c684a0e67bc977dae70
 
 void main() async {
 
@@ -32,6 +37,10 @@ void main() async {
 
   //NFC Scanner
   NFCScanner.setInstanceOnce(new NFCScanner());
+
+  //Beacon Scanner
+  BeaconsTool.setInstanceOnce(new BeaconsTool());
+
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
