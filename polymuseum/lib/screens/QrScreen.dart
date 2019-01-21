@@ -183,11 +183,16 @@ class QrScreenState extends State<QrScreen> {
             shrinkWrap: true,
             padding: EdgeInsets.all(20),
             children: <Widget>[
+              Container(
+          margin: EdgeInsets.only(top: 0, bottom: 50),
+          child:Text("INFORMATIONS", style:  new TextStyle(fontSize: 30.0, fontFamily: 'Broadwell'), textAlign: TextAlign.center,),),
               Container( 
                 padding: EdgeInsets.only(top: 0.0),
                 child : AutoSizeText(
                   result,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, ),
+                  textAlign: TextAlign.center,
+
             ),
             ),
             Container(
@@ -219,7 +224,7 @@ class QrScreenState extends State<QrScreen> {
             ),
           ) : new Container(),
           _question ? Container(
-        padding: EdgeInsets.only(top: 30.0),
+        padding: EdgeInsets.only(top: 30.0, left: 70, right: 70),
         child : FloatingActionButton.extended(
         heroTag: "btn1",
         icon: Icon(Icons.help_outline),
@@ -228,7 +233,7 @@ class QrScreenState extends State<QrScreen> {
       ),
         ) : new Container(),
         !_question && _show ? Container(
-        padding: EdgeInsets.only(top: 30.0),
+        padding: EdgeInsets.only(top: 30.0, left: 70, right: 70),
         child : FloatingActionButton.extended(
         heroTag: "btn3",
         icon: Icon(Icons.help_outline),
@@ -239,7 +244,7 @@ class QrScreenState extends State<QrScreen> {
         ) : new Container(),
 
         Container(
-        padding: EdgeInsets.only(top: 30.0),
+        padding: EdgeInsets.only(top: 30.0, left: 70, right: 70),
         child : FloatingActionButton.extended(
                         heroTag: "btn2",
 

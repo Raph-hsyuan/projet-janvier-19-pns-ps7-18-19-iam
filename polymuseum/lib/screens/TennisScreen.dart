@@ -84,7 +84,7 @@ class TennisState extends State<Tennis>  {
         children : <Widget>[
           Container(
           margin: EdgeInsets.only(top: 50, bottom: 50),
-          child:Text("TENNIS", style: new TextStyle(fontSize: 50.0), textAlign: TextAlign.center,),),
+          child:Text("TENNIS", style:  new TextStyle(fontSize: 50.0, fontFamily: 'Broadwell'), textAlign: TextAlign.center,),),
           !over ? Container(
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(20.0),
@@ -93,7 +93,7 @@ class TennisState extends State<Tennis>  {
           over ? Text(result.round().toString(), style: new TextStyle(fontSize: 80.0), textAlign: TextAlign.center,) : new Container(),
           over ? Text("POINTS", style: new TextStyle(fontSize: 65.0), textAlign: TextAlign.center,) : new Container(),
           new Container(
-            padding: EdgeInsets.only(top: 60.0),
+            padding: EdgeInsets.only(top: 60.0, left: 80, right: 80),
         child : !over ? (stopped ? FloatingActionButton.extended(
         icon: Icon(Icons.label_important ),
         label: Text("Start"),

@@ -13,6 +13,7 @@ import 'package:polymuseum/sensors/Gyroscope.dart';
 import 'package:polymuseum/sensors/Accelerometer.dart';
 import 'screens/RaceScreen.dart';
 import 'package:polymuseum/sensors/NFCScanner.dart';
+import 'screens/TennisScreen.dart';
 
 
 void main() async {
@@ -36,6 +37,10 @@ void main() async {
 
   //NFC Scanner
   NFCScanner.setInstanceOnce(new NFCScanner());
+
+  //Beacon Scanner
+  BeaconsTool.setInstanceOnce(new BeaconsTool());
+
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -83,7 +88,7 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RaceScreen()),
+                    MaterialPageRoute(builder: (context) => Tennis()),
                   );
                 },
               ),
