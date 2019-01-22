@@ -17,7 +17,10 @@ class VisitGeneratorScreen extends StatelessWidget {
       body: Center(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: 
+            global.instance.getScannedObjects().isEmpty ? [
+              Text("Scanner des objets pour pouvoir créer une visite")
+            ] : <Widget>[
             Text(
               'Voici votre clé de visite :',
               textAlign: TextAlign.center,
