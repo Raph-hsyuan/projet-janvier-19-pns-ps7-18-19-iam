@@ -13,6 +13,7 @@ String currentRegion = 'Locating...';
 
 void main() => runApp(Beacons());
 String beaconName;
+
 class Beacons extends StatefulWidget {
   @override
   _BeaconsState createState() => _BeaconsState();
@@ -47,11 +48,11 @@ class _BeaconsState extends State<Beacons> {
             title: new Text('Notification'),
             content: new Text('$payload'),
           ),
-    );  
+    );
   }
 
   Future _showNotification(String message) async {
-    if(message.isEmpty) return;
+    if (message.isEmpty) return;
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
         importance: Importance.Max, priority: Priority.High);
@@ -60,7 +61,7 @@ class _BeaconsState extends State<Beacons> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Welcome to '+ message,
+      'Welcome to ' + message,
       'Bonne journee',
       platformChannelSpecifics,
       payload: 'Default_Sound',
@@ -78,7 +79,6 @@ class _BeaconsState extends State<Beacons> {
     final regions = <Region>[];
 
     if (Platform.isIOS) {
-
       regions.add(Region(
           identifier: 'com.bluecats.BlueCats',
           proximityUUID: '61687109-905F-4436-91F8-E602F514C96D'));
@@ -123,13 +123,13 @@ class _BeaconsState extends State<Beacons> {
   }
 
   void pushWelcomeMessage(String UUID, int minor, double distance) async {
-    if(currentMinor == minor && currentUUID == UUID) return;
-    if(distance > 0.6) return;
+    if (currentMinor == minor && currentUUID == UUID) return;
+    if (distance > 0.6) return;
     currentMinor = minor;
     currentUUID = UUID;
     var text = await DBHelper.instance.getExhibitionByUUID(UUID);
-     _showNotification(text['message'][minor.toString()]);
-     currentRegion = text['message'][minor.toString()] + ' Region';
+    _showNotification(text['message'][minor.toString()]);
+    currentRegion = text['message'][minor.toString()] + ' Region';
   }
 
   @override
@@ -145,15 +145,16 @@ class _BeaconsState extends State<Beacons> {
                 children: ListTile.divideTiles(
                     context: context,
                     tiles: _beacons.map((beacon) {
-                      pushWelcomeMessage(beacon.proximityUUID, beacon.minor, beacon.accuracy);
+                      pushWelcomeMessage(
+                          beacon.proximityUUID, beacon.minor, beacon.accuracy);
                       return ListTile(
-                        title: Text(beacon.proximityUUID + beacon.minor.toString()),
+                        title: Text(
+                            beacon.proximityUUID + beacon.minor.toString()),
                         subtitle: new Row(
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             Flexible(
-                                child: Text(
-                                    'Distance: ${beacon.accuracy}m\n',
+                                child: Text('Distance: ${beacon.accuracy}m\n',
                                     style: TextStyle(fontSize: 23.0)),
                                 flex: 2,
                                 fit: FlexFit.tight)

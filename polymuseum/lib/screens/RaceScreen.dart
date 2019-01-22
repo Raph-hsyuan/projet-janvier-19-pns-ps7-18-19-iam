@@ -95,7 +95,7 @@ class RaceScreenState extends State<RaceScreen> {
   }
 
   updateLeaderBoard() async {
-    leaderboard = [Text("\nTABLEAU DES SCOREs :\n")];
+    leaderboard = [Text("\nTABLEAU DES SCORES :\n")];
     var o = await dbHelper.getSprints();
     if (o != null) {
       for (List<String> sprints in o) {

@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:polymuseum/screens/CheckListScreen.dart';
 import 'package:polymuseum/global.dart' as global;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:polymuseum/DBHelper.dart';
 
 class VisitChooserScreen extends StatefulWidget {
-
   @override
-  VisitChooserScreenState createState(){
+  VisitChooserScreenState createState() {
     return new VisitChooserScreenState();
   }
-
-
 }
 
-class VisitChooserScreenState extends State<VisitChooserScreen> { 
-
+class VisitChooserScreenState extends State<VisitChooserScreen> {
   int _seed = -1;
   String _DEFAULT_INVALID_INPUT_MSG = "La seed est un nombre";
   String _DEFAULT_ERROR_MSG = "La seed est invalide";
   String _DEFAULT_SUCCESS_MSG = "Visite chargée";
   String _DEFAULT_WAITING_MSG = "Chargement...";
-
 
   String _msg = "";
   bool _bad_seed = false;
@@ -32,73 +25,69 @@ class VisitChooserScreenState extends State<VisitChooserScreen> {
       appBar: AppBar(
         title: Text("Visite personnalisée"),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            margin: new EdgeInsets.fromLTRB(50, 25, 50, 10),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-            ),
-            child:  TextField(
-                decoration: !_bad_seed
-                  ? InputDecoration(hintText: 'Seed')
-                  : InputDecoration (
-                      hintText: 'Seed',
-                      filled: true,
-                      fillColor: Colors.redAccent[100]
-                ),
-                onChanged: (text){
-                  setState(() {
-                    print("changing 2");
-                    try{
-                      _seed = int.parse(text);
-                      _bad_seed = false;
-                      _msg = "";
-                    }catch(e){
-                      _msg = _DEFAULT_INVALID_INPUT_MSG;
-                      _bad_seed = true;
-                    }
-                  });
-                },
-                textAlign: TextAlign.center,
-              ),
+      body: Column(children: <Widget>[
+        Container(
+          margin: new EdgeInsets.fromLTRB(50, 25, 50, 10),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
           ),
-          RaisedButton(
-            child: Text("Charger la check list de la visite"),
-            onPressed: () async {
-
-              setState((){
-                _msg = _DEFAULT_WAITING_MSG;
+          child: TextField(
+            decoration: !_bad_seed
+                ? InputDecoration(hintText: 'Seed')
+                : InputDecoration(
+                    hintText: 'Seed',
+                    filled: true,
+                    fillColor: Colors.redAccent[100]),
+            onChanged: (text) {
+              setState(() {
+                print("changing 2");
+                try {
+                  _seed = int.parse(text);
+                  _bad_seed = false;
+                  _msg = "";
+                } catch (e) {
+                  _msg = _DEFAULT_INVALID_INPUT_MSG;
+                  _bad_seed = true;
+                }
               });
-
-                
-                Map<String, dynamic> visit = await DBHelper.instance.getVisit(_seed);
-                if(visit == null){
-                  setState((){
-                    _msg = _DEFAULT_ERROR_MSG;
-                    _bad_seed = true;
-                  });
-                  return;
-                }
-
-                global.instance.initCheckList();
-
-                var objectsIds = visit["objects"];
-
-                for(var id in objectsIds){
-                  Map<String, dynamic> obj = await DBHelper.instance.getObject(int.parse(id));
-                  global.instance.addCheckListObject(obj);
-                }
-
-                setState(() {
-                  _msg = _DEFAULT_SUCCESS_MSG;                  
-                });
-
             },
+            textAlign: TextAlign.center,
           ),
-          Text(_msg)
-        ]
-      ),
+        ),
+        RaisedButton(
+          child: Text("Charger la check list de la visite"),
+          onPressed: () async {
+            setState(() {
+              _msg = _DEFAULT_WAITING_MSG;
+            });
+
+            Map<String, dynamic> visit =
+                await DBHelper.instance.getVisit(_seed);
+            if (visit == null) {
+              setState(() {
+                _msg = _DEFAULT_ERROR_MSG;
+                _bad_seed = true;
+              });
+              return;
+            }
+
+            global.instance.initCheckList();
+
+            var objectsIds = visit["objects"];
+
+            for (var id in objectsIds) {
+              Map<String, dynamic> obj =
+                  await DBHelper.instance.getObject(int.parse(id));
+              global.instance.addCheckListObject(obj);
+            }
+
+            setState(() {
+              _msg = _DEFAULT_SUCCESS_MSG;
+            });
+          },
+        ),
+        Text(_msg)
+      ]),
     );
   }
 }

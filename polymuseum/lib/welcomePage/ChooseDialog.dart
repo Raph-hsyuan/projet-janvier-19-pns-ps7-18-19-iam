@@ -3,7 +3,6 @@ import 'package:polymuseum/screens/GuideScreen.dart';
 import 'package:polymuseum/screens/VisitorScreen.dart';
 
 class ChooseDialog extends Dialog {
-
   @override
   Widget build(BuildContext context) {
     return new Padding(
@@ -36,8 +35,8 @@ class ChooseDialog extends Dialog {
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              _genderChooseItemWid(1,context),
-                              _genderChooseItemWid(2,context)
+                              _genderChooseItemWid(1, context),
+                              _genderChooseItemWid(2, context)
                             ])
                       ]))
                 ])));
@@ -45,28 +44,24 @@ class ChooseDialog extends Dialog {
 
   Widget _genderChooseItemWid(var gender, var context) {
     return GestureDetector(
-        onTap: (){
+        onTap: () {
           Navigator.push(
-          context,
-          gender == 1?
-          MaterialPageRoute(builder: (context) => VisitorScreen())
-          :MaterialPageRoute(builder: (context) => GuideScreen()),
+            context,
+            gender == 1
+                ? MaterialPageRoute(builder: (context) => VisitorScreen())
+                : MaterialPageRoute(builder: (context) => GuideScreen()),
           );
         },
         child: Column(children: <Widget>[
-      Image.asset(
-          gender == 1
-              ? 'images/tourist.jpg'
-              : 'images/guide.jpg',
-          width: 135.0,
-          height: 135.0),
-      Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 40.0),
-          child: Text(gender == 1 ? 'VISITEUR' : 'GUIDE',
-              style: TextStyle(
-                  fontFamily: 'Broadwell',
-                  color: Color(gender == 1 ? 0xff4285f4 : 0xffff4444),
-                  fontSize: 15.0)))
-    ]));
+          Image.asset(gender == 1 ? 'images/tourist.jpg' : 'images/guide.jpg',
+              width: 135.0, height: 135.0),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 40.0),
+              child: Text(gender == 1 ? 'VISITEUR' : 'GUIDE',
+                  style: TextStyle(
+                      fontFamily: 'Broadwell',
+                      color: Color(gender == 1 ? 0xff4285f4 : 0xffff4444),
+                      fontSize: 15.0)))
+        ]));
   }
 }

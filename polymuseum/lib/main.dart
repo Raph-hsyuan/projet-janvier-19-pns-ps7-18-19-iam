@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polymuseum/DBHelper.dart';
@@ -12,10 +10,7 @@ import 'package:polymuseum/welcomePage/ChooseDialog.dart';
 import 'package:polymuseum/welcomePage/SplagePage.dart';
 import 'package:polymuseum/sensors/BeaconsTool.dart';
 
-
 void main() async {
-
-
   //DBHelper
   DBHelper.setInstanceOnce(DBHelper());
   await DBHelper.instance.updateSettings();
@@ -38,7 +33,6 @@ void main() async {
   //Beacon Scanner
   BeaconsTool.setInstanceOnce(new BeaconsTool());
 
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(MaterialApp(
@@ -47,23 +41,19 @@ void main() async {
   ));
 }
 
-
-
 class FirstScreen extends StatelessWidget {
-
   DBHelper dbHelper = new DBHelper();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: new SplashPage(), 
-      routes: <String, WidgetBuilder>{ 
-      '/HomePage': (BuildContext context) => new Container(
-        color: Colors.grey[200],
-        child: new ChooseDialog(),
-      )
-    },
+      home: new SplashPage(),
+      routes: <String, WidgetBuilder>{
+        '/HomePage': (BuildContext context) => new Container(
+              color: Colors.grey[200],
+              child: new ChooseDialog(),
+            )
+      },
     );
   }
-}    
-
+}

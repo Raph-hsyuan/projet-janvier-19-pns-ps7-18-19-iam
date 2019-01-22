@@ -5,24 +5,22 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission/permission.dart';
 
 class DocGenScreen extends StatefulWidget {
-
   List<Map<String, dynamic>> objects;
 
   DocGenScreen({Key key, @required this.objects}) : super(key: key);
 
   @override
-  _DocGenScreenState createState() => _DocGenScreenState(objects : objects);
+  _DocGenScreenState createState() => _DocGenScreenState(objects: objects);
 }
 
 class _DocGenScreenState extends State<DocGenScreen> {
-
   List<String> textAff = [];
   List<Map<String, dynamic>> objects;
   bool enter = false;
-  List<String> goodAnswers =[];
+  List<String> goodAnswers = [];
 
-  _DocGenScreenState({@required this.objects}) : super(){
-    for(var o in objects){
+  _DocGenScreenState({@required this.objects}) : super() {
+    for (var o in objects) {
       textAff.add(o["question"]["text"]);
       goodAnswers.add(o["question"]["good_answer"]);
     }
@@ -36,22 +34,23 @@ class _DocGenScreenState extends State<DocGenScreen> {
       ),
       body: Center(
         child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 10.0, left: 70, right: 70, bottom: 10.0),
-                child : FloatingActionButton.extended(
-                  heroTag: "btn1",
-                  icon: Icon(Icons.picture_as_pdf),
-                  label: Text("Generer un document"),
-                  onPressed: () {
-                    if (textAff.length == objects.length && goodAnswers.length == objects.length) {
-                      _write();
-                    }
-                  },
-                ),
-              ),
-            ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              onPressed: () {
+                print("Yolo");
+                print(objects.length);
+                print(textAff.length);
+                print(goodAnswers.length);
+                if (textAff.length == objects.length &&
+                    goodAnswers.length == objects.length) {
+                  print("Yolo1");
+                  _write();
+                }
+              },
+              child: Text('Generer un document'),
+            ),
+          ],
         ),
       ),
     );
@@ -60,7 +59,8 @@ class _DocGenScreenState extends State<DocGenScreen> {
   /*Fonction demandant la permission d'ecrire dans le stockage externe du telephone
    */
   requestPermission() async {
-    final res = await Permission.requestSinglePermission(PermissionName.Storage);
+    final res =
+        await Permission.requestSinglePermission(PermissionName.Storage);
     print(res);
   }
 
@@ -78,14 +78,14 @@ class _DocGenScreenState extends State<DocGenScreen> {
     var buffer = new StringBuffer();
     int i = 1;
     int j = 1;
-    for(String s in textAff) {
+    for (String s in textAff) {
       buffer.write('$i . ');
       buffer.write(s);
       buffer.write('\n\n');
       ++i;
     }
     buffer.write('\n\n\n');
-    for(String s in goodAnswers) {
+    for (String s in goodAnswers) {
       buffer.write('$j . ');
       buffer.write(s);
       buffer.write('\n\n');
@@ -93,7 +93,4 @@ class _DocGenScreenState extends State<DocGenScreen> {
     }
     await (await _getLocalFile()).writeAsString(buffer.toString());
   }
-
 }
-
-

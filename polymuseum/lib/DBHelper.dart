@@ -1,31 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBHelper {
-
   static DBHelper _instance;
   static DBHelper get instance => _instance;
 
-  static setInstanceOnce(obj){
-    if(_instance == null)
-      _instance = obj;
+  static setInstanceOnce(obj) {
+    if (_instance == null) _instance = obj;
   }
 
   updateSettings() async {
-    await Firestore.instance.settings(
-      timestampsInSnapshotsEnabled: true
-    );
+    await Firestore.instance.settings(timestampsInSnapshotsEnabled: true);
   }
-
 
   ///  PRIVATE METHODS ///
 
-  Future<Map<String, dynamic>> getDocumentInCollectionById(String collectionName, int id) async {
-    QuerySnapshot snapshot = await Firestore.instance.collection(collectionName).where("id", isEqualTo: id)
-                             .getDocuments().asStream().first;
-    if(snapshot.documents.isEmpty) return null;
+  Future<Map<String, dynamic>> getDocumentInCollectionById(
+      String collectionName, int id) async {
+    QuerySnapshot snapshot = await Firestore.instance
+        .collection(collectionName)
+        .where("id", isEqualTo: id)
+        .getDocuments()
+        .asStream()
+        .first;
+    if (snapshot.documents.isEmpty) return null;
     return snapshot.documents.first.data;
   }
-
 
   /// PUBLIC METHODS ///
 
@@ -52,21 +51,25 @@ class DBHelper {
     return getDocumentInCollectionById("objects", id);
   }
 
-  Future<Map<String,dynamic>> getExhibition(int id){
+  Future<Map<String, dynamic>> getExhibition(int id) {
     return getDocumentInCollectionById("exhibitions", id);
   }
-  
+
   Future<Map<String, dynamic>> getExhibitionByUUID(String UUID) async {
-    var obj = await Firestore.instance.collection("exhibitions").where("UUID", isEqualTo: UUID)
-                             .getDocuments().asStream().first;
+    var obj = await Firestore.instance
+        .collection("exhibitions")
+        .where("UUID", isEqualTo: UUID)
+        .getDocuments()
+        .asStream()
+        .first;
     return obj.documents.first.data;
   }
 
-  Future<Map<String, dynamic>> getVisit(int id){
+  Future<Map<String, dynamic>> getVisit(int id) {
     return getDocumentInCollectionById("visits", id);
   }
 
-   Future<List<List<String>>> getSprints() async {
+  Future<List<List<String>>> getSprints() async {
     var a = await Firestore.instance.collection("sprints").getDocuments();
     List<List<String>> leaderboard = [[]];
     for (var b in a.documents) {
@@ -77,22 +80,18 @@ class DBHelper {
     return leaderboard;
   }
 
-
-  
   int addVisit(Set<String> objectsIds) {
     int seed = objectsIds.toString().hashCode;
-    Firestore.instance.collection("visits").add({
-      "id": seed,
-      "objects" : objectsIds.toList()
-    });
+    Firestore.instance
+        .collection("visits")
+        .add({"id": seed, "objects": objectsIds.toList()});
     return seed;
-  }  
+  }
 
   void addSprint(String id, double speed) {
     Firestore.instance.collection("sprints").add({
       "id": id,
-      "speed" : speed.round().toString(),
+      "speed": speed.round().toString(),
     });
   }
-
 }
