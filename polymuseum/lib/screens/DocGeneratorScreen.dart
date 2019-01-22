@@ -57,11 +57,14 @@ class _DocGenScreenState extends State<DocGenScreen> {
     );
   }
 
+  /*Fonction demandant la permission d'ecrire dans le stockage externe du telephone
+   */
   requestPermission() async {
     final res = await Permission.requestSinglePermission(PermissionName.Storage);
     print(res);
   }
 
+  /*Fonction permettant la creation du fichier dans le dossier voulu*/
   Future<File> _getLocalFile() async {
     // get the path to the document directory.
     await requestPermission();
@@ -69,6 +72,7 @@ class _DocGenScreenState extends State<DocGenScreen> {
     return new File('$dir/Test/quiz.txt');
   }
 
+  /*Ecriture dans le fichier*/
   Future<Null> _write() async {
     print(textAff.length);
     var buffer = new StringBuffer();

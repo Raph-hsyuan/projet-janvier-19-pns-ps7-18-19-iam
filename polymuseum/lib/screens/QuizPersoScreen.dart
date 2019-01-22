@@ -95,7 +95,9 @@ class QuizPersoScreen extends StatefulWidget {
     );
   }
 
-
+  /* Fonction permettant de verifier si les reponses entrees par l utilisateur sont juste
+  * et ainsi de calculer le score (score) fait par ce dernier ainsi que le score total (scoreTotal)
+   */
   void checkAnswers(){
     print('---------Valider---------');
     print(answers);

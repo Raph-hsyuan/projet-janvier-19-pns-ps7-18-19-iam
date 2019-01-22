@@ -23,6 +23,8 @@ abstract class Global {
   removeCheckListObject(Map<String, dynamic> obj);
 
   initCheckList();
+
+  clear();
 }
 
 class DefaultGlobal extends Global {
@@ -70,6 +72,13 @@ class DefaultGlobal extends Global {
     _seed = 0;
     _checkListObjects.clear();
   }
+
+  @override
+  clear() {
+    _scannedObjects.clear();
+    _checkListObjects.clear();
+  }
+
 }
 enum Permission {
   // Microphone
