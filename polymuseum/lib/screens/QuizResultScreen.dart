@@ -13,7 +13,7 @@ class QuizResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Resultat du quiz"),
+        title: Text("Resultat du quiz")
       ),
       body: Center(
         child: new Column(
@@ -50,9 +50,7 @@ class QuizResultScreen extends StatelessWidget {
                   },  
                 )
               ),
-              Text('$score'),
-              Text('Sur'),
-              Text('$scoreTotal'),
+              Text('Score: $score sur $scoreTotal'),
               Text(''),
               RaisedButton(
                 onPressed: () {
