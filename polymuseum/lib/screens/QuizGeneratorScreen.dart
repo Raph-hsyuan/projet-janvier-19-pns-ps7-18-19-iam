@@ -42,7 +42,13 @@ class _QuizGeneratorScreenState extends State<QuizGeneratorScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Génération de quiz"),
+        backgroundColor: Colors.white,
+        title: Text('Génération de quiz',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
       ),
       body: Center(
         child: new Column(

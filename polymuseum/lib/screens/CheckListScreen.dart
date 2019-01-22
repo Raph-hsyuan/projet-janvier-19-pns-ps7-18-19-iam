@@ -19,7 +19,13 @@ class CheckListScreenState extends State<CheckListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Check list"),
+        backgroundColor: Colors.white,
+        title: Text('Check list',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
       ),
       body: ListView.builder(
         itemCount: global.instance.checkListObjectsCount,

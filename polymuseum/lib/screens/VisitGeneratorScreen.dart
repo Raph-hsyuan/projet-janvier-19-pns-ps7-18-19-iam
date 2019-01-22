@@ -10,7 +10,13 @@ class VisitGeneratorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Generateur de visite"),
+        backgroundColor: Colors.white,
+        title: Text('Generateur de visite',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
       ),
       body: Center(
         child: new Column(

@@ -33,7 +33,13 @@ class QuizPersoScreen extends StatefulWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quiz personnalise"),
+        backgroundColor: Colors.white,
+        title: Text('Quiz personnalise',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
       ),
       body: Center(
         child: new Column(

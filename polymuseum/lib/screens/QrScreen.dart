@@ -175,7 +175,13 @@ class QrScreenState extends State<QrScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("QR Scanner"),
+          backgroundColor: Colors.white,
+          title: Text('QR Scanner',
+              style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20.0,
+                  fontFamily: 'Broadwell')),
         ),
         body: Center(
             child: ListView(
@@ -220,7 +226,7 @@ class QrScreenState extends State<QrScreen> {
                   : new Container(),
               _show
                   ? Container(
-                      margin: EdgeInsets.only(top: 30.0),
+                      margin: EdgeInsets.only(top: 30.0,right: 20.0,left: 20.0),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                       ),

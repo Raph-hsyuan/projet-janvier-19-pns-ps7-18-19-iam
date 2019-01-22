@@ -30,25 +30,30 @@ class _DocGenScreenState extends State<DocGenScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Document"),
+        backgroundColor: Colors.white,
+        title: Text('Document',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
       ),
       body: Center(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-              onPressed: () {
-                print("Yolo");
-                print(objects.length);
-                print(textAff.length);
-                print(goodAnswers.length);
-                if (textAff.length == objects.length &&
-                    goodAnswers.length == objects.length) {
-                  print("Yolo1");
-                  _write();
-                }
-              },
-              child: Text('Generer un document'),
+            Container(
+              padding: EdgeInsets.only(top: 10.0, left: 70, right: 70, bottom: 10.0),
+              child : FloatingActionButton.extended(
+                heroTag: "btn1",
+                icon: Icon(Icons.picture_as_pdf),
+                label: Text("Generer un document"),
+                onPressed: () {
+                  if (textAff.length == objects.length && goodAnswers.length == objects.length) {
+                    _write();
+                  }
+                },
+              ),
             ),
           ],
         ),

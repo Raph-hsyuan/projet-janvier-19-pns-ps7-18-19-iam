@@ -14,7 +14,13 @@ class GuideScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Guide'),
+          backgroundColor: Colors.white,
+          title: Text('Guide',
+              style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20.0,
+                  fontFamily: 'Broadwell')),
         ),
         body: Center(
           child: new Column(

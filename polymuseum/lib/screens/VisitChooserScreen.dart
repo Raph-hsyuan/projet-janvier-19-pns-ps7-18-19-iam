@@ -23,7 +23,13 @@ class VisitChooserScreenState extends State<VisitChooserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Visite personnalisée"),
+        backgroundColor: Colors.white,
+        title: Text('Visite personnalisée',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
       ),
       body: Column(children: <Widget>[
         Container(
