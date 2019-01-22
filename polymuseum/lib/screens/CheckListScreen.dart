@@ -19,6 +19,9 @@ class CheckListScreenState extends State<CheckListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         backgroundColor: Colors.white,
         title: Text('Check list',
             style: TextStyle(

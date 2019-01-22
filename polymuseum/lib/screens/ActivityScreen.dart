@@ -30,7 +30,18 @@ class _ActivityScreenState extends State<ActivityScreen> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: Text("Activités")),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: Text('Activités',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
+      ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

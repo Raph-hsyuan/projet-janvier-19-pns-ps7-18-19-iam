@@ -48,7 +48,16 @@ class _HuntScreen extends State<HuntScreen> {
     print(textAff);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chasse aux trésors"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: Text('Chasse aux trésors',
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w700,
+                fontSize: 20.0,
+                fontFamily: 'Broadwell')),
       ),
       body: Center(
         child:

@@ -13,7 +13,16 @@ class QuizResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Resultat du quiz")
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
+          title: Text('Résultats du quiz',
+              style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20.0,
+                  fontFamily: 'Broadwell')),
       ),
       body: Center(
         child: new Column(
@@ -52,14 +61,19 @@ class QuizResultScreen extends StatelessWidget {
               ),
               Text('Score: $score sur $scoreTotal'),
               Text(''),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FirstScreen()),
-                  );
-                },
-                child: Text('Retour a l accueil'),
+              Container(
+                padding: EdgeInsets.only(top: 10.0, left: 70, right: 70, bottom: 10.0),
+                child : FloatingActionButton.extended(
+                  heroTag: "btn1",
+                  icon: Icon(Icons.backspace),
+                  label: Text("Retour"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FirstScreen()),
+                    );
+                  },
+                ),
               ),
             ]
         )
