@@ -9,12 +9,14 @@ class MockedDBHelper extends DBHelper {
   MockedDBHelper({
     List<Map<String, dynamic>> visits,
     List<Map<String, dynamic>> exhibitions,
-    List<Map<String, dynamic>> objects
+    List<Map<String, dynamic>> objects,
+    List<Map<String, dynamic>> sprints
   }){
     _description = {
       "visits": visits,
       "objects": objects,
-      "exhibitions": exhibitions
+      "exhibitions": exhibitions,
+      "sprints" : sprints
     };
   }
 

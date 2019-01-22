@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:polymuseum/main.dart';
+import 'package:polymuseum/screens/VisitorScreen.dart';
 import 'package:polymuseum/global.dart' as global;
 import 'package:polymuseum/sensors/BeaconScanner.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
@@ -49,16 +49,14 @@ void main() async {
     await tester.pumpWidget(
       StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
         return MaterialApp(
-          home: FirstScreen()
+          home: VisitorScreen()
         );
       })
     );
 
-    await tester.tap(find.text("Visiteur"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text("Scan QR-code"));
-    await tester.pumpAndSettle();
 
     //on mocke la lecture du QR Code sur l'item 0 et la proximité avec les beacons
     (Scanner.instance as MockedScanner).qr_code = "0";
@@ -109,16 +107,12 @@ void main() async {
    await tester.pumpWidget(
       StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
         return MaterialApp(
-          home: FirstScreen()
+          home: VisitorScreen()
         );
       })
     );
 
-
-    await tester.tap(find.text("Visiteur"));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.text("Scan QR-code"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
     (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = false;
@@ -139,16 +133,12 @@ void main() async {
    await tester.pumpWidget(
       StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
         return MaterialApp(
-          home: FirstScreen()
+          home: VisitorScreen()
         );
       })
     );
 
-
-    await tester.tap(find.text("Visiteur"));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.text("Scan QR-code"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
     (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = true;
