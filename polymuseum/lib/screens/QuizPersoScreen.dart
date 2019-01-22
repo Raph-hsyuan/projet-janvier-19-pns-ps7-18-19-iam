@@ -79,15 +79,20 @@ class QuizPersoScreen extends StatefulWidget {
                   },
                 ),
             ),
-            RaisedButton(
-              child: Text('Valider'),
-              onPressed: () {
-                checkAnswers();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => QuizResultScreen(score : score, scoreTotal : scoreTotal, wrongAnswers: wrongAnswers)),
-                );
-              },
+            Container(
+              padding: EdgeInsets.only(top: 10.0, left: 70, right: 70, bottom: 10.0),
+              child : FloatingActionButton.extended(
+                heroTag: "btn1",
+                icon: Icon(Icons.check),
+                label: Text("Valider"),
+                onPressed: () {
+                  checkAnswers();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => QuizResultScreen(score : score, scoreTotal : scoreTotal, wrongAnswers: wrongAnswers)),
+                  );
+                },
+              ),
             ),
           ]
         ),

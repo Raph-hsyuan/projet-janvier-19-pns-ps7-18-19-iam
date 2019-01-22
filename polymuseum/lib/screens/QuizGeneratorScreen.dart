@@ -19,7 +19,7 @@ class QuizGeneratorScreen extends StatefulWidget {
 class _QuizGeneratorScreenState extends State<QuizGeneratorScreen> {
 
   List<int> nbQuiz = [];
-  int selectedNb = 1;
+  int selectedNb = 0;
   List<Map<String, dynamic>> objects = global.instance.getScannedObjects();
   List<Map<String, dynamic>> selectedObjects = [];
   String seed = "";
@@ -50,9 +50,9 @@ class _QuizGeneratorScreenState extends State<QuizGeneratorScreen> {
           children: <Widget>[
             Text(
               'Choisissez le nombre de question :',
-              textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, ),
+              textAlign: TextAlign.center,
             ),
             DropdownButton<int>(
                 items: nbQuiz.map((int val) {
@@ -69,25 +69,35 @@ class _QuizGeneratorScreenState extends State<QuizGeneratorScreen> {
                   });
                 }
             ),
-            RaisedButton(
-              child: Text('Commencer'),
-              onPressed: () {
-                selectRandomObjects();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => QuizPersoScreen(objects : selectedObjects)),
-                );
-              },
+            Container(
+              padding: EdgeInsets.only(top: 30.0, left: 70, right: 70),
+              child : FloatingActionButton.extended(
+                heroTag: "btn1",
+                icon: Icon(Icons.check),
+                label: Text("Commencer"),
+                onPressed: () {
+                  selectRandomObjects();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => QuizPersoScreen(objects : selectedObjects)),
+                  );
+                },
+              ),
             ),
-            RaisedButton(
-              child: Text('Generer un document'),
-              onPressed: () {
-                selectRandomObjects();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DocGenScreen(objects: selectedObjects,)),
-                );
-              },
+            Container(
+              padding: EdgeInsets.only(top: 10.0, left: 70, right: 70),
+              child : FloatingActionButton.extended(
+                heroTag: "btn2",
+                icon: Icon(Icons.picture_as_pdf),
+                label: Text("Generer un document"),
+                onPressed: () {
+                  selectRandomObjects();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DocGenScreen(objects: selectedObjects,)),
+                  );
+                },
+              ),
             ),
           ],
         ),
