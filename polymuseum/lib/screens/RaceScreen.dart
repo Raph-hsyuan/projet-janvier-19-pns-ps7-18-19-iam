@@ -127,24 +127,31 @@ class RaceScreenState extends State<RaceScreen>  {
   
     @override
   build(BuildContext context){
-
     return new Scaffold(
       body: new ListView(
         children : <Widget>[
-          Text(title, style: new TextStyle(fontSize: 30.0)),
-          Text(result.round().toString(), style: new TextStyle(fontSize: 150.0)),
-          Text("Km/h", style: new TextStyle(fontSize: 75.0)),
+          Container(
+            margin: EdgeInsets.only(top:50, bottom: 50),
+            child:Text("COURSE", style:  new TextStyle(fontSize: 50.0, fontFamily: 'Broadwell'), textAlign: TextAlign.center,),),
+          Container(
+            margin: EdgeInsets.all(10),
+            padding: EdgeInsets.all(20.0),
+          child:Text(title, style: new TextStyle(fontSize: 30.0), textAlign: TextAlign.center,),
+          ),
+          Text(result.round().toString(), style: new TextStyle(fontSize: 80.0), textAlign: TextAlign.center,),
+          Text("Km/h", style: new TextStyle(fontSize: 65.0), textAlign: TextAlign.center,),
           stopped ?  TextField(
-              controller: control,
               onEditingComplete: submit,              
               decoration: InputDecoration (
               hintText: 'Votre NOM',
               filled: true,
-              )) : FloatingActionButton.extended(
+              )) : new Container(
+            padding: EdgeInsets.only(top: 60.0, left: 80, right: 80),
+            child : FloatingActionButton.extended(
         icon: Icon(Icons.stop),
         label: Text("Stop"),
         onPressed: stop,
-      ),
+      )),
       !stopped ? Text("loading...") : Column ( children : leaderboard,),      ]
     ));
   }
