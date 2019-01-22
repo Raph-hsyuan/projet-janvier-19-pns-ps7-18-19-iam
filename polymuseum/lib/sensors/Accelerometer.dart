@@ -19,16 +19,12 @@ class Accelerometer {
     }
   }
 
-  //listen appel la méthode passé en paramètre à chaques fois que la valeur lu par l'accelerometre change et met à jour userAccelerometerValues.
-  listen(
-    void callback (List<double> coordinates)
-  ){
-  userAccelerometerEvents.listen((UserAccelerometerEvent event) {
-        _userAccelerometerValues = <double>[event.x, event.y, event.z];
-        callback(_userAccelerometerValues);
-  });
-
-
+  //listen appelle la méthode passée en paramètre à chaques fois que la valeur lu par l'accelerometre change et met à jour userAccelerometerValues.
+  listen(void callback (List<double> values)){
+    userAccelerometerEvents.listen((UserAccelerometerEvent event) {
+      _userAccelerometerValues = <double>[event.x, event.y, event.z];
+      callback(_userAccelerometerValues);
+    });
   }
 
 }
