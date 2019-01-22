@@ -66,9 +66,17 @@ class DBHelper {
     return getDocumentInCollectionById("visits", id);
   }
 
-  Future<Map<String, dynamic>> getSprint(int id) async{
-        return getDocumentInCollectionById("sprints", id);
+   Future<List<List<String>>> getSprints() async {
+    var a = await Firestore.instance.collection("sprints").getDocuments();
+    List<List<String>> leaderboard = [[]];
+    for (var b in a.documents) {
+      leaderboard.add([b.data["id"], b.data["speed"]]);
+    }
+    leaderboard.removeAt(0);
+    print(leaderboard);
+    return leaderboard;
   }
+
 
   
   int addVisit(Set<String> objectsIds) {
@@ -80,11 +88,10 @@ class DBHelper {
     return seed;
   }  
 
-  void addSprint(int id,String username, double speed) {
+  void addSprint(String id, double speed) {
     Firestore.instance.collection("sprints").add({
       "id": id,
       "speed" : speed.round().toString(),
-      "name" : username
     });
   }
 
