@@ -11,5 +11,14 @@ class MockedBeaconsTool extends BeaconsTool {
     return is_position_ok;
   }
 
+  @override
+  initBeacon() {
+    
+  }
+
+  @override
+  void dispose() {
+
+  }
 
 }
