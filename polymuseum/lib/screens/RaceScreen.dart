@@ -35,6 +35,8 @@ class RaceScreenState extends State<RaceScreen>  {
   bool stopped = false;
   String title = "Vitesse en direct : ";
 
+  String time = " ";
+
   double c = 0;
   double maxC = 0;
   
@@ -58,6 +60,7 @@ class RaceScreenState extends State<RaceScreen>  {
     if(!stopped){
     setState(() {
           acceleration = xyz;
+          time = stopwatch.elapsed.toString();
           celerity[0] =xyz[0]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
           celerity[1] =xyz[1]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
           celerity[2] =xyz[2]*(stopwatch.elapsedMilliseconds-oldTime)/1000;
@@ -82,6 +85,7 @@ class RaceScreenState extends State<RaceScreen>  {
   Future stop() async{
      setState(() {
             result = maxC;
+            time = stopwatch.elapsed.toString();
             stopped = true;
             title = "Vitesse maximum :";
         }); 
@@ -113,10 +117,10 @@ class RaceScreenState extends State<RaceScreen>  {
       var o = await dbHelper.getDocumentInCollectionById("sprints", id);
       if( o==null || o!=null && double.parse(o["speed"]) < maxC){ //le participant peut entrer dans le leaderboard seulement s'il fait parti du top10
         if(control.text != null){
-          dbHelper.addSprint(id,control.text, maxC);
+          dbHelper.addSprint(control.text, maxC);
         }
         else{
-          dbHelper.addSprint(id,"default", maxC);
+          dbHelper.addSprint("default", maxC);
         }
         Navigator.of(context).pop();
         return;
@@ -138,8 +142,9 @@ class RaceScreenState extends State<RaceScreen>  {
             padding: EdgeInsets.all(20.0),
           child:Text(title, style: new TextStyle(fontSize: 30.0), textAlign: TextAlign.center,),
           ),
-          Text(result.round().toString(), style: new TextStyle(fontSize: 80.0), textAlign: TextAlign.center,),
-          Text("Km/h", style: new TextStyle(fontSize: 65.0), textAlign: TextAlign.center,),
+          Text(result.round().toString(), style: new TextStyle(fontSize: 60.0), textAlign: TextAlign.center,),
+          Text("Km/h", style: new TextStyle(fontSize: 40.0), textAlign: TextAlign.center,),
+          Text(time.split(".")[0], style: new TextStyle(fontSize: 30.0), textAlign: TextAlign.center,),
           stopped ?  TextField(
               onEditingComplete: submit,              
               decoration: InputDecoration (
@@ -152,7 +157,7 @@ class RaceScreenState extends State<RaceScreen>  {
         label: Text("Stop"),
         onPressed: stop,
       )),
-      !stopped ? Text("loading...") : Column ( children : leaderboard,),      ]
+      !stopped ? Text(" ") : Column ( children : leaderboard,),      ]
     ));
   }
 }
