@@ -113,10 +113,10 @@ class RaceScreenState extends State<RaceScreen>  {
       var o = await dbHelper.getDocumentInCollectionById("sprints", id);
       if( o==null || o!=null && double.parse(o["speed"]) < maxC){ //le participant peut entrer dans le leaderboard seulement s'il fait parti du top10
         if(control.text != null){
-          dbHelper.addSprint(id,control.text, maxC);
+          dbHelper.addSprint(control.text, maxC);
         }
         else{
-          dbHelper.addSprint(id,"default", maxC);
+          dbHelper.addSprint("default", maxC);
         }
         Navigator.of(context).pop();
         return;
