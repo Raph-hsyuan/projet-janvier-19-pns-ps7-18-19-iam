@@ -20,7 +20,6 @@ super.initState();
 countDown();
 }
 
-// 倒计时
 void countDown() {
 var _duration = new Duration(seconds: 3);
 new Future.delayed(_duration, go2HomePage);
