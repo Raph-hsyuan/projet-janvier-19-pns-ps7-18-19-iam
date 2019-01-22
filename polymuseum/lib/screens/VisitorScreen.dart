@@ -130,11 +130,10 @@ class _VisitorScreenState extends State<VisitorScreen>
               ),
             ),
             onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => new Scaffold(backgroundColor:Colors.grey[200],body:ChooseExpDialog())),
-                  );
-                }
+                  showDialog(context: context, barrierDismissible: false,builder: (BuildContext context){
+                    return ChooseExpDialog();
+                });
+            }
           ),
         
           _buildTile(
@@ -198,10 +197,13 @@ class _VisitorScreenState extends State<VisitorScreen>
               ),
             ),
             onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => new Scaffold(backgroundColor:Colors.grey[200],body:ChooseVisitDialog())),
-                  );
+                  showDialog(context: context, barrierDismissible: false,builder: (BuildContext context){
+                    return ChooseVisitDialog();
+                  });
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (_) => new Scaffold(backgroundColor:Colors.grey[200],body:ChooseVisitDialog())),
+                  // );
                 }
           ),        
         ],
