@@ -2,12 +2,14 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:polymuseum/DBHelper.dart';
-import 'package:polymuseum/screens/QrScreen.dart';
+// import 'package:polymuseum/screens/QrScreen.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
+import 'package:polymuseum/sensors/BeaconsTool.dart';
 
 /*
 * Les fonctions présentes dans ce fichiers sont pour la plupart mockee car le client
 * ne voulais pas que l'on perde du temps pour un si petit apport de valeur*/
+BeaconsTool beaconsTool = BeaconsTool.instance;
 
 class HuntScreen extends StatefulWidget {
 
@@ -25,10 +27,22 @@ class _HuntScreen extends State<HuntScreen> {
  bool show = false;
  String result = "Chargement";
  static AudioCache player = new AudioCache();
-
+  
   _HuntScreen() : super() {
     getExhibDescription();
     getObjectDescription();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    beaconsTool.dispose();
+  }
+  
+  @override
+  void initState(){
+    super.initState();
+    beaconsTool.initBeacon();
   }
 
   @override

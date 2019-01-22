@@ -28,6 +28,9 @@ dependencies:
   audioplayers: ^0.8.0
   vibrate: ^0.0.4
 
+  #dashboard
+  flutter_staggered_grid_view: ^0.2.7
+
   #Very nice !!!! loading animation see https://github.com/jogboms/flutter_spinkit
   flutter_spinkit: "^3.1.0"
   
