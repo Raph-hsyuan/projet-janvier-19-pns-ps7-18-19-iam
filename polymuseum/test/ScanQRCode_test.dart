@@ -54,11 +54,9 @@ void main() async {
       })
     );
 
-    await tester.tap(find.text("Visiteur"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text("Scan QR-code"));
-    await tester.pumpAndSettle();
 
     //on mocke la lecture du QR Code sur l'item 0 et la proximité avec les beacons
     (Scanner.instance as MockedScanner).qr_code = "0";
@@ -114,11 +112,7 @@ void main() async {
       })
     );
 
-
-    await tester.tap(find.text("Visiteur"));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.text("Scan QR-code"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
     (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = false;
@@ -144,11 +138,7 @@ void main() async {
       })
     );
 
-
-    await tester.tap(find.text("Visiteur"));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.text("Scan QR-code"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
     (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = true;

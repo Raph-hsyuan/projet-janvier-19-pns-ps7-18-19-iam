@@ -56,7 +56,7 @@ void main() async {
       })
     );
 
-    await tester.tap(find.text("Scan QR-code"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
 
@@ -69,7 +69,7 @@ void main() async {
     await tester.pageBack();
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Générer Quiz personnalisé'));
+    await tester.tap(find.text('Quiz'));
     await tester.pumpAndSettle();
 
     /******* on fait le quizz *******/
@@ -105,7 +105,7 @@ void main() async {
       })
     );
 
-    await tester.tap(find.text("Scan QR-code"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
 
@@ -118,7 +118,7 @@ void main() async {
     await tester.pageBack();
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Générer Quiz personnalisé'));
+    await tester.tap(find.text('Quiz'));
     await tester.pumpAndSettle();
 
 
