@@ -108,7 +108,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
                             shape: CircleBorder(),
                             child: Padding(
                               padding: EdgeInsets.all(16.0),
-                              child: Icon(Icons.map,
+                              child: Icon(Icons.explore,
                                   color: Colors.white, size: 30.0),
                             )),
                         Padding(padding: EdgeInsets.only(bottom: 16.0)),
@@ -179,7 +179,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 24.0)),
-                        Text('Personnelle',
+                        Text('Personnalisée',
                             style: TextStyle(color: Colors.black45)),
                       ]),
                 ), onTap: () {
@@ -206,7 +206,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
                             shape: CircleBorder(),
                             child: Padding(
                               padding: EdgeInsets.all(16.0),
-                              child: Icon(Icons.compare_arrows,
+                              child: Icon(Icons.autorenew,
                                   color: Colors.white, size: 30.0),
                             )),
                         Padding(padding: EdgeInsets.only(bottom: 16.0)),
