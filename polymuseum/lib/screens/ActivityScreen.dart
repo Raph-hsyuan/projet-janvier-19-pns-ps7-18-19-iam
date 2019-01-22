@@ -47,19 +47,25 @@ class _ActivityScreenState extends State<ActivityScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-              padding: EdgeInsets.all(30),
-              child: Text(
-                  "Passez votre téléphone sur le tag NFC d'une des activités suivantes pour la démarrer :")),
           Expanded(
               child: ListView.builder(
             itemCount: _NFC_ID_TO_ACTIVITY_NAME.length,
             itemBuilder: (context, index) {
               return ListTile(
-                  title: Text(_NFC_ID_TO_ACTIVITY_NAME.values.elementAt(index),
+                  title: Text(_NFC_ID_TO_ACTIVITY_NAME.values.elementAt(index),style: new TextStyle(fontFamily: 'Sunday',fontSize: 50,color: Colors.grey),
                       textAlign: TextAlign.center));
             },
           )),
+          new Image.asset('images/nfc.png',width: 150,color: Colors.grey,),
+          Padding(
+              padding: EdgeInsets.all(30),
+              child: Text(
+                  "  Passez votre téléphone sur le tag NFC d'une des activités suivantes pour la démarrer",
+                  style: new TextStyle(fontFamily: 'Broadwell'),
+                  )),
+
+
+
         ],
       )),
     );
