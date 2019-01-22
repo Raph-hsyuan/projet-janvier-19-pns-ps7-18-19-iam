@@ -94,8 +94,7 @@ class RaceScreenState extends State<RaceScreen> {
     updateLeaderBoard();
   }
 
-
-  updateLeaderBoard() async{
+  updateLeaderBoard() async {
     leaderboard = [Text("\nTABLEAU DES SCOREs :\n")];
     var o = await dbHelper.getSprints();
     if (o != null) {
@@ -167,11 +166,11 @@ class RaceScreenState extends State<RaceScreen> {
           ? new Container(
               padding: EdgeInsets.only(top: 60.0, left: 80, right: 80),
               child: TextField(
-              controller: control,
-              decoration: InputDecoration(
-              hintText: 'Votre NOM',
-              filled: true,  
-              )))
+                  controller: control,
+                  decoration: InputDecoration(
+                    hintText: 'Votre NOM',
+                    filled: true,
+                  )))
           : new Container(
               padding: EdgeInsets.only(top: 60.0, left: 80, right: 80),
               child: FloatingActionButton.extended(
@@ -179,10 +178,11 @@ class RaceScreenState extends State<RaceScreen> {
                 label: Text("Stop"),
                 onPressed: stop,
               )),
-            !stopped
+      !stopped
           ? new Container()
           : new Container(
-              padding: EdgeInsets.only(top: 10.0, left: 80, right: 80, bottom: 10),
+              padding:
+                  EdgeInsets.only(top: 10.0, left: 80, right: 80, bottom: 10),
               child: FloatingActionButton.extended(
                 icon: Icon(Icons.send),
                 label: Text("Envoyer"),
