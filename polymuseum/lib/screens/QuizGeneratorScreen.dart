@@ -19,7 +19,7 @@ class QuizGeneratorScreen extends StatefulWidget {
 class _QuizGeneratorScreenState extends State<QuizGeneratorScreen> {
 
   List<int> nbQuiz = [];
-  int selectedNb = 0;
+  int selectedNb = 1;
   List<Map<String, dynamic>> objects = global.instance.getScannedObjects();
   List<Map<String, dynamic>> selectedObjects = [];
   String seed = "";

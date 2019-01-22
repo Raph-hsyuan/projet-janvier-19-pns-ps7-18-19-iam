@@ -1,5 +1,6 @@
 import 'package:sensors/sensors.dart';
 
+/** Wrapper permettant d'être indépendant du plugin utilisé pour la lecture du gyroscope*/
 class Gyroscope {
   static Gyroscope _instance;
   static Gyroscope get instance => _instance;

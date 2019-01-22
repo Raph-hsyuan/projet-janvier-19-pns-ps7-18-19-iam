@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+/** Wrapper permettant d'être indépendant du système de BD actuel : Firebase avec Firestore */
+
 class DBHelper {
   static DBHelper _instance;
   static DBHelper get instance => _instance;

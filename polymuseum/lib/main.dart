@@ -18,6 +18,9 @@ void main() async {
   //Global
   global.setInstanceOnce(global.DefaultGlobal());
 
+
+  /*** ZONE D'INITIALISATION DES WRAPPERS ***/
+
   //QrCode Scanner
   Scanner.setInstanceOnce(new Scanner());
 
