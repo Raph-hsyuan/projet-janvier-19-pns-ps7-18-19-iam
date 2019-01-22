@@ -38,7 +38,11 @@ class ChooseVisitDialog extends Dialog {
                             children: <Widget>[
                               _genderChooseItemWid(1,context),
                               _genderChooseItemWid(2,context)
-                            ])
+                            ]),
+                        new FlatButton(child:new Text("Annuler",style: new TextStyle(fontFamily: 'Broadwell'),), onPressed: (){
+                                        Navigator.of(context).pop();
+                        })
+                      
                       ]))
                 ])));
   }
