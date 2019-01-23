@@ -58,7 +58,7 @@ void main() async {
       })
     );
 
-    await tester.tap(find.text("Scan QR-code"));
+    await tester.tap(find.text("QRCode"));
     await tester.pumpAndSettle();
 
     //on mocke la lecture du QR Code sur l'item 0 et la proximité avec les beacons
@@ -70,7 +70,7 @@ void main() async {
     await tester.pageBack();
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text("Générer une visite personnalisé"));
+    await tester.tap(find.text("Visite"));
     await tester.pumpAndSettle();
 
     expect(find.text('Voici votre clé de visite :'), findsOneWidget);
@@ -102,7 +102,7 @@ void main() async {
     );
 
 
-    await tester.tap(find.text("Générer une visite personnalisé"));
+    await tester.tap(find.text("Visite"));
     await tester.pumpAndSettle();
 
     expect(find.text('Scanner des objets pour pouvoir créer une visite'), findsOneWidget);

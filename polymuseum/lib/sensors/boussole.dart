@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
 
-class MyApp extends StatefulWidget {
+class BoussoleTester extends StatefulWidget {
   @override
-  _MyAppState createState() => new _MyAppState();
+  _BoussoleTesterState createState() => new _BoussoleTesterState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _BoussoleTesterState extends State<BoussoleTester> {
   double _direction;
   double pi = 3.1415926;
   @override
