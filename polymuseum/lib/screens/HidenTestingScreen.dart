@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:polymuseum/screens/QuizGeneratorScreen.dart';
 import 'package:polymuseum/screens/QrScreen.dart';
-import 'package:polymuseum/sensors/boussole.dart';
-import 'package:polymuseum/sensors/Beacons.dart';
+import 'package:polymuseum/screens/CompassScreen.dart';
+import 'package:polymuseum/screens/Beacons.dart';
 import 'package:polymuseum/DBHelper.dart';
 import 'package:polymuseum/screens/TennisScreen.dart';
 import 'RaceScreen.dart';
