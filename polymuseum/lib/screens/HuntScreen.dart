@@ -2,6 +2,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:polymuseum/DBHelper.dart';
+
 // import 'package:polymuseum/screens/QrScreen.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
 import 'package:polymuseum/sensors/BeaconsTool.dart';
@@ -61,87 +62,95 @@ class _HuntScreen extends State<HuntScreen> {
       ),
       body: Center(
         child:
-            ListView(shrinkWrap: true, padding: EdgeInsets.all(20), children: <
-                Widget>[
+        ListView(shrinkWrap: true, padding: EdgeInsets.all(20), children: <
+            Widget>[
           !check
               ? Container(
-                  child: AutoSizeText(
-                    "Chercher l'exposition correspondant a la description suivante :",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-                  ),
-                )
+            child: AutoSizeText(
+              "Chercher l'exposition correspondant a la description suivante :",
+              textAlign: TextAlign.center,
+              style:
+              TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+            ),
+          )
               : new Container(),
           !check
               ? Container(
-                  padding: EdgeInsets.all(30.0),
-                  child: AutoSizeText(
-                    textAff,
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-                  ),
-                )
+            padding: EdgeInsets.all(30.0),
+            child: AutoSizeText(
+              textAff,
+              textAlign: TextAlign.center,
+              style:
+              TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+            ),
+          )
               : new Container(),
           !check
               ? RaisedButton(
-                  child: Text('Verifier'),
-                  onPressed: () {
-                    checkPresence();
-                  },
-                )
+            child: Text('Verifier'),
+            onPressed: () {
+              checkPresence();
+            },
+          )
               : new Container(),
           check
               ? Container(
-                  child: AutoSizeText(
-                    "Maintenant trouver l'objet correspondant a la description suivante :",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-                  ),
-                )
+            child: AutoSizeText(
+              "Maintenant trouver l'objet correspondant a la description suivante :",
+              textAlign: TextAlign.center,
+              style:
+              TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+            ),
+          )
               : new Container(),
           check
               ? Container(
-                  padding: EdgeInsets.all(30.0),
-                  child: AutoSizeText(
-                    textAff2,
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-                  ),
-                )
+            padding: EdgeInsets.all(30.0),
+            child: AutoSizeText(
+              textAff2,
+              textAlign: TextAlign.center,
+              style:
+              TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+            ),
+          )
               : new Container(),
           check
               ? Container(
-                  padding: EdgeInsets.only(top: 30.0),
-                  child: FloatingActionButton.extended(
-                    heroTag: "btn2",
-                    icon: Icon(Icons.camera_alt),
-                    label: Text("Scan"),
-                    onPressed: _scanQR,
-                  ),
-                )
+            padding: EdgeInsets.only(top: 30.0),
+            child: FloatingActionButton.extended(
+              heroTag: "btn2",
+              icon: Icon(Icons.camera_alt),
+              label: Text("Scan"),
+              onPressed: _scanQR,
+            ),
+          )
               : new Container(),
           show
               ? Container(
-                  padding: EdgeInsets.all(30.0),
-                  child: AutoSizeText(
-                    result,
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-                  ),
-                )
+            padding: EdgeInsets.all(30.0),
+            child: AutoSizeText(
+              result,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          )
               : new Container(),
           show
-              ? RaisedButton(
-                  child: Text('Retour'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
+              ?
+          Container(
+            padding: EdgeInsets.only(top: 30.0, left: 70.0, right: 70.0),
+            child: FloatingActionButton.extended(
+              heroTag: "btn3",
+              icon: Icon(Icons.arrow_back),
+              label: Text("Retour"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          )
               : new Container(),
         ]),
       ),
