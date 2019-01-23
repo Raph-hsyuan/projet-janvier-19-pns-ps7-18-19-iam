@@ -6,8 +6,8 @@ class Scanner {
   static Scanner _instance;
   static Scanner get instance => _instance;
 
-  static setInstanceOnce(Scanner obj) {
-    if (_instance == null) _instance = obj;
+  static setInstance(Scanner obj) {
+    _instance = obj;
   }
 
   Future<String> scan() {

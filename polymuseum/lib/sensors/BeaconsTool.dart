@@ -8,8 +8,8 @@ class BeaconsTool {
   static BeaconsTool get instance => _instance;
   static BeaconsTool _instance;
 
-  static setInstanceOnce(BeaconsTool obj) {
-    if (_instance == null) _instance = obj;
+  static setInstance(BeaconsTool obj) {
+    _instance = obj;
   }
 
   StreamSubscription<RangingResult> _streamRanging;

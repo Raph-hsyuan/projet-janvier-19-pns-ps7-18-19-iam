@@ -13,8 +13,8 @@ class NFCScanner {
   static NFCScanner _instance;
   static NFCScanner get instance => _instance;
 
-  static setInstanceOnce(NFCScanner obj) {
-    if (_instance == null) _instance = obj;
+  static setInstance(NFCScanner obj) {
+    _instance = obj;
   }
 
   Future<String> read() async {

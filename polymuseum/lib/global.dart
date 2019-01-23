@@ -1,7 +1,6 @@
 Global instance;
 
-setInstanceOnce(Global inst) {
-  if (instance != null) return;
+setInstance(Global inst) {
   instance = inst;
 }
 

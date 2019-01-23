@@ -7,8 +7,8 @@ class DBHelper {
   static DBHelper _instance;
   static DBHelper get instance => _instance;
 
-  static setInstanceOnce(obj) {
-    if (_instance == null) _instance = obj;
+  static setInstance(obj) {
+    _instance = obj;
   }
 
   updateSettings() async {

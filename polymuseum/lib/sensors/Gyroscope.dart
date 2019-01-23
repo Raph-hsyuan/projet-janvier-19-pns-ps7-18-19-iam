@@ -8,10 +8,8 @@ class Gyroscope {
   List<double> _gyroscopeValues;
   List<double> get gyroscopeValues => _gyroscopeValues;
 
-  static setInstanceOnce(Gyroscope obj) {
-    if (_instance == null) {
+  static setInstance(Gyroscope obj) {
       _instance = obj;
-    }
   }
 
   listen(void callback(List<double> coordinates)) {

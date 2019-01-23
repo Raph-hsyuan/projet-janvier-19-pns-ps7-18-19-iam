@@ -22,12 +22,12 @@ import 'mockups/MockedScanner.dart';
 void main() async {
 
 
-  global.setInstanceOnce(global.DefaultGlobal());
+  global.setInstance(global.DefaultGlobal());
 
 
   //MOCKUPS
 
-  DBHelper.setInstanceOnce(MockedDBHelper(
+  DBHelper.setInstance(MockedDBHelper(
     objects: [{
       "id" : 0,
       "name" : "Chaussure de Zizou",
@@ -40,8 +40,8 @@ void main() async {
   ));
   await DBHelper.instance.updateSettings();
 
-  Scanner.setInstanceOnce(new MockedScanner());
-  BeaconsTool.setInstanceOnce(new MockedBeaconsTool());
+  Scanner.setInstance(new MockedScanner());
+  BeaconsTool.setInstance(new MockedBeaconsTool());
 
   setUp((){
     global.instance.clear();

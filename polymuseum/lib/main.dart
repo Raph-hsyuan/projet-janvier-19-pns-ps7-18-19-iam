@@ -12,29 +12,29 @@ import 'package:polymuseum/sensors/BeaconsTool.dart';
 
 void main() async {
   //DBHelper
-  DBHelper.setInstanceOnce(DBHelper());
+  DBHelper.setInstance(DBHelper());
   await DBHelper.instance.updateSettings();
 
   //Global
-  global.setInstanceOnce(global.DefaultGlobal());
+  global.setInstance(global.DefaultGlobal());
 
 
   /*** ZONE D'INITIALISATION DES WRAPPERS ***/
 
   //QrCode Scanner
-  Scanner.setInstanceOnce(new Scanner());
+  Scanner.setInstance(new Scanner());
 
   //Accelerometer
-  Accelerometer.setInstanceOnce(new Accelerometer());
+  Accelerometer.setInstance(new Accelerometer());
 
   //Gyroscope
-  Gyroscope.setInstanceOnce(new Gyroscope());
+  Gyroscope.setInstance(new Gyroscope());
 
   //NFC Scanner
-  NFCScanner.setInstanceOnce(new NFCScanner());
+  NFCScanner.setInstance(new NFCScanner());
 
   //Beacon Scanner
-  BeaconsTool.setInstanceOnce(new BeaconsTool());
+  BeaconsTool.setInstance(new BeaconsTool());
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

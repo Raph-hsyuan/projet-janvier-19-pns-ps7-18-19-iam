@@ -11,10 +11,8 @@ class Accelerometer {
   List<double> _userAccelerometerValues;
   List<double> get accelerometerValues => _userAccelerometerValues;
 
-  static setInstanceOnce(Accelerometer obj) {
-    if (_instance == null) {
-      _instance = obj;
-    }
+  static setInstance(Accelerometer obj) {
+    _instance = obj;
   }
 
   //listen appelle la méthode passée en paramètre à chaques fois que la valeur lu par l'accelerometre change et met à jour userAccelerometerValues.
