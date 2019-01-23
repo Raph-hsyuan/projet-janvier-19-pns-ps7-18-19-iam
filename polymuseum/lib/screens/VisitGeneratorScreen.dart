@@ -4,7 +4,7 @@ import '../global.dart' as global;
 
 class VisitGeneratorScreen extends StatelessWidget {
   VisitGeneratorScreen({Key key}) : super(key: key);
-  DBHelper dbHelper = DBHelper.instance;
+  final DBHelper dbHelper = DBHelper.instance;
 
   @override
   Widget build(BuildContext context) {

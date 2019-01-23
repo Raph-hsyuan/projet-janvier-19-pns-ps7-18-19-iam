@@ -10,8 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:polymuseum/screens/VisitorScreen.dart';
 import 'package:polymuseum/global.dart' as global;
-
-import 'package:polymuseum/sensors/BeaconScanner.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
 import 'package:polymuseum/sensors/BeaconsTool.dart';
 import 'mockups/MockedDBHelper.dart';
@@ -60,7 +58,7 @@ void main() async {
     await tester.pumpAndSettle();
 
 
-    (Scanner.instance as MockedScanner).qr_code = "0";
+    (Scanner.instance as MockedScanner).qrcode = "0";
     (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = true;
 
     await tester.tap(find.text('Scan'));
@@ -109,7 +107,7 @@ void main() async {
     await tester.pumpAndSettle();
 
 
-    (Scanner.instance as MockedScanner).qr_code = "0";
+    (Scanner.instance as MockedScanner).qrcode = "0";
     (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = true;
 
     await tester.tap(find.text('Scan'));

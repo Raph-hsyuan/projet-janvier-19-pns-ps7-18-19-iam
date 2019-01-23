@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:polymuseum/global.dart' as global;
 
 class CheckListScreen extends StatefulWidget {
-  int _seed;
-
   CheckListScreen({Key key}) : super(key: key);
 
   @override
@@ -13,7 +11,7 @@ class CheckListScreen extends StatefulWidget {
 }
 
 class CheckListScreenState extends State<CheckListScreen> {
-  CheckListScreenState() {}
+  CheckListScreenState();
 
   @override
   Widget build(BuildContext context) {

@@ -6,13 +6,13 @@ class MockedScanner extends Scanner {
     return MockedScanner();
   }
 
-  String qr_code;
+  String qrcode;
 
   //OVERRIDES
 
   @override
   Future<String> scan() async {
-    return qr_code;
+    return qrcode;
   }
 
 }

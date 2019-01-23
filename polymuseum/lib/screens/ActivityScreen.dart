@@ -23,9 +23,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
   @override
   Widget build(BuildContext context) {
     nfcScanner.read().then((result) {
-      var activity_constructor = _NFC_ID_TO_ACTIVITY_MAP[result];
+      var activityconstructor = _NFC_ID_TO_ACTIVITY_MAP[result];
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => activity_constructor()));
+          MaterialPageRoute(builder: (context) => activityconstructor()));
       nfcScanner.stop();
     });
 

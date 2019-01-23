@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission/permission.dart';
 
 class DocGenScreen extends StatefulWidget {
-  List<Map<String, dynamic>> objects;
+  final List<Map<String, dynamic>> objects;
 
   DocGenScreen({Key key, @required this.objects}) : super(key: key);
 

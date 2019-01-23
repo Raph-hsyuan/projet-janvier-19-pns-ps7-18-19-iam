@@ -10,7 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:polymuseum/screens/VisitorScreen.dart';
 import 'package:polymuseum/global.dart' as global;
-import 'package:polymuseum/sensors/BeaconScanner.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
 import 'package:polymuseum/sensors/BeaconsTool.dart';
 import 'mockups/MockedDBHelper.dart';
@@ -77,7 +76,7 @@ void main() async {
     expect(find.text("Maintenant trouver l'objet correspondant a la description suivante :"), findsOneWidget);
 
     //on simule le bon scan (la position est déjà ok)
-    (Scanner.instance as MockedScanner).qr_code = "1";
+    (Scanner.instance as MockedScanner).qrcode = "1";
     await tester.tap(find.text("Scan"));
     await tester.pumpAndSettle();
 

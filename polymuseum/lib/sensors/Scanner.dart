@@ -1,7 +1,7 @@
 import 'package:barcode_scan/barcode_scan.dart';
 
 
-/** Wrapper permettant d'être indépendant du plugin lisant les QRCode / code-barres */
+///Wrapper permettant d'être indépendant du plugin lisant les QRCode / code-barres
 class Scanner {
   static Scanner _instance;
   static Scanner get instance => _instance;
@@ -14,7 +14,7 @@ class Scanner {
     return BarcodeScanner.scan();
   }
 
-  String CameraAccessDenied() {
+  String cameraAccessDenied() {
     return BarcodeScanner.CameraAccessDenied;
   }
 }

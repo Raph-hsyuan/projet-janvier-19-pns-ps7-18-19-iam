@@ -10,7 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:polymuseum/screens/VisitorScreen.dart';
 import 'package:polymuseum/global.dart' as global;
-import 'package:polymuseum/sensors/BeaconScanner.dart';
 import 'package:polymuseum/sensors/Scanner.dart';
 import 'package:polymuseum/sensors/BeaconsTool.dart';
 import 'mockups/MockedDBHelper.dart';
@@ -18,48 +17,38 @@ import 'package:polymuseum/DBHelper.dart';
 import 'mockups/MockedBeaconsTool.dart';
 import 'mockups/MockedScanner.dart';
 
-
 void main() async {
-
-
   global.setInstance(global.DefaultGlobal());
-
 
   //MOCKUPS
 
-  DBHelper.setInstance(MockedDBHelper(
-    objects: [{
-      "id" : 0,
-      "name" : "Chaussure de Zizou",
-      "description" : "description",
-      "question" : {
-        "text": "question",
-        "good_answer" : "good_answer"
-      }
-    }],visits: [{
-      "id" : 0,
-      "objects" : ["0"]
-    }]
-  ));
+  DBHelper.setInstance(MockedDBHelper(objects: [
+    {
+      "id": 0,
+      "name": "Chaussure de Zizou",
+      "description": "description",
+      "question": {"text": "question", "good_answer": "good_answer"}
+    }
+  ], visits: [
+    {
+      "id": 0,
+      "objects": ["0"]
+    }
+  ]));
   await DBHelper.instance.updateSettings();
 
   Scanner.setInstance(new MockedScanner());
   BeaconsTool.setInstance(new MockedBeaconsTool());
 
-  setUp((){
+  setUp(() {
     global.instance.clear();
   });
 
-
   testWidgets('Chargement d`\'une visite', (WidgetTester tester) async {
-      
     await tester.pumpWidget(
-      StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-        return MaterialApp(
-          home: VisitorScreen()
-        );
-      })
-    );
+        StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+      return MaterialApp(home: VisitorScreen());
+    }));
 
     await tester.tap(find.text("Visite"));
     await tester.pumpAndSettle();
@@ -74,20 +63,14 @@ void main() async {
     await tester.pumpAndSettle();
 
     expect(find.text("Visite chargée"), findsOneWidget);
-
   });
 
-
-  testWidgets('Scan d\'un objet d\'une visite chargée', (WidgetTester tester) async {
-      
-
+  testWidgets('Scan d\'un objet d\'une visite chargée',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
-      StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-        return MaterialApp(
-          home: VisitorScreen()
-        );
-      })
-    );
+        StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+      return MaterialApp(home: VisitorScreen());
+    }));
 
     await tester.tap(find.text("Visite"));
     await tester.pumpAndSettle();
@@ -115,12 +98,12 @@ void main() async {
     await tester.pumpAndSettle();
 
     (BeaconsTool.instance as MockedBeaconsTool).is_position_ok = true;
-    (Scanner.instance as MockedScanner).qr_code = "0"; 
+    (Scanner.instance as MockedScanner).qrcode = "0";
 
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
-    
-    //on revient sur le menu visiteur    
+
+    //on revient sur le menu visiteur
     await tester.pageBack();
     await tester.pumpAndSettle();
 
@@ -134,15 +117,5 @@ void main() async {
     //on vérifie qu'il n'y a plus l'objet
     expect(find.text("Chaussure de Zizou"), findsNothing);
     await tester.pumpAndSettle();
-
   });
-
-
-
-
 }
-
-
-
-
-

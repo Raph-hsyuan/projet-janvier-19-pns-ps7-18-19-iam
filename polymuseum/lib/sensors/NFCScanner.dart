@@ -7,7 +7,7 @@ bool _isNumeric(String str) {
   return double.tryParse(str) != null;
 }
 
-/** Wrapper permettant d'être indépendant du plugin de NFC choisi **/
+/// Wrapper permettant d'être indépendant du plugin de NFC choisi
 
 class NFCScanner {
   static NFCScanner _instance;

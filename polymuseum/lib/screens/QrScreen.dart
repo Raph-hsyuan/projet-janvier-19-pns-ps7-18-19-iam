@@ -89,7 +89,7 @@ class QrScreenState extends State<QrScreen> {
         }
       });
     } on PlatformException catch (ex) {
-      if (ex.code == Scanner.instance.CameraAccessDenied) {
+      if (ex.code == Scanner.instance.cameraAccessDenied) {
         setState(() {
           result =
               "L'application n'a pas la permission d'utiliser la caméra du téléphone";
@@ -117,7 +117,6 @@ class QrScreenState extends State<QrScreen> {
           _show = false;
           _question = true;
         });
-        ;
       } else {
         setState(() {
           _show = true;
@@ -229,7 +228,8 @@ class QrScreenState extends State<QrScreen> {
                   : new Container(),
               _show
                   ? Container(
-                      margin: EdgeInsets.only(top: 30.0,right: 20.0,left: 20.0),
+                      margin:
+                          EdgeInsets.only(top: 30.0, right: 20.0, left: 20.0),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                       ),

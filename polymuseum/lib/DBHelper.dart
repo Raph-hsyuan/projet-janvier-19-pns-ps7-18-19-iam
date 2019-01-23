@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-/** Wrapper permettant d'être indépendant du système de BD actuel : Firebase avec Firestore */
+///Wrapper permettant d'être indépendant du système de BD actuel : Firebase avec Firestore
 
 class DBHelper {
   static DBHelper _instance;
@@ -58,10 +57,10 @@ class DBHelper {
     return getDocumentInCollectionById("exhibitions", id);
   }
 
-  Future<Map<String, dynamic>> getExhibitionByUUID(String UUID) async {
+  Future<Map<String, dynamic>> getExhibitionByUUID(String uuid) async {
     var obj = await Firestore.instance
         .collection("exhibitions")
-        .where("UUID", isEqualTo: UUID)
+        .where("UUID", isEqualTo: uuid)
         .getDocuments()
         .asStream()
         .first;

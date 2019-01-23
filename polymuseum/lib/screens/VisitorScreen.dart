@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:polymuseum/main.dart';
 import 'package:polymuseum/screens/GuideScreen.dart';
 import 'package:polymuseum/screens/QuizGeneratorScreen.dart';
 import 'package:polymuseum/screens/QrScreen.dart';

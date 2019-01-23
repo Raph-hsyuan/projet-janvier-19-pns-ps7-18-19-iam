@@ -18,7 +18,6 @@ void main() async {
   //Global
   global.setInstance(global.DefaultGlobal());
 
-
   /*** ZONE D'INITIALISATION DES WRAPPERS ***/
 
   //QrCode Scanner
@@ -45,7 +44,7 @@ void main() async {
 }
 
 class FirstScreen extends StatelessWidget {
-  DBHelper dbHelper = new DBHelper();
+  final DBHelper dbHelper = new DBHelper();
 
   @override
   Widget build(BuildContext context) {

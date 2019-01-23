@@ -320,7 +320,7 @@ class _MapScreenState extends State<MapScreen>
     await flutterLocalNotificationsPlugin.initialize(initSetttings);
   }
 
-  Future onSelectNotification(String payload) {
+  onSelectNotification(String payload) {
     debugPrint("payload : $payload");
     showDialog(
       context: context,
@@ -457,7 +457,7 @@ class _MapScreenState extends State<MapScreen>
         }
       }
     } on PlatformException catch (ex) {
-      if (ex.code == Scanner.instance.CameraAccessDenied) {
+      if (ex.code == Scanner.instance.cameraAccessDenied) {
         result =
             "L'application n'a pas la permission d'utiliser la camera du telephone";
       } else {

@@ -40,7 +40,7 @@ class _BeaconsState extends State<Beacons> {
     flutterLocalNotificationsPlugin.initialize(initSetttings);
   }
 
-  Future onSelectNotification(String payload) {
+  onSelectNotification(String payload) {
     debugPrint("payload : $payload");
     showDialog(
       context: context,
@@ -122,12 +122,12 @@ class _BeaconsState extends State<Beacons> {
     super.dispose();
   }
 
-  void pushWelcomeMessage(String UUID, int minor, double distance) async {
-    if (currentMinor == minor && currentUUID == UUID) return;
+  void pushWelcomeMessage(String uuid, int minor, double distance) async {
+    if (currentMinor == minor && currentUUID == uuid) return;
     if (distance > 0.6) return;
     currentMinor = minor;
-    currentUUID = UUID;
-    var text = await DBHelper.instance.getExhibitionByUUID(UUID);
+    currentUUID = uuid;
+    var text = await DBHelper.instance.getExhibitionByUUID(uuid);
     _showNotification(text['message'][minor.toString()]);
     currentRegion = text['message'][minor.toString()] + ' Region';
   }
