@@ -2,7 +2,8 @@
 <p align="center">
   <img src="https://i.imgur.com/Um91eNE.png"/>
 </p>
-# PolyMuseum v1.0.2 
+
+# PolyMuseum v1.0.2 #
 
 ---
 
@@ -92,7 +93,6 @@
 **Mission**
 
 - Si vous n'avez pas d'idée où se trouve le trésor, pour obtenir des indices, vous pouvez cliquer sur le bouton Mission et vous pouvez ainsi avoir une description du trésor. Ça peut vous aider.
-
 
     ![](https://i.imgur.com/TD1ECb0.gif)
 
